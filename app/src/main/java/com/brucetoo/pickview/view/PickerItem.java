@@ -1,4 +1,4 @@
-package com.brucetoo.pickview;
+package com.brucetoo.pickview.view;
 
 /**
  * PickerView item接口类
@@ -10,5 +10,5 @@ public interface PickerItem {
 	 * 
 	 * @return
 	 */
-	public String getText();
+    String getText();
 }

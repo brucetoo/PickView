@@ -1,4 +1,4 @@
-package com.brucetoo.pickview;
+package com.brucetoo.pickview.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -329,8 +329,8 @@ public class PickerView extends View {
 	 */
 	private void drawOtherText(Canvas canvas, int position, int type) {
 
-		float d = (float) (MARGIN_ALPHA * minTxtSize * position + type
-				* moveDistance);
+		float d = MARGIN_ALPHA * minTxtSize * position + type
+				* moveDistance;
 		float scale = parabola(height / 4.0f, d);
 		float size = (maxTxtSize - minTxtSize) * scale + minTxtSize;
 		mPaint.setTextSize(size);
@@ -506,6 +506,6 @@ public class PickerView extends View {
 		 * @param item
 		 *            选择的item
 		 */
-		public void onPicked(int pickerId, PickerItem item);
+        void onPicked(int pickerId, PickerItem item);
 	}
 }

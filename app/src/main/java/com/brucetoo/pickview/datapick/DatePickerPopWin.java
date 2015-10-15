@@ -1,4 +1,4 @@
-package com.brucetoo.pickview;
+package com.brucetoo.pickview.datapick;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,6 +18,10 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.PopupWindow;
+
+import com.brucetoo.pickview.R;
+import com.brucetoo.pickview.view.PickerItem;
+import com.brucetoo.pickview.view.PickerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -337,7 +341,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener,
 		 * @param dateStr
 		 *            日期字符串（如：1907-01-01）
 		 */
-		public void onDatePickCompleted(int year, int month, int day,
-                                        String dateStr);
+        void onDatePickCompleted(int year, int month, int day,
+                                 String dateStr);
 	}
 }

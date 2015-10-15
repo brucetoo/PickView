@@ -48,20 +48,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
-                <com.brucetoo.pickview.PickerView
+                <com.brucetoo.pickview.view.PickerView
                     android:id="@+id/picker_year"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <com.brucetoo.pickview.PickerView
+                <com.brucetoo.pickview.view.PickerView
                     android:id="@+id/picker_month"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1" />
 
-                <com.brucetoo.pickview.PickerView
+                <com.brucetoo.pickview.view.PickerView
                     android:id="@+id/picker_day"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
