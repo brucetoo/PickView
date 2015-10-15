@@ -3,7 +3,6 @@ package com.brucetoo.pickview.datapick;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -43,13 +42,13 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener,
 	private static final int REQUEST_CODE_MONTH = 2; // 月份请求码
 	private static final int REQUEST_CODE_DAY = 3; // 日期请求码
 
-	private Button cancelBtn;
-	private Button confirmBtn;
-	private PickerView yearPickerV;
-	private PickerView monthPickerV;
-	private PickerView dayPickerV;
-	private View pickerContainerV;
-	private View contentView;
+	public Button cancelBtn;
+    public Button confirmBtn;
+    public PickerView yearPickerV;
+    public PickerView monthPickerV;
+    public PickerView dayPickerV;
+    public View pickerContainerV;
+    public View contentView;//root view
 
 	private int minYear; // 最小年份
 	private int maxYear; // 最大年份
@@ -59,6 +58,12 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener,
 	private Context mContext; // 上下文
 	private OnDatePickCompletedListener mListener; // 完成日期选择事件监听器
 
+    /**
+     *
+     * @param cxt
+     * @param dateStr 1900-01-02
+     * @param l 监听
+     */
 	public DatePickerPopWin(Context cxt, String dateStr,
 			OnDatePickCompletedListener l) {
 
@@ -109,8 +114,8 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener,
 		monthPickerV.setOnPickedListener(this);
 		dayPickerV.setOnPickedListener(this);
 
-        yearPickerV.setTextColor(Color.RED);
-        yearPickerV.setMaxTextSize(70);
+//        yearPickerV.setTextColor(Color.RED);
+//        yearPickerV.setMaxTextSize(70);
 
 		yearPickerV.setRequestCode(REQUEST_CODE_YEAR);
 		monthPickerV.setRequestCode(REQUEST_CODE_MONTH);

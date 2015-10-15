@@ -137,24 +137,6 @@ public class PickerView extends View {
 	}
 
     /**
-     * 设置最大字体大小
-     * @param maxSize
-     */
-    public void setMaxTextSize(int maxSize){
-        maxTxtSize = maxSize;
-        invalidate();
-    }
-
-    /**
-     * 设置最小字体
-     * @param minSize
-     */
-    public void setMinTextSize(int minSize){
-        minTxtSize = minSize;
-        invalidate();
-    }
-
-    /**
      * 设置最大透明度 默认255
      * @param alpha
      */

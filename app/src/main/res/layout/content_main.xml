@@ -13,8 +13,18 @@
     tools:showIn="@layout/activity_main"
     tools:context=".MainActivity">
 
-    <TextView
-        android:text="Hello World!"
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Date Pick"
+       android:id="@+id/date"
+       />
+
+    <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Province Pick"
+        android:id="@+id/province"
+        android:layout_below="@+id/date"
+        />
 </RelativeLayout>
