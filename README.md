@@ -21,83 +21,20 @@ WheelView widget.
                    });
   
   ```
-  
 
-> 2.Here are 4 constructors for you to choose
-  
-  ```java
-  
-    /**
-       * Constructor with special date and default min max year
-       *
-       * @param cxt
-       * @param dataDesc like:1900-01-02
-       * @param l
-       */
-      public DatePickerPopWin(Context cxt, String dataDesc,
-                              OnDatePickedListener l) {
-          this(cxt, DEFAULT_MIN_YEAR, Calendar.getInstance().get(Calendar.YEAR),
-                  dataDesc, l);
-      }
-  
-      /**
-       * Constructor with default date
-       *
-       * @param cxt
-       * @param l
-       */
-      public DatePickerPopWin(Context cxt,
-                              OnDatePickedListener l) {
-          this(cxt, DEFAULT_MIN_YEAR, Calendar.getInstance().get(Calendar.YEAR), l);
-      }
-  
-      /**
-       * Constructor with special date and minYear,maxYear
-       *
-       * @param cxt
-       * @param minYear
-       * @param maxYear
-       * @param dataDesc like:1900-01-02
-       * @param l
-       */
-      public DatePickerPopWin(Context cxt, int minYear, int maxYear,
-                              String dataDesc, OnDatePickedListener l) {
-  
-          this.mContext = cxt;
-          this.minYear = minYear;
-          this.maxYear = maxYear;
-          this.mListener = l;
-  
-          setSelectedDate(dataDesc);
-          initView();
-      }
-  
-      /**
-       * Constructor with default date (right now)
-       *
-       * @param cxt
-       * @param minYear
-       * @param maxYear
-       * @param l
-       */
-      public DatePickerPopWin(Context cxt, int minYear, int maxYear, OnDatePickedListener l) {
-  
-          this.mContext = cxt;
-          this.minYear = minYear;
-          this.maxYear = maxYear;
-          this.mListener = l;
-  
-          setSelectedDate(getStrDate());
-          initView();
-      }
-  
-  ```
+#Dependencies
+
+```java 
+
+   compile 'com.bruce:pickerview:1.0.0'
+ 
+```
 
 ##TODO
 
 - [ ] add Province pick PopWindow (if i have time)
 
-- [ ] add to Jcenter
+- [x] add to Jcenter (Wait Jcenter manager verify)
 
 ------
 
