@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * 日期选择弹层类
+ * PopWindow for Date Pick
  */
 public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
