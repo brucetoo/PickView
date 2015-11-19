@@ -3,14 +3,15 @@
 This is a helper lib for us to pick date or province like IOS system 
 WheelView widget.
 
-# Here is date pick effect by mp4
+# Here is date pick effect by gif
 
-![picker](./datepick.mp4)
+![picker](./datepick.gif)
 
 ##How to use
 > 1. Pick date is even with single step...
+
   ```java
-    
+      
     DatePickerPopWin pickerPopWin = new DatePickerPopWin(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
                        @Override
                        public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
@@ -21,7 +22,8 @@ WheelView widget.
   
   ```
   
-  Here are 4 constructors for you to choose
+
+> 2.Here are 4 constructors for you to choose
   
   ```java
   
@@ -93,7 +95,7 @@ WheelView widget.
 
 ##TODO
 
-- [x] add Province pick PopWindow
+- [ ] add Province pick PopWindow (if i have time)
 
 - [ ] add to Jcenter
 
