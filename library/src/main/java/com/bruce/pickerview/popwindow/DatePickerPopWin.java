@@ -211,7 +211,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
         int dayMaxInMonth;
         Calendar calendar = Calendar.getInstance();
-        List<String> dayList = new ArrayList<String>();
+        dayList = new ArrayList<String>();
 
         calendar.set(Calendar.YEAR, minYear + yearPos);
         calendar.set(Calendar.MONTH, monthPos);
