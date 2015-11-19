@@ -13,11 +13,5 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-    <!-- 渐变弹层动画 -->
-    <style name="FadePopWin">
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="@android:windowEnterAnimation">@anim/pop_win_content_fade_in</item>
-        <item name="@android:windowExitAnimation">@anim/pop_win_content_fade_out</item>
-    </style>
 
 </resources>

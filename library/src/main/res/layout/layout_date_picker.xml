@@ -40,7 +40,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="180dp"
             android:background="#f2f7fa"
             android:padding="3dp" >
 
@@ -48,22 +48,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
-                <com.brucetoo.pickview.view.PickerView
+                <com.bruce.pickerview.LoopView
                     android:id="@+id/picker_year"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <com.brucetoo.pickview.view.PickerView
+                <com.bruce.pickerview.LoopView
                     android:id="@+id/picker_month"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1" />
 
-                <com.brucetoo.pickview.view.PickerView
+                <com.bruce.pickerview.LoopView
                     android:id="@+id/picker_day"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1" />

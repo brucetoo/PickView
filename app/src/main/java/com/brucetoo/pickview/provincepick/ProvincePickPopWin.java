@@ -102,7 +102,7 @@ public class ProvincePickPopWin extends PopupWindow implements OnClickListener, 
 		setFocusable(true);
 		// setOutsideTouchable(true);
 		setBackgroundDrawable(new BitmapDrawable());
-		setAnimationStyle(R.style.FadePopWin);
+		setAnimationStyle(R.style.FadeInPopWin);
 		setContentView(contentView);
 		setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
 		setHeight(ViewGroup.LayoutParams.MATCH_PARENT);

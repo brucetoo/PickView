@@ -1,6 +1,5 @@
 package com.brucetoo.pickview;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import com.brucetoo.pickview.datapick.DatePickerPopWin;
+import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.brucetoo.pickview.provincepick.ProvinceModel;
 import com.brucetoo.pickview.provincepick.ProvincePickPopWin;
 import com.brucetoo.pickview.provincepick.utils.ProvinceInfoParserTask;
@@ -18,7 +17,7 @@ import com.brucetoo.pickview.provincepick.utils.ProvinceInfoUtils;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements DatePickerPopWin.OnDatePickCompletedListener, ProvincePickPopWin.OnAddressPickCompletedListener {
+public class MainActivity extends AppCompatActivity implements DatePickerPopWin.OnDatePickedListener, ProvincePickPopWin.OnAddressPickCompletedListener {
 
     private ArrayList<ProvinceModel> mProvinceList = null; // 省份列表
     private String mProvince = null; // 省份
@@ -43,9 +42,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerPopWin.
         findViewById(R.id.date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerPopWin pickerPopWin = new DatePickerPopWin(MainActivity.this, "1907-01-01", MainActivity.this);
-                pickerPopWin.yearPickerV.setTextColor(Color.RED);//设置颜色
-                pickerPopWin.monthPickerV.setTextColor(Color.BLUE);
+                  DatePickerPopWin pickerPopWin = new DatePickerPopWin(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
+                      @Override
+                      public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
+                          Toast.makeText(MainActivity.this,dateDesc,Toast.LENGTH_SHORT).show();
+                      }
+                  });
                 pickerPopWin.showPopWin(MainActivity.this);
             }
         });
@@ -53,19 +55,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerPopWin.
         findViewById(R.id.province).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null != mProvinceList) {
-                    ProvincePickPopWin pickPopWin = new ProvincePickPopWin(MainActivity.this,
-                            mProvince, mCity, mProvinceList, MainActivity.this);
-                    pickPopWin.showPopWin(MainActivity.this);
-                }
+
+                Toast.makeText(MainActivity.this,"Working on...",Toast.LENGTH_SHORT).show();
+//                if(null != mProvinceList) {
+//                    ProvincePickPopWin pickPopWin = new ProvincePickPopWin(MainActivity.this,
+//                            mProvince, mCity, mProvinceList, MainActivity.this);
+//                    pickPopWin.showPopWin(MainActivity.this);
+//                }
             }
         });
         ((new ProvinceInfoParserTask(this, mHandler))).execute();// 解析本地地址信息文件
     }
 
     @Override
-    public void onDatePickCompleted(int year, int month, int day, String dateStr) {
-        Toast.makeText(this,dateStr,Toast.LENGTH_SHORT).show();
+    public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
+        Toast.makeText(this, dateDesc,Toast.LENGTH_SHORT).show();
     }
 
     private Handler mHandler = new Handler(new Handler.Callback() {
