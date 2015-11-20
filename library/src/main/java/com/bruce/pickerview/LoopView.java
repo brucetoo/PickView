@@ -39,20 +39,15 @@ public class LoopView extends View {
     int colorGray;
     int colorBlack;
     int colorGrayLight;
-    // 条目间距倍数
     float lineSpacingMultiplier;
     boolean isLoop;
-    // 第一条线Y坐标值
     int firstLineY;
     int secondLineY;
     int preCurrentIndex;
     int initPosition;
-    // 显示几个条目
     int itemCount;
     int measuredHeight;
-    // 半圆周长
     int halfCircumference;
-    // 半径
     int radius;
     int measuredWidth;
 //    int paddingLeft = 0;
@@ -316,11 +311,10 @@ public class LoopView extends View {
         int j1 = 0;
         while (j1 < itemCount) {
             canvas.save();
-            // L(弧长)=α（弧度）* r(半径) （弧度制）
-            // 求弧度--> (L * π ) / (π * r)   (弧长X派/半圆周长)
+            // L=α* r
+            // (L * π ) / (π * r)
             float itemHeight = maxTextHeight * lineSpacingMultiplier;
             double radian = ((itemHeight * j1 - j2) * Math.PI) / halfCircumference;
-            // 弧度转换成角度(把半圆以Y轴为轴心向右转90度，使其处于第一象限及第四象限
             float angle = (float) (90D - (radian / Math.PI) * 180D);
             if (angle >= 90F || angle <= -90F) {
                 canvas.restore();
@@ -329,7 +323,6 @@ public class LoopView extends View {
                 canvas.translate(0.0F, translateY);
                 canvas.scale(1.0F, (float) Math.sin(radian));
                 if (translateY <= firstLineY && maxTextHeight + translateY >= firstLineY) {
-                    // 条目经过第一条线
                     canvas.save();
                     //top = 0,left = (measuredWidth - maxTextWidth)/2
                     canvas.clipRect(0, 0, measuredWidth, firstLineY - translateY);
@@ -340,7 +333,6 @@ public class LoopView extends View {
                     canvas.drawText(as[j1], left, maxTextHeight, paintB);
                     canvas.restore();
                 } else if (translateY <= secondLineY && maxTextHeight + translateY >= secondLineY) {
-                    // 条目经过第二条线
                     canvas.save();
                     canvas.clipRect(0, 0, measuredWidth, secondLineY - translateY);
                     canvas.drawText(as[j1], left, maxTextHeight, paintB);
@@ -350,12 +342,10 @@ public class LoopView extends View {
                     canvas.drawText(as[j1], left, maxTextHeight, paintA);
                     canvas.restore();
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
-                    // 中间条目
                     canvas.clipRect(0, 0, measuredWidth, (int) (itemHeight));
                     canvas.drawText(as[j1], left, maxTextHeight, paintB);
                     selectedItem = arrayList.indexOf(as[j1]);
                 } else {
-                    // 其他条目
                     canvas.clipRect(0, 0, measuredWidth, (int) (itemHeight));
                     canvas.drawText(as[j1], left, maxTextHeight, paintA);
                 }
@@ -370,14 +360,12 @@ public class LoopView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         initData();
-        //获取改View在屏幕绝对绘制时的宽度,通过宽度来确定绘制字体是的左边距离 看 OnDraw中的 drawText
         measuredWidth = getMeasuredWidth();
 //        Log.e("measuredWidth", "onMeasure:" + measuredWidth);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent motionevent) {
-        // totalScrollY以中间位置为0点
         switch (motionevent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 y1 = motionevent.getRawY();
@@ -391,7 +379,6 @@ public class LoopView extends View {
                     int initPositionCircleLength = (int) (initPosition * (lineSpacingMultiplier * maxTextHeight));
                     int initPositionStartY = -1 * initPositionCircleLength;
                     if (totalScrollY < initPositionStartY) {
-                        // 当滚到头时，重置totalScrollY的值
                         totalScrollY = initPositionStartY;
                     }
                 }
@@ -404,7 +391,6 @@ public class LoopView extends View {
                 return true;
         }
 
-        // 计算圆弧长度，非循环时转到底端，重置totalScrollY的值
         if (!isLoop) {
             int circleLength = (int) ((float) (arrayList.size() - 1 - initPosition) * (lineSpacingMultiplier * maxTextHeight));
             if (totalScrollY >= circleLength) {

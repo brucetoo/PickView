@@ -28,7 +28,7 @@ WheelView widget.
 
 ```java 
 
-   compile 'com.brucetoo:pickview:1.0.0'
+   compile 'com.brucetoo.pickview:library:1.0.0'
  
 ```
 
