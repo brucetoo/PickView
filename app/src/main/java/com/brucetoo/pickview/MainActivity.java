@@ -17,11 +17,11 @@ import com.brucetoo.pickview.provincepick.utils.ProvinceInfoUtils;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements DatePickerPopWin.OnDatePickedListener, ProvincePickPopWin.OnAddressPickCompletedListener {
+public class MainActivity extends AppCompatActivity{
 
-    private ArrayList<ProvinceModel> mProvinceList = null; // 省份列表
-    private String mProvince = null; // 省份
-    private String mCity = null; // 城市
+//    private ArrayList<ProvinceModel> mProvinceList = null; // 省份列表
+//    private String mProvince = null; // 省份
+//    private String mCity = null; // 城市
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +31,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerPopWin.
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                DatePickerPopWin pickerPopWin = new DatePickerPopWin(MainActivity.this, "1907-01-01", MainActivity.this);
-//                pickerPopWin.showPopWin(MainActivity.this);
-            }
-        });
 
         findViewById(R.id.date).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,27 +60,23 @@ public class MainActivity extends AppCompatActivity implements DatePickerPopWin.
         ((new ProvinceInfoParserTask(this, mHandler))).execute();// 解析本地地址信息文件
     }
 
-    @Override
-    public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
-        Toast.makeText(this, dateDesc,Toast.LENGTH_SHORT).show();
-    }
 
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case ProvinceInfoParserTask.MSG_PARSE_RESULT_CALLBACK: // 解析地址完成
-                    mProvinceList = (ArrayList<ProvinceModel>) msg.obj;
-                    break;
-            }
-            return false;
-        }
-    });
+//    private Handler mHandler = new Handler(new Handler.Callback() {
+//        @Override
+//        public boolean handleMessage(Message msg) {
+//            switch (msg.what) {
+//                case ProvinceInfoParserTask.MSG_PARSE_RESULT_CALLBACK: // 解析地址完成
+//                    mProvinceList = (ArrayList<ProvinceModel>) msg.obj;
+//                    break;
+//            }
+//            return false;
+//        }
+//    });
 
-    @Override
-    public void onAddressPickCompleted(String province, String provinceId, String city, String cityId) {
-//        Toast.makeText(this,province+"-"+provinceId+"-"+city+"-"+cityId,Toast.LENGTH_SHORT).show();
-        Toast.makeText(this,ProvinceInfoUtils.matchAddress(this,provinceId,cityId,mProvinceList),Toast.LENGTH_SHORT).show();
-        ProvinceInfoUtils.matchAddress(this,provinceId,cityId,mProvinceList);
-    }
+//    @Override
+//    public void onAddressPickCompleted(String province, String provinceId, String city, String cityId) {
+////        Toast.makeText(this,province+"-"+provinceId+"-"+city+"-"+cityId,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,ProvinceInfoUtils.matchAddress(this,provinceId,cityId,mProvinceList),Toast.LENGTH_SHORT).show();
+//        ProvinceInfoUtils.matchAddress(this,provinceId,cityId,mProvinceList);
+//    }
 }
