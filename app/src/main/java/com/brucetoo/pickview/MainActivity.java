@@ -1,8 +1,6 @@
 package com.brucetoo.pickview;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,12 +8,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
-import com.brucetoo.pickview.provincepick.ProvinceModel;
-import com.brucetoo.pickview.provincepick.ProvincePickPopWin;
-import com.brucetoo.pickview.provincepick.utils.ProvinceInfoParserTask;
-import com.brucetoo.pickview.provincepick.utils.ProvinceInfoUtils;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -57,7 +49,7 @@ public class MainActivity extends AppCompatActivity{
 //                }
             }
         });
-        ((new ProvinceInfoParserTask(this, mHandler))).execute();// 解析本地地址信息文件
+//        ((new ProvinceInfoParserTask(this, mHandler))).execute();// 解析本地地址信息文件
     }
 
 
