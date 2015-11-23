@@ -59,42 +59,41 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     /**
      * Constructor with special date and default min max year
      *
-     * @param cxt
      * @param dataDesc like:1900-01-02
-     * @param l
      */
     public DatePickerPopWin(Context cxt, String dataDesc,
-                            OnDatePickedListener l) {
+            OnDatePickedListener l) {
         this(cxt, DEFAULT_MIN_YEAR, Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
                 dataDesc, l);
     }
 
     /**
      * Constructor with default date
-     *
-     * @param cxt
-     * @param l
      */
     public DatePickerPopWin(Context cxt,
-                            OnDatePickedListener l) {
+            OnDatePickedListener l) {
         this(cxt, DEFAULT_MIN_YEAR, Calendar.getInstance().get(Calendar.YEAR), l);
     }
 
     /**
      * Constructor with special date and minYear,maxYear
      *
-     * @param cxt
-     * @param minYear
-     * @param maxYear
      * @param dataDesc like:1900-01-02
-     * @param l
      */
-    public DatePickerPopWin(Context cxt, int minYear, int maxYear,
-                            String dataDesc, OnDatePickedListener l) {
+    public DatePickerPopWin(Context cxt, int minYear, int maxYear, int selectedYear,
+            int selectedMonth,
+            int selectedDay,
+            String dataDesc, OnDatePickedListener l) {
 
         this.mContext = cxt;
         this.minYear = minYear;
         this.maxYear = maxYear;
+        this.yearPos = selectedYear - minYear;
+        this.monthPos = selectedMonth - 1;
+        this.dayPos = selectedDay - 1;
         this.mListener = l;
 
         setSelectedDate(dataDesc);
@@ -103,11 +102,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
     /**
      * Constructor with default date (right now)
-     *
-     * @param cxt
-     * @param minYear
-     * @param maxYear
-     * @param l
      */
     public DatePickerPopWin(Context cxt, int minYear, int maxYear, OnDatePickedListener l) {
 
@@ -138,9 +132,9 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         dayLoopView.setNotLoop();
 
         //set loopview text size
-        yearLoopView.setTextSize(25);
-        monthLoopView.setTextSize(25);
-        dayLoopView.setTextSize(25);
+        yearLoopView.setTextSize(22);
+        monthLoopView.setTextSize(22);
+        dayLoopView.setTextSize(22);
 
         //set checked listen
         yearLoopView.setListener(new LoopListener() {
@@ -229,15 +223,13 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
     /**
      * set selected date position value when initView.
-     *
-     * @param dateStr
      */
     public void setSelectedDate(String dateStr) {
 
         if (!TextUtils.isEmpty(dateStr)) {
 
             long milliseconds = getLongFromyyyyMMdd(dateStr);
-            Calendar calendar = Calendar.getInstance(Locale.CHINA);
+            Calendar calendar = Calendar.getInstance();
 
             if (milliseconds != -1) {
 
@@ -251,8 +243,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
     /**
      * Show date picker popWindow
-     *
-     * @param activity
      */
     public void showPopWin(Activity activity) {
 
@@ -333,9 +323,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
     /**
      * get long from yyyy-MM-dd
-     *
-     * @param date
-     * @return
      */
     public static long getLongFromyyyyMMdd(String date) {
         SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -359,8 +346,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
     /**
      * Transform int to String with prefix "0" if less than 10
-     * @param num
-     * @return
      */
     public static String format2LenStr(int num) {
 
@@ -373,12 +358,9 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         /**
          * Listener when date has been checked
          *
-         * @param year
-         * @param month
-         * @param day
-         * @param dateDesc  yyyy-MM-dd
+         * @param dateDesc yyyy-MM-dd
          */
         void onDatePickCompleted(int year, int month, int day,
-                                 String dateDesc);
+                String dateDesc);
     }
 }

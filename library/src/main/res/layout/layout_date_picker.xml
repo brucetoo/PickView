@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#33000000" >
+                android:background="@color/ff_shadow" >
 
     <LinearLayout
         android:id="@+id/container_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#f2f7fa"
+        android:background="@color/ff_white"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -23,8 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@null"
-                android:text="cancel"
-                android:textColor="#999999"
+                android:text="@string/_GEN_cancel"
+                android:textColor="@color/ff_accent_dark"
                 android:textSize="16sp" />
 
             <Button
@@ -33,15 +33,15 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:background="@null"
-                android:text="confirm"
-                android:textColor="#303F9F"
+                android:text="@string/_GEN_apply"
+                android:textColor="@color/ff_primary"
                 android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="#f2f7fa"
+            android:background="@color/ff_white"
             android:padding="3dp" >
 
             <LinearLayout
