@@ -92,7 +92,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         this.minYear = minYear;
         this.maxYear = maxYear;
         this.yearPos = selectedYear - minYear;
-        this.monthPos = selectedMonth - 1;
+        this.monthPos = selectedMonth;
         this.dayPos = selectedDay - 1;
         this.mListener = l;
 
