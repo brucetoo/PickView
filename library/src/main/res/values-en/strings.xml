@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">pickerview</string>
+
     <string name="_GEN_accept">OK</string>
     <string name="_GEN_cancel">Cancel</string>
     <string name="_GEN_apply">Apply</string>
-</resources>
+   </resources>

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity{
         findViewById(R.id.date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  DatePickerPopWin pickerPopWin = new DatePickerPopWin(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
+                  DatePickerPopWin pickerPopWin = new DatePickerPopWin(MainActivity.this, 1990, 2016,2010,3,2,"HOLA",new DatePickerPopWin.OnDatePickedListener() {
                       @Override
                       public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
                           Toast.makeText(MainActivity.this,dateDesc,Toast.LENGTH_SHORT).show();

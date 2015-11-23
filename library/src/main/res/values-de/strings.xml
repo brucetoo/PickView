@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General [_GEN] -->
+    <string name="_GEN_accept">OK</string>
+    <string name="_GEN_cancel">Abbrechen</string>
+    <string name="_GEN_apply">Speichern</string>
+
+   </resources>
