@@ -16,6 +16,8 @@
     <color name="ff_black">#000000</color>
     <color name="ff_transparent">#00000000</color>
 
+    <color name="ff_green">#A9C571</color>
+
     <!-- Alpha versions -->
     <color name="ff_accent_alpha">#9966CBC0</color>
     <color name="ff_primary_alpha">#BB21687B</color>

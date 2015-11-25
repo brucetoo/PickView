@@ -16,6 +16,7 @@
             android:id="@+id/container_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/ff_accent"
             android:padding="5dp" >
 
             <Button
@@ -24,7 +25,7 @@
                 android:layout_height="30dp"
                 android:background="@null"
                 android:text="@string/_GEN_cancel"
-                android:textColor="@color/ff_accent_dark"
+                android:textColor="@color/ff_white"
                 android:textSize="16sp" />
 
             <Button
@@ -34,7 +35,7 @@
                 android:layout_alignParentRight="true"
                 android:background="@null"
                 android:text="@string/_GEN_apply"
-                android:textColor="@color/ff_primary"
+                android:textColor="@color/ff_white"
                 android:textSize="16sp" />
         </RelativeLayout>
 
