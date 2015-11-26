@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
@@ -53,7 +52,6 @@ public class LoopView extends View {
     int measuredWidth;
     //    int paddingLeft = 0;
 //    int paddingRight = 0;
-    int change;
     float y1;
     float y2;
     float dy;
@@ -247,7 +245,8 @@ public class LoopView extends View {
 
     protected final void itemSelected() {
         if (loopListener != null) {
-            postDelayed(new LoopRunnable(this), 200L);
+//            postDelayed(new LoopRunnable(this), 200L);
+            loopListener.onItemSelect(this.getSelectedItem());
         }
     }
 
@@ -259,8 +258,8 @@ public class LoopView extends View {
             return;
         }
         as = new String[itemCount];
-        change = (int) (totalScrollY / (lineSpacingMultiplier * maxTextHeight));
-        preCurrentIndex = initPosition + change % arrayList.size();
+        int change = (int) (totalScrollY / (lineSpacingMultiplier * maxTextHeight));
+        preCurrentIndex = initPosition + change /*% arrayList.size()*/;
 //        Log.i("test", (new StringBuilder("scrollY1=")).append(totalScrollY).toString());
 //        Log.i("test", (new StringBuilder("change=")).append(change).toString());
 //        Log.i("test", (new StringBuilder("lineSpacingMultiplier * maxTextHeight=")).append(lineSpacingMultiplier * maxTextHeight).toString());
@@ -358,6 +357,11 @@ public class LoopView extends View {
             }
             j1++;
         }
+        if (loopListener != null) {
+            loopListener.onItemSelect(this.getSelectedItem());
+//            postDelayed(new LoopRunnable(this), 200L);
+        }
+
         super.onDraw(canvas);
     }
 

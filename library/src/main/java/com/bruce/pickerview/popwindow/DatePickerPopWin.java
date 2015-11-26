@@ -94,7 +94,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         this.minYear = minYear;
         this.maxYear = maxYear;
         this.yearPos = selectedYear - minYear;
-        this.monthPos = selectedMonth;
+        this.monthPos = selectedMonth - 1;
         this.dayPos = selectedDay - 1;
         this.mListener = l;
 
@@ -162,6 +162,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
         initPickerViews(); // init year and month loop view
         initDayPickerView(); //init day loop view
+        dayLoopView.setInitPosition(dayPos);
 
         cancelBtn.setOnClickListener(this);
         confirmBtn.setOnClickListener(this);
@@ -219,7 +220,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         }
 
         dayLoopView.setArrayList((ArrayList) dayList);
-        dayLoopView.setInitPosition(dayPos);
+
     }
 
     /**
