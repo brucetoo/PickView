@@ -21,10 +21,12 @@ import com.bruce.pickerview.LoopListener;
 import com.bruce.pickerview.LoopView;
 import com.bruce.pickerview.R;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -187,9 +189,8 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             yearList.add(format2LenStr(minYear + i));
         }
 
-        for (int j = 0; j < 12; j++) {
-            monthList.add(format2LenStr(j + 1));
-        }
+        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
+        Collections.addAll(monthList, dateFormatSymbols.getMonths());
 
         yearLoopView.setArrayList((ArrayList) yearList);
         yearLoopView.setInitPosition(yearPos);
