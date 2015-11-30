@@ -21,6 +21,8 @@ import com.bruce.pickerview.LoopListener;
 import com.bruce.pickerview.LoopView;
 import com.bruce.pickerview.R;
 
+import org.joda.time.DateTime;
+
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -207,13 +209,17 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
         int dayMaxInMonth;
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         dayList = new ArrayList<String>();
 
         calendar.set(Calendar.YEAR, minYear + yearPos);
         calendar.set(Calendar.MONTH, monthPos);
 
+        DateTime dateTime = new DateTime(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1,
+                Calendar.DAY_OF_MONTH, Calendar.HOUR, Calendar.MINUTE);
+
         //get max day in month
-        dayMaxInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        dayMaxInMonth = dateTime.dayOfMonth().getMaximumValue();
 
         for (int i = 0; i < dayMaxInMonth; i++) {
             dayList.add(format2LenStr(i + 1));
