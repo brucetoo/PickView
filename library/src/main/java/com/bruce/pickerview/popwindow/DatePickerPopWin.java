@@ -136,9 +136,9 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         dayLoopView.setNotLoop();
 
         //set loopview text size
-        yearLoopView.setTextSize(22);
-        monthLoopView.setTextSize(22);
-        dayLoopView.setTextSize(22);
+        yearLoopView.setTextSize(20);
+        monthLoopView.setTextSize(20);
+        dayLoopView.setTextSize(20);
 
         //set checked listen
         yearLoopView.setListener(new LoopListener() {
