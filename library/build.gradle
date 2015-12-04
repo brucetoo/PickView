@@ -1,8 +1,12 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 //apply plugin: 'com.github.dcendents.android-maven'
 //apply plugin: 'com.jfrog.bintray'
 
-version = "1.0.0"
+def GROUP = "UF_Finance_Android"
+def POM_ARTIFACT_ID = "DatePicker"
+def VERSION_NAME = "1.0.0"
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -17,6 +21,17 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = GROUP
+            pom.artifactId = POM_ARTIFACT_ID
+            pom.version = VERSION_NAME
+            repository(url: mavenLocal().url)
         }
     }
 }
