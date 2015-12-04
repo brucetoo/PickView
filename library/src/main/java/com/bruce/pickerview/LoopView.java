@@ -4,8 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -50,9 +50,8 @@ public class LoopView extends View {
     int halfCircumference;
     int radius;
     int measuredWidth;
-//    int paddingLeft = 0;
+    //    int paddingLeft = 0;
 //    int paddingRight = 0;
-    int change;
     float y1;
     float y2;
     float dy;
@@ -74,9 +73,9 @@ public class LoopView extends View {
 
     private void initLoopView(Context context) {
         textSize = 0;
-        colorGray = 0xffafafaf;
-        colorBlack = 0xff313131;
-        colorGrayLight = 0xffc5c5c5;
+        colorGray = ActivityCompat.getColor(getContext(), R.color.ff_accent);
+        colorBlack = ActivityCompat.getColor(getContext(), R.color.ff_primary_dark);
+        colorGrayLight = ActivityCompat.getColor(getContext(), R.color.ff_accent);
         lineSpacingMultiplier = 2.0F;
         isLoop = true;
         initPosition = -1;
@@ -114,16 +113,16 @@ public class LoopView extends View {
         }
         paintA.setColor(colorGray);
         paintA.setAntiAlias(true);
-        paintA.setTypeface(Typeface.MONOSPACE);
+        //  paintA.setTypeface(Typeface.MONOSPACE);
         paintA.setTextSize(textSize);
         paintB.setColor(colorBlack);
         paintB.setAntiAlias(true);
         paintB.setTextScaleX(1.05F);
-        paintB.setTypeface(Typeface.MONOSPACE);
+        //  paintB.setTypeface(Typeface.MONOSPACE);
         paintB.setTextSize(textSize);
         paintC.setColor(colorGrayLight);
         paintC.setAntiAlias(true);
-        paintC.setTypeface(Typeface.MONOSPACE);
+        //paintC.setTypeface(Typeface.MONOSPACE);
         paintC.setTextSize(textSize);
         measureTextWidthHeight();
         halfCircumference = (int) (maxTextHeight * lineSpacingMultiplier * (itemCount - 1));
@@ -175,11 +174,12 @@ public class LoopView extends View {
     private void smoothScroll() {
         int offset = (int) (totalScrollY % (lineSpacingMultiplier * maxTextHeight));
         cancelFuture();
-        mFuture = mExecutor.scheduleWithFixedDelay(new MTimer(this, offset), 0, 10, TimeUnit.MILLISECONDS);
+        mFuture = mExecutor
+                .scheduleWithFixedDelay(new MTimer(this, offset), 0, 10, TimeUnit.MILLISECONDS);
     }
 
     public void cancelFuture() {
-        if (mFuture!=null&&!mFuture.isCancelled()) {
+        if (mFuture != null && !mFuture.isCancelled()) {
             mFuture.cancel(true);
             mFuture = null;
         }
@@ -237,13 +237,16 @@ public class LoopView extends View {
     protected final void smoothScroll(float velocityY) {
         cancelFuture();
         int velocityFling = 20;
-        mFuture = mExecutor.scheduleWithFixedDelay(new LoopTimerTask(this, velocityY), 0, velocityFling, TimeUnit.MILLISECONDS);
+        mFuture = mExecutor
+                .scheduleWithFixedDelay(new LoopTimerTask(this, velocityY), 0, velocityFling,
+                        TimeUnit.MILLISECONDS);
     }
 
 
     protected final void itemSelected() {
         if (loopListener != null) {
-            postDelayed(new LoopRunnable(this), 200L);
+//            postDelayed(new LoopRunnable(this), 200L);
+            loopListener.onItemSelect(this.getSelectedItem());
         }
     }
 
@@ -255,8 +258,8 @@ public class LoopView extends View {
             return;
         }
         as = new String[itemCount];
-        change = (int) (totalScrollY / (lineSpacingMultiplier * maxTextHeight));
-        preCurrentIndex = initPosition + change % arrayList.size();
+        int change = (int) (totalScrollY / (lineSpacingMultiplier * maxTextHeight));
+        preCurrentIndex = initPosition + change /*% arrayList.size()*/;
 //        Log.i("test", (new StringBuilder("scrollY1=")).append(totalScrollY).toString());
 //        Log.i("test", (new StringBuilder("change=")).append(change).toString());
 //        Log.i("test", (new StringBuilder("lineSpacingMultiplier * maxTextHeight=")).append(lineSpacingMultiplier * maxTextHeight).toString());
@@ -302,7 +305,7 @@ public class LoopView extends View {
         }
 //        int left = paddingLeft;
         //auto calculate the text's left value when draw
-        int left = (measuredWidth - maxTextWidth)/2;
+        int left = (measuredWidth - maxTextWidth) / 2;
 //        Log.e("measuredWidth","onDraw:"+measuredWidth);
 //        Log.e("measuredWidth","onDraw / 2:"+ (measuredWidth - maxTextWidth)/2);
 
@@ -319,7 +322,8 @@ public class LoopView extends View {
             if (angle >= 90F || angle <= -90F) {
                 canvas.restore();
             } else {
-                int translateY = (int) (radius - Math.cos(radian) * radius - (Math.sin(radian) * maxTextHeight) / 2D);
+                int translateY = (int) (radius - Math.cos(radian) * radius
+                        - (Math.sin(radian) * maxTextHeight) / 2D);
                 canvas.translate(0.0F, translateY);
                 canvas.scale(1.0F, (float) Math.sin(radian));
                 if (translateY <= firstLineY && maxTextHeight + translateY >= firstLineY) {
@@ -353,6 +357,11 @@ public class LoopView extends View {
             }
             j1++;
         }
+        if (loopListener != null) {
+            loopListener.onItemSelect(this.getSelectedItem());
+//            postDelayed(new LoopRunnable(this), 200L);
+        }
+
         super.onDraw(canvas);
     }
 
@@ -376,7 +385,8 @@ public class LoopView extends View {
                 y1 = y2;
                 totalScrollY = (int) ((float) totalScrollY + dy);
                 if (!isLoop) {
-                    int initPositionCircleLength = (int) (initPosition * (lineSpacingMultiplier * maxTextHeight));
+                    int initPositionCircleLength = (int) (initPosition * (lineSpacingMultiplier
+                            * maxTextHeight));
                     int initPositionStartY = -1 * initPositionCircleLength;
                     if (totalScrollY < initPositionStartY) {
                         totalScrollY = initPositionStartY;
@@ -385,21 +395,24 @@ public class LoopView extends View {
                 break;
             case MotionEvent.ACTION_UP:
             default:
-                if (!gestureDetector.onTouchEvent(motionevent) && motionevent.getAction() == MotionEvent.ACTION_UP) {
+                if (!gestureDetector.onTouchEvent(motionevent)
+                        && motionevent.getAction() == MotionEvent.ACTION_UP) {
                     smoothScroll();
                 }
                 return true;
         }
 
         if (!isLoop) {
-            int circleLength = (int) ((float) (arrayList.size() - 1 - initPosition) * (lineSpacingMultiplier * maxTextHeight));
+            int circleLength = (int) ((float) (arrayList.size() - 1 - initPosition) * (
+                    lineSpacingMultiplier * maxTextHeight));
             if (totalScrollY >= circleLength) {
                 totalScrollY = circleLength;
             }
         }
         invalidate();
 
-        if (!gestureDetector.onTouchEvent(motionevent) && motionevent.getAction() == MotionEvent.ACTION_UP) {
+        if (!gestureDetector.onTouchEvent(motionevent)
+                && motionevent.getAction() == MotionEvent.ACTION_UP) {
             smoothScroll();
         }
         return true;
