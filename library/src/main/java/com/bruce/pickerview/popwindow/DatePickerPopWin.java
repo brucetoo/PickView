@@ -77,7 +77,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
      */
     public DatePickerPopWin(Context cxt,
                             OnDatePickedListener l) {
-        this(cxt, DEFAULT_MIN_YEAR, Calendar.getInstance().get(Calendar.YEAR), l);
+        this(cxt, DEFAULT_MIN_YEAR, Calendar.getInstance().get(Calendar.YEAR)+1, l);
     }
 
     /**
