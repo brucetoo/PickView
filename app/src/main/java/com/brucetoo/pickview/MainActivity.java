@@ -1,5 +1,6 @@
 package com.brucetoo.pickview;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,7 @@ import android.widget.Toast;
 
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
 //    private ArrayList<ProvinceModel> mProvinceList = null; // 省份列表
 //    private String mProvince = null; // 省份
@@ -27,12 +28,21 @@ public class MainActivity extends AppCompatActivity{
         findViewById(R.id.date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  DatePickerPopWin pickerPopWin = new DatePickerPopWin(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
-                      @Override
-                      public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
-                          Toast.makeText(MainActivity.this,dateDesc,Toast.LENGTH_SHORT).show();
-                      }
-                  });
+                DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
+                    @Override
+                    public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
+                        Toast.makeText(MainActivity.this, dateDesc, Toast.LENGTH_SHORT).show();
+                    }
+                }).textConfirm("CONFIRM") //text of confirm button
+                        .textCancel("CANCEL") //text of cancel button
+                        .btnTextSize(16) // button text size
+                        .viewTextSize(25) // pick view text size
+                        .colorCancel(Color.parseColor("#999999")) //color of cancel button
+                        .colorConfirm(Color.parseColor("#009900"))//color of confirm button
+                        .minYear(1990) //min year in loop
+                        .maxYear(2550) // max year in loop
+                        .dateChose("2013-11-11") // date chose when init popwindow
+                        .build();
                 pickerPopWin.showPopWin(MainActivity.this);
             }
         });
@@ -41,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(MainActivity.this,"Working on...",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Working on...", Toast.LENGTH_SHORT).show();
 //                if(null != mProvinceList) {
 //                    ProvincePickPopWin pickPopWin = new ProvincePickPopWin(MainActivity.this,
 //                            mProvince, mCity, mProvinceList, MainActivity.this);

@@ -2,6 +2,7 @@ package com.bruce.pickerview.popwindow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -49,77 +50,111 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     private int monthPos = 0;
     private int dayPos = 0;
     private Context mContext;
+    private String textCancel;
+    private String textConfirm;
+    private int colorCancel;
+    private int colorConfirm;
+    private int btnTextsize;//text btnTextsize of cancel and confirm button
+    private int viewTextSize;
 
     List<String> yearList = new ArrayList();
     List<String> monthList = new ArrayList();
     List<String> dayList = new ArrayList();
 
+    public static class Builder{
+
+        //Required
+        private Context context;
+        private OnDatePickedListener listener;
+        public Builder(Context context,OnDatePickedListener listener){
+            this.context = context;
+            this.listener = listener;
+        }
+
+        //Option
+        private int minYear = DEFAULT_MIN_YEAR;
+        private int maxYear = Calendar.getInstance().get(Calendar.YEAR)+1;
+        private String textCancel = "Cancel";
+        private String textConfirm = "Confirm";
+        private String dateChose = getStrDate();
+        private int colorCancel = Color.parseColor("#999999");
+        private int colorConfirm = Color.parseColor("#303F9F");
+        private int btnTextSize = 16;//text btnTextsize of cancel and confirm button
+        private int viewTextSize = 25;
+
+        public Builder minYear(int minYear){
+            this.minYear = minYear;
+            return this;
+        }
+
+        public Builder maxYear(int maxYear){
+            this.maxYear = maxYear;
+            return this;
+        }
+
+        public Builder textCancel(String textCancel){
+            this.textCancel = textCancel;
+            return this;
+        }
+
+        public Builder textConfirm(String textConfirm){
+            this.textConfirm = textConfirm;
+            return this;
+        }
+
+        public Builder dateChose(String dateChose){
+            this.dateChose = dateChose;
+            return this;
+        }
+
+        public Builder colorCancel(int colorCancel){
+            this.colorCancel = colorCancel;
+            return this;
+        }
+
+        public Builder colorConfirm(int colorConfirm){
+            this.colorConfirm = colorConfirm;
+            return this;
+        }
+
+        /**
+         * set btn text btnTextSize
+         * @param textSize dp
+         */
+        public Builder btnTextSize(int textSize){
+            this.btnTextSize = textSize;
+            return this;
+        }
+
+        public Builder viewTextSize(int textSize){
+            this.viewTextSize = textSize;
+            return this;
+        }
+
+        public DatePickerPopWin build(){
+            if(minYear > maxYear){
+                throw new IllegalArgumentException();
+            }
+            return new DatePickerPopWin(this);
+        }
+    }
+
+    public DatePickerPopWin(Builder builder){
+        this.minYear = builder.minYear;
+        this.maxYear = builder.maxYear;
+        this.textCancel = builder.textCancel;
+        this.textConfirm = builder.textConfirm;
+        this.mContext = builder.context;
+        this.mListener = builder.listener;
+        this.colorCancel = builder.colorCancel;
+        this.colorConfirm = builder.colorConfirm;
+        this.btnTextsize = builder.btnTextSize;
+        this.viewTextSize = builder.viewTextSize;
+        setSelectedDate(builder.dateChose);
+        initView();
+    }
+
     private OnDatePickedListener mListener;
-
-    /**
-     * Constructor with special date and default min max year
-     *
-     * @param cxt
-     * @param dataDesc like:1900-01-02
-     * @param l
-     */
-    public DatePickerPopWin(Context cxt, String dataDesc,
-                            OnDatePickedListener l) {
-        this(cxt, DEFAULT_MIN_YEAR, Calendar.getInstance().get(Calendar.YEAR),
-                dataDesc, l);
-    }
-
-    /**
-     * Constructor with default date
-     *
-     * @param cxt
-     * @param l
-     */
-    public DatePickerPopWin(Context cxt,
-                            OnDatePickedListener l) {
-        this(cxt, DEFAULT_MIN_YEAR, Calendar.getInstance().get(Calendar.YEAR)+1, l);
-    }
-
-    /**
-     * Constructor with special date and minYear,maxYear
-     *
-     * @param cxt
-     * @param minYear
-     * @param maxYear
-     * @param dataDesc like:1900-01-02
-     * @param l
-     */
-    public DatePickerPopWin(Context cxt, int minYear, int maxYear,
-                            String dataDesc, OnDatePickedListener l) {
-
-        this.mContext = cxt;
-        this.minYear = minYear;
-        this.maxYear = maxYear;
-        this.mListener = l;
-
-        setSelectedDate(dataDesc);
-        initView();
-    }
-
-    /**
-     * Constructor with default date (right now)
-     *
-     * @param cxt
-     * @param minYear
-     * @param maxYear
-     * @param l
-     */
-    public DatePickerPopWin(Context cxt, int minYear, int maxYear, OnDatePickedListener l) {
-
-        this.mContext = cxt;
-        this.minYear = minYear;
-        this.maxYear = maxYear;
-        this.mListener = l;
-
-        setSelectedDate(getStrDate());
-        initView();
-    }
-
 
     private void initView() {
 
@@ -132,15 +167,22 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         dayLoopView = (LoopView) contentView.findViewById(R.id.picker_day);
         pickerContainerV = contentView.findViewById(R.id.container_picker);
 
+        cancelBtn.setText(textCancel);
+        confirmBtn.setText(textConfirm);
+        cancelBtn.setTextColor(colorCancel);
+        confirmBtn.setTextColor(colorConfirm);
+        cancelBtn.setTextSize(btnTextsize);
+        confirmBtn.setTextSize(btnTextsize);
+
         //do not loop,default can loop
         yearLoopView.setNotLoop();
         monthLoopView.setNotLoop();
         dayLoopView.setNotLoop();
 
-        //set loopview text size
-        yearLoopView.setTextSize(25);
-        monthLoopView.setTextSize(25);
-        dayLoopView.setTextSize(25);
+        //set loopview text btnTextsize
+        yearLoopView.setTextSize(viewTextSize);
+        monthLoopView.setTextSize(viewTextSize);
+        dayLoopView.setTextSize(viewTextSize);
 
         //set checked listen
         yearLoopView.setListener(new LoopListener() {
@@ -353,7 +395,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     }
 
     public static String getStrDate() {
-        SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
         return dd.format(new Date());
     }
 
@@ -365,6 +407,11 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     public static String format2LenStr(int num) {
 
         return (num < 10) ? "0" + num : String.valueOf(num);
+    }
+
+    public static int spToPx(Context context, int spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 
 
