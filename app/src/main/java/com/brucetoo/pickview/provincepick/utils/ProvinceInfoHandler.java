@@ -28,7 +28,7 @@ public class ProvinceInfoHandler extends DefaultHandler {
 
 	/**
 	 * 返回解析后得到的省份信息列表
-	 * 
+	 *
 	 * @return 省份信息列表
 	 */
 	public List<ProvinceModel> getProvinceList() {
@@ -42,7 +42,7 @@ public class ProvinceInfoHandler extends DefaultHandler {
 		super.startDocument();
 
 		if (null == mList)
-			mList = new ArrayList<ProvinceModel>();
+			mList = new ArrayList<>();
 
 		mBuilder = new StringBuilder();
 	}

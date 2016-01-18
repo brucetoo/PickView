@@ -43,7 +43,7 @@ public class ProvinceInfoParserTask extends AsyncTask<Void, Void, List<ProvinceM
 		if (null == mContext)
 			return null;
 
-		List<ProvinceModel> provinceList = new ArrayList<ProvinceModel>();
+		List<ProvinceModel> provinceList = new ArrayList<>();
 
 		try {
 			SAXParserFactory sax = SAXParserFactory.newInstance();// 创建解析器
@@ -52,14 +52,7 @@ public class ProvinceInfoParserTask extends AsyncTask<Void, Void, List<ProvinceM
 
 			reader.setContentHandler(new ProvinceInfoHandler(provinceList));// 为reader设置内容处理器
 			reader.parse(new InputSource(in));// 开始解析文件
-		} catch (SAXException e) {
-
-			e.printStackTrace();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-
+		} catch (SAXException | ParserConfigurationException | IOException e) {
 			e.printStackTrace();
 		}
 

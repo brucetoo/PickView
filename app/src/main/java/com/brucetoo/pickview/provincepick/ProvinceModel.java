@@ -13,11 +13,11 @@ public class ProvinceModel implements PickerItem {
 
 	public String id; // 省份编码
 	public String name; // 名称
-	private ArrayList<CityModel> mCityList; // 城市列表
+	private List<CityModel> mCityList = new ArrayList<>(); // 城市列表
 
 	/**
 	 * 添加城市信息
-	 * 
+	 *
 	 * @param city
 	 */
 	public void addCity(CityModel city) {
@@ -25,15 +25,12 @@ public class ProvinceModel implements PickerItem {
 		if (null == city)
 			return;
 
-		if (null == mCityList)
-			mCityList = new ArrayList<CityModel>();
-
 		mCityList.add(city);
 	}
 
 	/**
 	 * 获取某个城市
-	 * 
+	 *
 	 * @param position
 	 * @return
 	 */
@@ -45,30 +42,30 @@ public class ProvinceModel implements PickerItem {
 	/**
 	 * @return
 	 */
-	public ArrayList<CityModel> getCityList() {
+	public List<CityModel> getCityList() {
 
-		return mCityList;
+		return new ArrayList(mCityList);
 	}
 
 	/**
 	 * 获取城市数量
-	 * 
+	 *
 	 * @return
 	 */
 	public int getCityCount() {
 
-		return (null == mCityList) ? 0 : mCityList.size();
+		return mCityList.size();
 	}
 
 	/**
 	 * 获取城市id列表
-	 * 
+	 *
 	 * @return
 	 */
 	public List<String> getCityIdList() {
 
 		int count = getCityCount();
-		List<String> cityIdList = new ArrayList<String>();
+		List<String> cityIdList = new ArrayList<>();
 
 		for (int i = 0; i < count; i++) {
 
@@ -80,13 +77,13 @@ public class ProvinceModel implements PickerItem {
 
 	/**
 	 * 获取城市名称列表
-	 * 
+	 *
 	 * @return
 	 */
 	public List<String> getCityNameList() {
 
 		int count = getCityCount();
-		List<String> cityList = new ArrayList<String>();
+		List<String> cityList = new ArrayList<>();
 
 		for (int i = 0; i < count; i++) {
 

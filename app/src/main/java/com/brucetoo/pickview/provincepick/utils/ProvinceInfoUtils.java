@@ -16,7 +16,7 @@ public class ProvinceInfoUtils {
 
 	/**
 	 * 匹配出出生地址信息
-	 * 
+	 *
 	 * @param cxt
 	 *            上下文
 	 * @param provinceId
@@ -34,7 +34,7 @@ public class ProvinceInfoUtils {
 		String province = "其他地区";
 		String city = "其他";
 		StringBuffer sb = new StringBuffer();
-		ProvinceModel provinceModel = null;
+		ProvinceModel provinceModel;
 
 		for (int i = 0; i < count; i++) {
 
@@ -43,7 +43,7 @@ public class ProvinceInfoUtils {
 			if (null != provinceModel && provinceModel.id.equals(provinceId)) {
 
 				int cityCount;
-				CityModel cityModel = null;
+				CityModel cityModel;
 
 				province = provinceModel.name;
 				cityCount = provinceModel.getCityCount();
