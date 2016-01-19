@@ -5,19 +5,23 @@ import com.brucetoo.pickview.PickViewTestSupport;
 import com.brucetoo.pickview.provincepick.CityModel;
 import com.brucetoo.pickview.provincepick.ProvinceModel;
 import com.brucetoo.pickview.provincepick.utils.ProvinceInfoUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
+
 public class ProvinceInfoUtilsTest extends PickViewTestSupport {
 
-
     private static final String VALID_RESPONSE = "ProvinceName 0  CityName 0";
+
     private static final String EMPTY_PROVINCE_RESPONSE = "ProvinceName 1  其他";
+
     private static final String INVALID_CITY_RESPONSE = "ProvinceName 0  其他";
+
     private static final String INVALID_RESPONSE = "其他地区  其他";
 
     @Test
@@ -41,43 +45,43 @@ public class ProvinceInfoUtilsTest extends PickViewTestSupport {
 
 
         // then
-        Assert.assertEquals(
+        assertEquals(
                 VALID_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, validProvinceId, validCityId, provinces));
 
-        Assert.assertEquals(
+        assertEquals(
                 EMPTY_PROVINCE_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, emptyProvinceId, validCityId, provinces));
 
-        Assert.assertEquals(
+        assertEquals(
                 INVALID_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, PROVINCE_ID, validCityId, provinces));
 
-        Assert.assertEquals(
+        assertEquals(
                 INVALID_CITY_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, validProvinceId, CITY_ID, provinces));
 
-        Assert.assertEquals(
+        assertEquals(
                 INVALID_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, validProvinceId, validCityId, new ArrayList<ProvinceModel>()));
 
-        Assert.assertEquals(
+        assertEquals(
                 INVALID_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, null, validCityId, provinces));
 
-        Assert.assertEquals(
+        assertEquals(
                 INVALID_CITY_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, validProvinceId, null, provinces));
 
-        Assert.assertEquals(
+        assertEquals(
                 INVALID_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, validProvinceId, validCityId, null));
 
-        Assert.assertEquals(
+        assertEquals(
                 INVALID_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, null, null, provinces));
 
-        Assert.assertEquals(
+        assertEquals(
                 INVALID_RESPONSE,
                 ProvinceInfoUtils.matchAddress(contextMock, null, null, null));
     }

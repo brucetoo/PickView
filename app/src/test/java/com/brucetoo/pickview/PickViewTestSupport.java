@@ -8,11 +8,15 @@ import java.util.ArrayList;
 public class PickViewTestSupport {
 
     protected static final String PROVINCE_ID = "ProvinceId";
+
     protected static final String PROVINCE_NAME = "ProvinceName";
+
     protected static final int PROVINCES_NUM = 10;
 
     protected static final String CITY_ID = "CityId";
+
     protected static final String CITY_NAME = "CityName";
+    
     protected static final int CITIES_NUM = 10;
 
     protected ArrayList<ProvinceModel> createProvinces() {

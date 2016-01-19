@@ -1,9 +1,10 @@
 package com.brucetoo.pickview;
 
 import com.brucetoo.pickview.provincepick.CityModel;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class CityModelTest extends PickViewTestSupport {
 
@@ -21,7 +22,7 @@ public class CityModelTest extends PickViewTestSupport {
         model.name = CITY_NAME;
 
         // then
-        Assert.assertEquals("CityName[CityId]", model.toString());
+        assertEquals("CityName[CityId]", model.toString());
     }
 
     @Test
@@ -29,11 +30,11 @@ public class CityModelTest extends PickViewTestSupport {
         // when
         model.name = CITY_NAME;
         // then
-        Assert.assertEquals(CITY_NAME, model.getText());
+        assertEquals(CITY_NAME, model.getText());
 
         // when
         model.name = null;
         // then
-        Assert.assertEquals("", model.getText());
+        assertEquals("", model.getText());
     }
 }

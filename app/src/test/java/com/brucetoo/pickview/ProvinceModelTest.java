@@ -2,15 +2,21 @@ package com.brucetoo.pickview;
 
 import com.brucetoo.pickview.provincepick.CityModel;
 import com.brucetoo.pickview.provincepick.ProvinceModel;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+
+
 public class ProvinceModelTest extends PickViewTestSupport {
 
     private ProvinceModel model;
+
     private CityModel[] cities;
 
     @Before
@@ -22,13 +28,13 @@ public class ProvinceModelTest extends PickViewTestSupport {
     @Test
     public void testGetCityIdList() {
         // when empty then
-        Assert.assertTrue(model.getCityIdList().isEmpty());
+        assertTrue(model.getCityIdList().isEmpty());
 
         // when
         model.addCity(new CityModel());
         // then
-        Assert.assertEquals(1, model.getCityIdList().size());
-        Assert.assertNull(model.getCityIdList().get(0));
+        assertEquals(1, model.getCityIdList().size());
+        assertNull(model.getCityIdList().get(0));
 
         // when
         for (CityModel city : cities) {
@@ -36,24 +42,24 @@ public class ProvinceModelTest extends PickViewTestSupport {
         }
 
         // then
-        Assert.assertEquals(CITIES_NUM + 1, model.getCityIdList().size());
-        Assert.assertNull(model.getCityIdList().get(0));
+        assertEquals(CITIES_NUM + 1, model.getCityIdList().size());
+        assertNull(model.getCityIdList().get(0));
 
         for (int i=0; i<cities.length; i++) {
-            Assert.assertEquals(cities[i].id, model.getCityIdList().get(i+1));
+            assertEquals(cities[i].id, model.getCityIdList().get(i+1));
         }
     }
 
     @Test
     public void testGetCityNameList() {
         // when empty then
-        Assert.assertTrue(model.getCityNameList().isEmpty());
+        assertTrue(model.getCityNameList().isEmpty());
 
         // when
         model.addCity(new CityModel());
         // then
-        Assert.assertEquals(1, model.getCityNameList().size());
-        Assert.assertNull(model.getCityNameList().get(0));
+        assertEquals(1, model.getCityNameList().size());
+        assertNull(model.getCityNameList().get(0));
 
         // when
         for (CityModel city : cities) {
@@ -61,11 +67,11 @@ public class ProvinceModelTest extends PickViewTestSupport {
         }
 
         // then
-        Assert.assertEquals(CITIES_NUM + 1, model.getCityNameList().size());
-        Assert.assertNull(model.getCityNameList().get(0));
+        assertEquals(CITIES_NUM + 1, model.getCityNameList().size());
+        assertNull(model.getCityNameList().get(0));
 
         for (int i=0; i<cities.length; i++) {
-            Assert.assertEquals(cities[i].name, model.getCityNameList().get(i+1));
+            assertEquals(cities[i].name, model.getCityNameList().get(i+1));
         }
     }
 
@@ -75,14 +81,14 @@ public class ProvinceModelTest extends PickViewTestSupport {
         CityModel cityModel = new CityModel();
 
         // when empty then
-        Assert.assertNull(model.getCity(0));
+        assertNull(model.getCity(0));
 
         // when
         model.addCity(cityModel);
         // then
-        Assert.assertEquals(cityModel, model.getCity(0));
-        Assert.assertNull(model.getCity(-1));
-        Assert.assertNull(model.getCity(1));
+        assertEquals(cityModel, model.getCity(0));
+        assertNull(model.getCity(-1));
+        assertNull(model.getCity(1));
 
         // when
         for (CityModel city : cities) {
@@ -90,29 +96,29 @@ public class ProvinceModelTest extends PickViewTestSupport {
         }
 
         // then
-        Assert.assertEquals(cityModel, model.getCity(0));
+        assertEquals(cityModel, model.getCity(0));
 
         for (int i=0; i<cities.length; i++) {
-            Assert.assertEquals(cities[i], model.getCity(i+1));
+            assertEquals(cities[i], model.getCity(i+1));
         }
 
-        Assert.assertNull(model.getCity(-1));
-        Assert.assertNull(model.getCity(CITIES_NUM + 1));
+        assertNull(model.getCity(-1));
+        assertNull(model.getCity(CITIES_NUM + 1));
     }
 
     @Test
     public void testAddCity() {
         // when empty then
-        Assert.assertEquals(0, model.getCityCount());
+        assertEquals(0, model.getCityCount());
 
         // when
         model.addCity(null);
-        Assert.assertEquals(0, model.getCityCount());
+        assertEquals(0, model.getCityCount());
 
         // when
         model.addCity(new CityModel());
         // then
-        Assert.assertEquals(1, model.getCityCount());
+        assertEquals(1, model.getCityCount());
 
         // when
         for (CityModel city : cities) {
@@ -120,22 +126,22 @@ public class ProvinceModelTest extends PickViewTestSupport {
         }
 
         // then
-        Assert.assertEquals(CITIES_NUM + 1, model.getCityCount());
+        assertEquals(CITIES_NUM + 1, model.getCityCount());
     }
 
     @Test
     public void testGetCityList() {
         // when empty then
-        Assert.assertNotNull(model.getCityList());
-        Assert.assertTrue(model.getCityList().isEmpty());
+        assertNotNull(model.getCityList());
+        assertTrue(model.getCityList().isEmpty());
 
         // given
         CityModel cityModel = new CityModel();
         // when
         model.addCity(cityModel);
         // then
-        Assert.assertEquals(1, model.getCityList().size());
-        Assert.assertTrue(model.getCityList().contains(cityModel));
+        assertEquals(1, model.getCityList().size());
+        assertTrue(model.getCityList().contains(cityModel));
 
         // when
         for (CityModel city : cities) {
@@ -143,8 +149,8 @@ public class ProvinceModelTest extends PickViewTestSupport {
         }
 
         // then
-        Assert.assertEquals(CITIES_NUM + 1, model.getCityList().size());
-        Assert.assertEquals(cityModel, model.getCityList().get(0));
+        assertEquals(CITIES_NUM + 1, model.getCityList().size());
+        assertEquals(cityModel, model.getCityList().get(0));
     }
 
     @Test
@@ -156,8 +162,8 @@ public class ProvinceModelTest extends PickViewTestSupport {
         initialList.add(new CityModel());
 
         // then
-        Assert.assertEquals(0, model.getCityList().size());
-        Assert.assertEquals(1, initialList.size());
+        assertEquals(0, model.getCityList().size());
+        assertEquals(1, initialList.size());
     }
 
     @Test
@@ -166,19 +172,19 @@ public class ProvinceModelTest extends PickViewTestSupport {
         model.id = PROVINCE_ID;
         model.name = PROVINCE_NAME;
         // then
-        Assert.assertEquals("ProvinceName[ProvinceId][0 cities]", model.toString());
+        assertEquals("ProvinceName[ProvinceId][0 cities]", model.toString());
 
         // when
         model.addCity(new CityModel());
         // then
-        Assert.assertEquals("ProvinceName[ProvinceId][1 cities]", model.toString());
+        assertEquals("ProvinceName[ProvinceId][1 cities]", model.toString());
 
         // when
         for (CityModel city : cities) {
             model.addCity(city);
         }
         // then
-        Assert.assertEquals("ProvinceName[ProvinceId][" + (CITIES_NUM + 1) + " cities]", model.toString());
+        assertEquals("ProvinceName[ProvinceId][" + (CITIES_NUM + 1) + " cities]", model.toString());
     }
 
     @Test
@@ -186,11 +192,11 @@ public class ProvinceModelTest extends PickViewTestSupport {
         // when
         model.name = PROVINCE_NAME;
         // then
-        Assert.assertEquals(PROVINCE_NAME, model.getText());
+        assertEquals(PROVINCE_NAME, model.getText());
 
         // when
         model.name = null;
         // then
-        Assert.assertEquals("", model.getText());
+        assertEquals("", model.getText());
     }
 }
