@@ -128,9 +128,8 @@ public class ProvinceModelTest extends PickViewTestSupport {
 
     @Test
     public void testGetCityList() {
-        // when empty then
-        assertNotNull(model.getCityList());
-        assertTrue(model.getCityList().isEmpty());
+        // when / then
+        assertNull(model.getCityList());
 
         // given
         CityModel cityModel = new CityModel();
@@ -148,19 +147,6 @@ public class ProvinceModelTest extends PickViewTestSupport {
         // then
         assertEquals(CITIES_NUM + 1, model.getCityList().size());
         assertEquals(cityModel, model.getCityList().get(0));
-    }
-
-    @Test
-    public void testGetCityProvateStateProtection() {
-        // given
-        List<CityModel> initialList = model.getCityList();
-
-        // when
-        initialList.add(new CityModel());
-
-        // then
-        assertEquals(0, model.getCityList().size());
-        assertEquals(1, initialList.size());
     }
 
     @Test

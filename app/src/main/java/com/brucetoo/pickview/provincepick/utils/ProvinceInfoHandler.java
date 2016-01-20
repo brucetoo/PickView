@@ -42,7 +42,7 @@ public class ProvinceInfoHandler extends DefaultHandler {
 		super.startDocument();
 
 		if (null == mList)
-			mList = new ArrayList<>();
+			mList = new ArrayList<ProvinceModel>();
 
 		mBuilder = new StringBuilder();
 	}

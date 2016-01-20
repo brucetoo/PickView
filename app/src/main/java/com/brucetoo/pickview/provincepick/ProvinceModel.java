@@ -13,7 +13,7 @@ public class ProvinceModel implements PickerItem {
 
 	public String id; // 省份编码
 	public String name; // 名称
-	private List<CityModel> mCityList = new ArrayList<>(); // 城市列表
+	private ArrayList<CityModel> mCityList; // 城市列表
 
 	/**
 	 * 添加城市信息
@@ -24,6 +24,9 @@ public class ProvinceModel implements PickerItem {
 
 		if (null == city)
 			return;
+
+		if (null == mCityList)
+			mCityList = new ArrayList<CityModel>();
 
 		mCityList.add(city);
 	}
@@ -42,9 +45,9 @@ public class ProvinceModel implements PickerItem {
 	/**
 	 * @return
 	 */
-	public List<CityModel> getCityList() {
+	public ArrayList<CityModel> getCityList() {
 
-		return new ArrayList(mCityList);
+		return mCityList;
 	}
 
 	/**
@@ -54,7 +57,7 @@ public class ProvinceModel implements PickerItem {
 	 */
 	public int getCityCount() {
 
-		return mCityList.size();
+		return (null == mCityList) ? 0 : mCityList.size();
 	}
 
 	/**
@@ -65,7 +68,7 @@ public class ProvinceModel implements PickerItem {
 	public List<String> getCityIdList() {
 
 		int count = getCityCount();
-		List<String> cityIdList = new ArrayList<>();
+		List<String> cityIdList = new ArrayList<String>();
 
 		for (int i = 0; i < count; i++) {
 
@@ -83,7 +86,7 @@ public class ProvinceModel implements PickerItem {
 	public List<String> getCityNameList() {
 
 		int count = getCityCount();
-		List<String> cityList = new ArrayList<>();
+		List<String> cityList = new ArrayList<String>();
 
 		for (int i = 0; i < count; i++) {
 

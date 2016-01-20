@@ -34,7 +34,7 @@ public class ProvinceInfoUtils {
 		String province = "其他地区";
 		String city = "其他";
 		StringBuffer sb = new StringBuffer();
-		ProvinceModel provinceModel;
+		ProvinceModel provinceModel = null;
 
 		for (int i = 0; i < count; i++) {
 
@@ -43,7 +43,7 @@ public class ProvinceInfoUtils {
 			if (null != provinceModel && provinceModel.id.equals(provinceId)) {
 
 				int cityCount;
-				CityModel cityModel;
+				CityModel cityModel = null;
 
 				province = provinceModel.name;
 				cityCount = provinceModel.getCityCount();
