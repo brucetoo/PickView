@@ -28,7 +28,7 @@ public class ProvinceInfoHandler extends DefaultHandler {
 
 	/**
 	 * 返回解析后得到的省份信息列表
-	 * 
+	 *
 	 * @return 省份信息列表
 	 */
 	public List<ProvinceModel> getProvinceList() {
