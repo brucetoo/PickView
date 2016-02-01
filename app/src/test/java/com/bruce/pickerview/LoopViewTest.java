@@ -2,7 +2,7 @@ package com.bruce.pickerview;
 
 import android.graphics.Canvas;
 
-import com.brucetoo.pickview.*;
+import com.brucetoo.pickview.MainActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,20 +28,51 @@ public class LoopViewTest {
         MainActivity mContext = Robolectric.setupActivity(MainActivity.class);
 
         loopView = new LoopView(mContext);
-        loopView.setTextSize(16.0f);
-        loopView.setArrayList(new ArrayList(Arrays.asList("1", "2", "3")));
-        loopView.setInitPosition(1);
+        loopView.setTextSize(12.0f);
+        loopView.setNotLoop();
+        Whitebox.setInternalState(loopView, "maxTextHeight", 12);
+
+        loopView.setArrayList(new ArrayList(Arrays.asList("1", "2", "3", "4", "5", "6", "7")));
+        loopView.setInitPosition(3);
     }
 
     @Test
-    public void testInitialSelectedItem() {
-        assertEquals(0, loopView.getSelectedItem());
+    public void testInitialSelectedItem() throws Exception {
+        // when
+        Whitebox.invokeMethod(loopView, "onDraw", new Canvas());
+
+        // then
+        assertEquals(3, loopView.getSelectedItem());
     }
 
     @Test
     public void testChangeOfSelectedItemDown() throws Exception {
         // given
-        Whitebox.setInternalState(loopView, "totalScrollY", 50);
+        Whitebox.setInternalState(loopView, "totalScrollY", 20);
+
+        // when
+        Whitebox.invokeMethod(loopView, "onDraw", new Canvas());
+
+        // then
+        assertEquals(4, loopView.getSelectedItem());
+    }
+
+    @Test
+    public void testChangeOfSelectedItemUp() throws Exception {
+        // given
+        Whitebox.setInternalState(loopView, "totalScrollY", -20);
+
+        // when
+        Whitebox.invokeMethod(loopView, "onDraw", new Canvas());
+
+        // then
+        assertEquals(2, loopView.getSelectedItem());
+    }
+
+    @Test
+    public void testChangeOfSelectedItemMaxUp() throws Exception {
+        // given
+        Whitebox.setInternalState(loopView, "totalScrollY", 150);
 
         // when
         Whitebox.invokeMethod(loopView, "onDraw", new Canvas());
@@ -51,9 +82,9 @@ public class LoopViewTest {
     }
 
     @Test
-    public void testChangeOfSelectedItemUp() throws Exception {
+    public void testChangeOfSelectedItemMaxDown() throws Exception {
         // given
-        Whitebox.setInternalState(loopView, "totalScrollY", -50);
+        Whitebox.setInternalState(loopView, "totalScrollY", -150);
 
         // when
         Whitebox.invokeMethod(loopView, "onDraw", new Canvas());
