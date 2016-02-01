@@ -1,4 +1,10 @@
+//apply plugin: 'java-robolectric'
 apply plugin: 'jacoco'
+
+//robolectric {
+//    include '**/*Test.class'
+//    maxHeapSize = "2048m"
+//}
 
 jacoco {
     toolVersion = "0.7.5.201505241946"
@@ -18,7 +24,7 @@ task testDebugUnitTestCoverage (type:JacocoReport, dependsOn: "testDebugUnitTest
                        '**/Manifest*.*']
     )
 
-    def coverageSourceDirs = ["src/main/java"]
+    def coverageSourceDirs = ["src/main/java", 'src/gen']
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
     executionData = files("${project.buildDir}/jacoco/testDebugUnitTest.exec")
@@ -28,3 +34,5 @@ task testDebugUnitTestCoverage (type:JacocoReport, dependsOn: "testDebugUnitTest
         html.enabled = true
     }
 }
+
+
