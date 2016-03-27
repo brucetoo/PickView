@@ -1,11 +1,7 @@
-package com.brucetoo.pickview;
+package com.brucetoo.pickview.provincepick;
 
-import com.brucetoo.pickview.provincepick.CityModel;
-import com.brucetoo.pickview.provincepick.ProvinceModel;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 

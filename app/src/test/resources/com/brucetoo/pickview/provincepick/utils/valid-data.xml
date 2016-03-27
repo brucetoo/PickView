@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<citydata>
+    <province id="ProvinceId-0" name="ProvinceName 0"/>
+    <province id="ProvinceId-1" name="ProvinceName 1">
+        <city id="CityId-0" name="CityName 0"/>
+        <city id="CityId-1" name="CityName 1"/>
+        <city id="CityId-2" name="CityName 2"/>
+        <city id="CityId-3" name="CityName 3"/>
+        <city id="CityId-4" name="CityName 4"/>
+        <city id="CityId-5" name="CityName 5"/>
+        <city id="CityId-6" name="CityName 6"/>
+        <city id="CityId-7" name="CityName 7"/>
+        <city id="CityId-8" name="CityName 8"/>
+        <city id="CityId-9" name="CityName 9"/>
+    </province>
+    <province id="ProvinceId-2" name="ProvinceName 2" />
+    <province id="ProvinceId-3" name="ProvinceName 3" />
+    <province id="ProvinceId-4" name="ProvinceName 4" />
+    <province id="ProvinceId-5" name="ProvinceName 5" />
+    <province id="ProvinceId-6" name="ProvinceName 6" />
+    <province id="ProvinceId-7" name="ProvinceName 7" />
+    <province id="ProvinceId-8" name="ProvinceName 8" />
+    <province id="ProvinceId-9" name="ProvinceName 9" />
+</citydata>

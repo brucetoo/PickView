@@ -1,6 +1,5 @@
-package com.brucetoo.pickview;
+package com.brucetoo.pickview.provincepick;
 
-import com.brucetoo.pickview.provincepick.CityModel;
 import org.junit.Before;
 import org.junit.Test;
 
