@@ -30,10 +30,10 @@ public class LoopView extends View {
     private GestureDetector.SimpleOnGestureListener simpleOnGestureListener;
     Context context;
     Paint paintA;  //paint that draw top and bottom text
-    Paint paintB;  // paint that draw center text
+    Paint mTextpaint;  // paint that draw center text
     Paint paintC;  // paint that draw line besides center text
     ArrayList arrayList;
-    int textSize;
+    int mTextSize;
     int maxTextWidth;
     int maxTextHeight;
     int colorGray;
@@ -47,6 +47,7 @@ public class LoopView extends View {
     int initPosition;
     int itemCount;
     int measuredHeight;
+    int realHeight;
     int halfCircumference;
     int radius;
     int measuredWidth;
@@ -73,7 +74,7 @@ public class LoopView extends View {
     }
 
     private void initLoopView(Context context) {
-        textSize = 0;
+        mTextSize = 0;
         colorGray = 0xffafafaf;
         colorBlack = 0xff313131;
         colorGrayLight = 0xffc5c5c5;
@@ -91,7 +92,7 @@ public class LoopView extends View {
         setTextSize(16F);
 
         paintA = new Paint();
-        paintB = new Paint();
+        mTextpaint = new Paint();
         paintC = new Paint();
         if (android.os.Build.VERSION.SDK_INT >= 11) {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
@@ -115,28 +116,26 @@ public class LoopView extends View {
         paintA.setColor(colorGray);
         paintA.setAntiAlias(true);
         paintA.setTypeface(Typeface.MONOSPACE);
-        paintA.setTextSize(textSize);
-        paintB.setColor(colorBlack);
-        paintB.setAntiAlias(true);
-        paintB.setTextScaleX(1.05F);
-        paintB.setTypeface(Typeface.MONOSPACE);
-        paintB.setTextSize(textSize);
+        paintA.setTextSize(mTextSize);
+        mTextpaint.setColor(colorBlack);
+        mTextpaint.setAntiAlias(true);
+        mTextpaint.setTextScaleX(1.05F);
+        mTextpaint.setTypeface(Typeface.MONOSPACE);
+        mTextpaint.setTextSize(mTextSize);
         paintC.setColor(colorGrayLight);
         paintC.setAntiAlias(true);
         paintC.setTypeface(Typeface.MONOSPACE);
-        paintC.setTextSize(textSize);
+        paintC.setTextSize(mTextSize);
         measureTextWidthHeight();
+        //计算半圆周 -- maxTextHeight * lineSpacingMultiplier 表示每个item的高度  itemCount = 7
+        //实际显示5个,留两个是在圆周的上下面
+        //lineSpacingMultiplier是指text上下的距离的值和maxTextHeight一样的意思 所以 = 2
+        //itemCount - 1 代表圆周的上下两面各被剪切了一半 相当于高度少了一个 maxTextHeight
         halfCircumference = (int) (maxTextHeight * lineSpacingMultiplier * (itemCount - 1));
+        //计算圆周的直径 相当于控件的高
         measuredHeight = (int) ((halfCircumference * 2) / Math.PI);
+        //计算圆周的半径
         radius = (int) (halfCircumference / Math.PI);
-//        int extraRightWidth = (int) (maxTextWidth * 0.05) + 1;
-//        if (paddingRight<=extraRightWidth) {
-//            paddingRight = extraRightWidth;
-//        }
-        //TODO  padding may be not useful,so ignore this
-//        measuredWidth = maxTextWidth + paddingLeft + paddingRight;
-        firstLineY = (int) ((measuredHeight - lineSpacingMultiplier * maxTextHeight) / 2.0F);
-        secondLineY = (int) ((measuredHeight + lineSpacingMultiplier * maxTextHeight) / 2.0F);
         if (initPosition == -1) {
             if (isLoop) {
                 initPosition = (arrayList.size() + 1) / 2;
@@ -151,12 +150,13 @@ public class LoopView extends View {
         Rect rect = new Rect();
         for (int i = 0; i < arrayList.size(); i++) {
             String s1 = (String) arrayList.get(i);
-            paintB.getTextBounds(s1, 0, s1.length(), rect);
+            mTextpaint.getTextBounds(s1, 0, s1.length(), rect);
             int textWidth = rect.width();
             if (textWidth > maxTextWidth) {
                 maxTextWidth = textWidth;
             }
-            paintB.getTextBounds("\u661F\u671F", 0, 2, rect); // 星期
+            //此处计算应该有问题 该通过整个控件的高度来确定 而不是通过计算 “星期”的高度
+//            mTextpaint.getTextBounds("\u661F\u671F", 0, 2, rect); // 星期
             int textHeight = rect.height();
             if (textHeight > maxTextHeight) {
                 maxTextHeight = textHeight;
@@ -165,12 +165,6 @@ public class LoopView extends View {
 
     }
 
-//    private void smoothScroll() {
-//        int offset = (int) ((float) totalScrollY % (lineSpacingMultiplier * (float) maxTextHeight));
-//        Timer timer = new Timer();
-//        mTimer = timer;
-//        timer.schedule(new MTimer(this, offset, timer), 0L, 10L);
-//    }
 
     private void smoothScroll() {
         int offset = (int) (totalScrollY % (lineSpacingMultiplier * maxTextHeight));
@@ -191,12 +185,13 @@ public class LoopView extends View {
 
     public final void setTextSize(float size) {
         if (size > 0.0F) {
-            textSize = (int) (context.getResources().getDisplayMetrics().density * size);
+            mTextSize = (int) (context.getResources().getDisplayMetrics().density * size);
         }
     }
 
     public final void setInitPosition(int initPosition) {
         this.initPosition = initPosition;
+        invalidate();
     }
 
     public final void setListener(LoopListener LoopListener) {
@@ -209,30 +204,9 @@ public class LoopView extends View {
         invalidate();
     }
 
-//    @Override
-//    public int getPaddingLeft() {
-//        return paddingLeft;
-//    }
-//
-//    @Override
-//    public int getPaddingRight() {
-//        return paddingRight;
-//    }
-//
-//    public void setViewPadding(int left, int top, int right, int bottom) {
-//        paddingLeft = left;
-//        paddingRight = right;
-//    }
-
     public final int getSelectedItem() {
         return selectedItem;
     }
-//
-//    protected final void smoothScroll(float velocityY) {
-//        Timer timer = new Timer();
-//        mTimer = timer;
-//        timer.schedule(new LoopTimerTask(this, velocityY, timer), 0L, 20L);
-//    }
 
     protected final void smoothScroll(float velocityY) {
         cancelFuture();
@@ -248,12 +222,21 @@ public class LoopView extends View {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        measuredWidth = getMeasuredWidth();
+        realHeight = getMeasuredHeight();
+    }
+
+
+    @Override
     protected void onDraw(Canvas canvas) {
         String as[];
         if (arrayList == null) {
             super.onDraw(canvas);
             return;
         }
+        int paddingLeftRight = (realHeight - measuredHeight)/2;
         as = new String[itemCount];
         change = (int) (totalScrollY / (lineSpacingMultiplier * maxTextHeight));
         preCurrentIndex = initPosition + change % arrayList.size();
@@ -303,9 +286,9 @@ public class LoopView extends View {
 //        int left = paddingLeft;
         //auto calculate the text's left value when draw
         int left = (measuredWidth - maxTextWidth)/2;
-//        Log.e("measuredWidth","onDraw:"+measuredWidth);
-//        Log.e("measuredWidth","onDraw / 2:"+ (measuredWidth - maxTextWidth)/2);
 
+        firstLineY = (int) ((measuredHeight - lineSpacingMultiplier * maxTextHeight) / 2.0F) + paddingLeftRight;
+        secondLineY = (int) ((measuredHeight + lineSpacingMultiplier * maxTextHeight) / 2.0F) + paddingLeftRight;
         canvas.drawLine(0.0F, firstLineY, measuredWidth, firstLineY, paintC);
         canvas.drawLine(0.0F, secondLineY, measuredWidth, secondLineY, paintC);
         int j1 = 0;
@@ -319,7 +302,7 @@ public class LoopView extends View {
             if (angle >= 90F || angle <= -90F) {
                 canvas.restore();
             } else {
-                int translateY = (int) (radius - Math.cos(radian) * radius - (Math.sin(radian) * maxTextHeight) / 2D);
+                int translateY = (int) (radius - Math.cos(radian) * radius - (Math.sin(radian) * maxTextHeight) / 2D) + paddingLeftRight;
                 canvas.translate(0.0F, translateY);
                 canvas.scale(1.0F, (float) Math.sin(radian));
                 if (translateY <= firstLineY && maxTextHeight + translateY >= firstLineY) {
@@ -330,12 +313,12 @@ public class LoopView extends View {
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, firstLineY - translateY, measuredWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], left, maxTextHeight, paintB);
+                    canvas.drawText(as[j1], left, maxTextHeight, mTextpaint);
                     canvas.restore();
                 } else if (translateY <= secondLineY && maxTextHeight + translateY >= secondLineY) {
                     canvas.save();
                     canvas.clipRect(0, 0, measuredWidth, secondLineY - translateY);
-                    canvas.drawText(as[j1], left, maxTextHeight, paintB);
+                    canvas.drawText(as[j1], left, maxTextHeight, mTextpaint);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, secondLineY - translateY, measuredWidth, (int) (itemHeight));
@@ -343,7 +326,7 @@ public class LoopView extends View {
                     canvas.restore();
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
                     canvas.clipRect(0, 0, measuredWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], left, maxTextHeight, paintB);
+                    canvas.drawText(as[j1], left, maxTextHeight, mTextpaint);
                     selectedItem = arrayList.indexOf(as[j1]);
                 } else {
                     canvas.clipRect(0, 0, measuredWidth, (int) (itemHeight));
@@ -354,14 +337,6 @@ public class LoopView extends View {
             j1++;
         }
         super.onDraw(canvas);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        initData();
-        measuredWidth = getMeasuredWidth();
-//        Log.e("measuredWidth", "onMeasure:" + measuredWidth);
     }
 
     @Override
