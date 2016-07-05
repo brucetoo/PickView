@@ -56,6 +56,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     private int colorConfirm;
     private int btnTextsize;//text btnTextsize of cancel and confirm button
     private int viewTextSize;
+    private boolean showDayMonthYear;
 
     List<String> yearList = new ArrayList();
     List<String> monthList = new ArrayList();
@@ -72,6 +73,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         }
 
         //Option
+        private boolean showDayMonthYear = false;
         private int minYear = DEFAULT_MIN_YEAR;
         private int maxYear = Calendar.getInstance().get(Calendar.YEAR)+1;
         private String textCancel = "Cancel";
@@ -137,6 +139,11 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             }
             return new DatePickerPopWin(this);
         }
+
+        public Builder showDayMonthYear(boolean useDayMonthYear) {
+            this.showDayMonthYear = useDayMonthYear;
+            return this;
+        }
     }
 
     public DatePickerPopWin(Builder builder){
@@ -150,6 +157,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         this.colorConfirm = builder.colorConfirm;
         this.btnTextsize = builder.btnTextSize;
         this.viewTextSize = builder.viewTextSize;
+        this.showDayMonthYear = builder.showDayMonthYear;
         setSelectedDate(builder.dateChose);
         initView();
     }
@@ -158,8 +166,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
     private void initView() {
 
-        contentView = LayoutInflater.from(mContext).inflate(
-                R.layout.layout_date_picker, null);
+        contentView = LayoutInflater.from(mContext).inflate(showDayMonthYear ? R.layout.layout_date_picker_inverted : R.layout.layout_date_picker, null);
         cancelBtn = (Button) contentView.findViewById(R.id.btn_cancel);
         confirmBtn = (Button) contentView.findViewById(R.id.btn_confirm);
         yearLoopView = (LoopView) contentView.findViewById(R.id.picker_year);
@@ -395,7 +402,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     }
 
     public static String getStrDate() {
-        SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
+        SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         return dd.format(new Date());
     }
 
