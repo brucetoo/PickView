@@ -33,7 +33,9 @@ Add more custom attributes, Just see below  version 1.1.1
       
    ```
 
- ## About LoopView
+
+## About LoopView 
+  in version 1.2.0,can use LoopView like:
  
  ```java
     
@@ -69,7 +71,7 @@ Add more custom attributes, Just see below  version 1.1.1
 
 ```java 
 
-   compile 'com.brucetoo.pickview:library:1.1.1' (not recently)
+   compile 'com.brucetoo.pickview:library:1.2.0'
  
 ```
 
