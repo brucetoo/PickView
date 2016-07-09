@@ -23,12 +23,43 @@ WheelView widget.
                    });
   
   ```
+ ##About LoopView
+ 
+ ```java
+    
+        <com.bruce.pickerview.LoopView
+            android:id="@+id/loop_view"
+            android:layout_width="200dp"
+            android:layout_height="180dp"
+            android:layout_below="@+id/demo"
+            app:canLoop="true"
+            app:centerTextColor="#ff000000"
+            app:drawItemCount="7" <!-- must be odd number -->
+            app:initPosition="3"
+            app:lineColor="@color/colorPrimary"
+            app:textSize="25sp"
+            app:topBottomTextColor="#ffafafaf"/>
+            
+            
+         loopView = (LoopView) findViewById(R.id.loop_view);
+                loopView.setInitPosition(2);
+                loopView.setCanLoop(false);
+                loopView.setLoopListener(new LoopScrollListener() {
+                    @Override
+                    public void onItemSelect(int item) {
+                        
+                    }
+                });
+                loopView.setTextSize(25);//must be called before setDateList
+                loopView.setDataList(getList());    
+ 
+ ```
 
 #Dependencies
 
 ```java 
 
-   compile 'com.brucetoo.pickview:library:1.0.0'
+   compile 'com.brucetoo.pickview:library:1.0.0' (not recently)
  
 ```
 
@@ -45,7 +76,7 @@ WheelView widget.
  
 ## License
 
-Copyright 2015 Bruce too
+Copyright 2015 - 2016 Bruce too
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
