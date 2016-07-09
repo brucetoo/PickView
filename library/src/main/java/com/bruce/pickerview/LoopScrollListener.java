@@ -5,6 +5,6 @@
 package com.bruce.pickerview;
 
 
-public interface LoopListener {
+public interface LoopScrollListener {
     void onItemSelect(int item);
 }

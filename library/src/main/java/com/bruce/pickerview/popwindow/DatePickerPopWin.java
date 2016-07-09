@@ -17,7 +17,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
-import com.bruce.pickerview.LoopListener;
+import com.bruce.pickerview.LoopScrollListener;
 import com.bruce.pickerview.LoopView;
 import com.bruce.pickerview.R;
 
@@ -132,32 +132,32 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         dayLoopView = (LoopView) contentView.findViewById(R.id.picker_day);
         pickerContainerV = contentView.findViewById(R.id.container_picker);
 
-        //do not loop,default can loop
-        yearLoopView.setNotLoop();
-        monthLoopView.setNotLoop();
-        dayLoopView.setNotLoop();
-
-        //set loopview text size
-        yearLoopView.setTextSize(25);
-        monthLoopView.setTextSize(25);
-        dayLoopView.setTextSize(25);
+//        //do not loop,default can loop
+//        yearLoopView.setNotLoop();
+//        monthLoopView.setNotLoop();
+//        dayLoopView.setNotLoop();
+//
+//        //set loopview text size
+//        yearLoopView.setTextSize(25);
+//        monthLoopView.setTextSize(25);
+//        dayLoopView.setTextSize(25);
 
         //set checked listen
-        yearLoopView.setListener(new LoopListener() {
+        yearLoopView.setLoopListener(new LoopScrollListener() {
             @Override
             public void onItemSelect(int item) {
                 yearPos = item;
                 initDayPickerView();
             }
         });
-        monthLoopView.setListener(new LoopListener() {
+        monthLoopView.setLoopListener(new LoopScrollListener() {
             @Override
             public void onItemSelect(int item) {
                 monthPos = item;
                 initDayPickerView();
             }
         });
-        dayLoopView.setListener(new LoopListener() {
+        dayLoopView.setLoopListener(new LoopScrollListener() {
             @Override
             public void onItemSelect(int item) {
                 dayPos = item;
@@ -197,10 +197,10 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             monthList.add(format2LenStr(j + 1));
         }
 
-        yearLoopView.setArrayList((ArrayList) yearList);
+        yearLoopView.setDataList((ArrayList) yearList);
         yearLoopView.setInitPosition(yearPos);
 
-        monthLoopView.setArrayList((ArrayList) monthList);
+        monthLoopView.setDataList((ArrayList) monthList);
         monthLoopView.setInitPosition(monthPos);
     }
 
@@ -223,7 +223,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             dayList.add(format2LenStr(i + 1));
         }
 
-        dayLoopView.setArrayList((ArrayList) dayList);
+        dayLoopView.setDataList((ArrayList) dayList);
         dayLoopView.setInitPosition(dayPos);
     }
 
