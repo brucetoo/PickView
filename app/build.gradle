@@ -13,9 +13,9 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        debug {
-            testCoverageEnabled = true
-        }
+//        debug {
+//            testCoverageEnabled = true
+//        }
 
         release {
             minifyEnabled false
@@ -23,43 +23,44 @@ android {
         }
     }
 
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
+//    testOptions {
+//        unitTests.returnDefaultValues = true
+//    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:robolectric:3.1-SNAPSHOT'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.3'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.3'
+//    testCompile 'org.mockito:mockito-core:1.10.19'
+//    testCompile 'org.robolectric:robolectric:3.1'
+//    testCompile 'org.powermock:powermock-module-junit4:1.6.3'
+//    testCompile 'org.powermock:powermock-api-mockito:1.6.3'
 
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
-    compile 'com.brucetoo.pickview:library:1.1.1'
+    compile project(":library")
+//    compile 'com.brucetoo.pickview:library:1.1.1'
 }
 
-cobertura {
-    coverageFormats = ['html', 'xml']
-    coverageIgnoreTrivial = true
-
-    coverageIncludes = ['.*com.bruce.pickerview.*',
-                        '.*com.brucetoo.pickview.*' ]
-
-    coverageExcludes = ['.*android.support.*',
-                       '.*com.brucetoo.pickview.R.*',
-                       '.*com.bruce.pickerview.R.*',
-                       '.*$ViewInjector.*',
-                       '.*$ViewBinder.*',
-                       '.*BuildConfig.*',
-                       '.*Manifest.*',
-                       // remove non-completed code from scope
-                       '.*ProvincePickPopWin.*',
-                       '.*PickerView.*'
-                      ]
-
-    coverageReportDir = new File("$buildDir/reports/cobertura")
-}
+//cobertura {
+//    coverageFormats = ['html', 'xml']
+//    coverageIgnoreTrivial = true
+//
+//    coverageIncludes = ['.*com.bruce.pickerview.*',
+//                        '.*com.brucetoo.pickview.*' ]
+//
+//    coverageExcludes = ['.*android.support.*',
+//                       '.*com.brucetoo.pickview.R.*',
+//                       '.*com.bruce.pickerview.R.*',
+//                       '.*$ViewInjector.*',
+//                       '.*$ViewBinder.*',
+//                       '.*BuildConfig.*',
+//                       '.*Manifest.*',
+//                       // remove non-completed code from scope
+//                       '.*ProvincePickPopWin.*',
+//                       '.*PickerView.*'
+//                      ]
+//
+//    coverageReportDir = new File("$buildDir/reports/cobertura")
+//}

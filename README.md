@@ -10,20 +10,30 @@ WheelView widget.
 ![picker](./datepick.gif)
 
 ##How to use
-> 1. Pick date is even with single step... version 1.0.1
 
-  ```java
+Add more custom attributes, Just see below  version 1.1.1
+    
+   ```java
+          
+         DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
+                          @Override
+                          public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
+                              Toast.makeText(MainActivity.this, dateDesc, Toast.LENGTH_SHORT).show();
+                          }
+                       }).textConfirm("CONFIRM") //text of confirm button
+                              .textCancel("CANCEL") //text of cancel button
+                              .btnTextSize(16) // button text size
+                              .viewTextSize(25) // pick view text size
+                              .colorCancel(Color.parseColor("#999999")) //color of cancel button
+                              .colorConfirm(Color.parseColor("#009900"))//color of confirm button
+                              .minYear(1990) //min year in loop
+                              .maxYear(2550) // max year in loop
+                              .dateChose("2013-11-11") // date chose when init popwindow
+                              .build();
       
-    DatePickerPopWin pickerPopWin = new DatePickerPopWin(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
-                       @Override
-                       public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
-                       //handler the result here
-                           Toast.makeText(MainActivity.this,dateDesc,Toast.LENGTH_SHORT).show();
-                       }
-                   });
-  
-  ```
- ##About LoopView
+   ```
+
+ ## About LoopView
  
  ```java
     
@@ -55,36 +65,11 @@ WheelView widget.
  
  ```
 
->2.Add more custom attributes, Just see below  version 1.1.1
-    
-   ```java
-          
-         DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
-                          @Override
-                          public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
-                              Toast.makeText(MainActivity.this, dateDesc, Toast.LENGTH_SHORT).show();
-                          }
-                       }).textConfirm("CONFIRM") //text of confirm button
-                              .textCancel("CANCEL") //text of cancel button
-                              .btnTextSize(16) // button text size
-                              .viewTextSize(25) // pick view text size
-                              .colorCancel(Color.parseColor("#999999")) //color of cancel button
-                              .colorConfirm(Color.parseColor("#009900"))//color of confirm button
-                              .minYear(1990) //min year in loop
-                              .maxYear(2550) // max year in loop
-                              .dateChose("2013-11-11") // date chose when init popwindow
-                              .build();
-      
-   ```
 #Dependencies
 
 ```java 
 
-<<<<<<< HEAD
-   compile 'com.brucetoo.pickview:library:1.1.1'
-=======
-   compile 'com.brucetoo.pickview:library:1.0.0' (not recently)
->>>>>>> reconstuct
+   compile 'com.brucetoo.pickview:library:1.1.1' (not recently)
  
 ```
 
