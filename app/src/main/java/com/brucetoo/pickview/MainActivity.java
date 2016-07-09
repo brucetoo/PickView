@@ -8,13 +8,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bruce.pickerview.LoopScrollListener;
+import com.bruce.pickerview.LoopView;
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity{
 
 //    private ArrayList<ProvinceModel> mProvinceList = null; // 省份列表
 //    private String mProvince = null; // 省份
 //    private String mCity = null; // 城市
+    private LoopView loopView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,27 @@ public class MainActivity extends AppCompatActivity {
 //                }
             }
         });
+
+        loopView = (LoopView) findViewById(R.id.loop_view);
+        loopView.setInitPosition(2);
+        loopView.setCanLoop(false);
+        loopView.setLoopListener(new LoopScrollListener() {
+            @Override
+            public void onItemSelect(int item) {
+
+            }
+        });
+        loopView.setTextSize(25);//must be called before setDateList
+        loopView.setDataList(getList());
 //        ((new ProvinceInfoParserTask(this, mHandler))).execute();// 解析本地地址信息文件
+    }
+
+    public ArrayList<String> getList(){
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            list.add("DAY TEST:" + i);
+        }
+        return list;
     }
 
 
