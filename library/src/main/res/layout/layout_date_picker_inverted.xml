@@ -50,9 +50,10 @@
                 android:layout_height="match_parent" >
 
                 <com.bruce.pickerview.LoopView
-                    android:id="@+id/picker_year"
+                    android:id="@+id/picker_day"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
                     android:layout_weight="1" />
 
                 <com.bruce.pickerview.LoopView
@@ -63,10 +64,9 @@
                     android:layout_weight="1" />
 
                 <com.bruce.pickerview.LoopView
-                    android:id="@+id/picker_day"
+                    android:id="@+id/picker_year"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
                     android:layout_weight="1" />
             </LinearLayout>
         </RelativeLayout>

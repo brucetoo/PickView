@@ -17,7 +17,7 @@ public class ProvinceModel implements PickerItem {
 
 	/**
 	 * 添加城市信息
-	 * 
+	 *
 	 * @param city
 	 */
 	public void addCity(CityModel city) {
@@ -33,7 +33,7 @@ public class ProvinceModel implements PickerItem {
 
 	/**
 	 * 获取某个城市
-	 * 
+	 *
 	 * @param position
 	 * @return
 	 */
@@ -52,7 +52,7 @@ public class ProvinceModel implements PickerItem {
 
 	/**
 	 * 获取城市数量
-	 * 
+	 *
 	 * @return
 	 */
 	public int getCityCount() {
@@ -62,7 +62,7 @@ public class ProvinceModel implements PickerItem {
 
 	/**
 	 * 获取城市id列表
-	 * 
+	 *
 	 * @return
 	 */
 	public List<String> getCityIdList() {
@@ -80,7 +80,7 @@ public class ProvinceModel implements PickerItem {
 
 	/**
 	 * 获取城市名称列表
-	 * 
+	 *
 	 * @return
 	 */
 	public List<String> getCityNameList() {

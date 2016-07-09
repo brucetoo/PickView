@@ -28,7 +28,7 @@ public class ProvinceInfoHandler extends DefaultHandler {
 
 	/**
 	 * 返回解析后得到的省份信息列表
-	 * 
+	 *
 	 * @return 省份信息列表
 	 */
 	public List<ProvinceModel> getProvinceList() {
@@ -52,12 +52,12 @@ public class ProvinceInfoHandler extends DefaultHandler {
 
 		super.startElement(uri, localName, qName, attributes);
 
-		if ("province".equals(localName)) {
+		if ("province".equals(qName)) {
 
 			mProvince = new ProvinceModel();
 			mProvince.id = attributes.getValue("id");
 			mProvince.name = attributes.getValue("name");
-		} else if ("city".equals(localName)) {
+		} else if ("city".equals(qName)) {
 
 			mCity = new CityModel();
 			mCity.id = attributes.getValue("id");
@@ -80,10 +80,10 @@ public class ProvinceInfoHandler extends DefaultHandler {
 
 		super.endElement(uri, localName, qName);
 
-		if ("province".equals(localName)) {
+		if ("province".equals(qName)) {
 
 			mList.add(mProvince);
-		} else if ("city".equals(localName)) {
+		} else if ("city".equals(qName)) {
 
 			mProvince.addCity(mCity);
 		}
