@@ -87,13 +87,19 @@ public class LoopView extends View {
     }
 
     public LoopView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        super(context, attrs, defStyleAttr);
+        initView(context,attrs);
     }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public LoopView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        initView(context,attrs);
+    }
 
+
+    private void initView(Context context,AttributeSet attrs) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.LoopView);
         if (array != null) {
             mTopBottomTextColor = array.getColor(R.styleable.LoopView_topBottomTextColor, 0xffafafaf);
