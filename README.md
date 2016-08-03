@@ -28,6 +28,7 @@ Add more custom attributes, Just see below  version 1.1.1
                               .colorConfirm(Color.parseColor("#009900"))//color of confirm button
                               .minYear(1990) //min year in loop
                               .maxYear(2550) // max year in loop
+                              .showDayMonthYear(true) // shows like dd mm yyyy (default is false) 
                               .dateChose("2013-11-11") // date chose when init popwindow
                               .build();
       
