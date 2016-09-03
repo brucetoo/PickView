@@ -213,6 +213,14 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         confirmBtn.setOnClickListener(this);
         contentView.setOnClickListener(this);
 
+        if(!TextUtils.isEmpty(textConfirm)){
+            confirmBtn.setText(textConfirm);
+        }
+
+        if(!TextUtils.isEmpty(textCancel)){
+            cancelBtn.setText(textCancel);
+        }
+
         setTouchable(true);
         setFocusable(true);
         // setOutsideTouchable(true);
