@@ -168,7 +168,11 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
         contentView = LayoutInflater.from(mContext).inflate(showDayMonthYear ? R.layout.layout_date_picker_inverted : R.layout.layout_date_picker, null);
         cancelBtn = (Button) contentView.findViewById(R.id.btn_cancel);
+        cancelBtn.setTextColor(colorCancel);
+        cancelBtn.setTextSize(btnTextsize);
         confirmBtn = (Button) contentView.findViewById(R.id.btn_confirm);
+        confirmBtn.setTextColor(colorConfirm);
+        confirmBtn.setTextSize(btnTextsize);
         yearLoopView = (LoopView) contentView.findViewById(R.id.picker_year);
         monthLoopView = (LoopView) contentView.findViewById(R.id.picker_month);
         dayLoopView = (LoopView) contentView.findViewById(R.id.picker_day);
