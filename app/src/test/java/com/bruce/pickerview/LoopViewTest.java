@@ -12,7 +12,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -29,10 +28,9 @@ public class LoopViewTest {
 
         loopView = new LoopView(mContext);
         loopView.setTextSize(12.0f);
-        loopView.setNotLoop();
         Whitebox.setInternalState(loopView, "maxTextHeight", 12);
 
-        loopView.setArrayList(new ArrayList(Arrays.asList("1", "2", "3", "4", "5", "6", "7")));
+        loopView.setDataList(Arrays.asList("1", "2", "3", "4", "5", "6", "7"));
         loopView.setInitPosition(3);
     }
 

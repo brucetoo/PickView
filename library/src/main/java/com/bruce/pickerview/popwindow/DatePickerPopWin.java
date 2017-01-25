@@ -58,16 +58,17 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     private int viewTextSize;
     private boolean showDayMonthYear;
 
-    List<String> yearList = new ArrayList();
-    List<String> monthList = new ArrayList();
-    List<String> dayList = new ArrayList();
+    private final List<String> yearList = new ArrayList<>();
+    private final List<String> monthList = new ArrayList<>();
+    private final List<String> dayList = new ArrayList<>();
 
-    public static class Builder{
+    public static class Builder {
 
         //Required
         private Context context;
         private OnDatePickedListener listener;
-        public Builder(Context context,OnDatePickedListener listener){
+        
+        public Builder(Context context,OnDatePickedListener listener) {
             this.context = context;
             this.listener = listener;
         }
@@ -84,37 +85,37 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         private int btnTextSize = 16;//text btnTextsize of cancel and confirm button
         private int viewTextSize = 25;
 
-        public Builder minYear(int minYear){
+        public Builder minYear(int minYear) {
             this.minYear = minYear;
             return this;
         }
 
-        public Builder maxYear(int maxYear){
+        public Builder maxYear(int maxYear) {
             this.maxYear = maxYear;
             return this;
         }
 
-        public Builder textCancel(String textCancel){
+        public Builder textCancel(String textCancel) {
             this.textCancel = textCancel;
             return this;
         }
 
-        public Builder textConfirm(String textConfirm){
+        public Builder textConfirm(String textConfirm) {
             this.textConfirm = textConfirm;
             return this;
         }
 
-        public Builder dateChose(String dateChose){
+        public Builder dateChose(String dateChose) {
             this.dateChose = dateChose;
             return this;
         }
 
-        public Builder colorCancel(int colorCancel){
+        public Builder colorCancel(int colorCancel) {
             this.colorCancel = colorCancel;
             return this;
         }
 
-        public Builder colorConfirm(int colorConfirm){
+        public Builder colorConfirm(int colorConfirm) {
             this.colorConfirm = colorConfirm;
             return this;
         }
@@ -123,18 +124,18 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
          * set btn text btnTextSize
          * @param textSize dp
          */
-        public Builder btnTextSize(int textSize){
+        public Builder btnTextSize(int textSize) {
             this.btnTextSize = textSize;
             return this;
         }
 
-        public Builder viewTextSize(int textSize){
+        public Builder viewTextSize(int textSize) {
             this.viewTextSize = textSize;
             return this;
         }
 
-        public DatePickerPopWin build(){
-            if(minYear > maxYear){
+        public DatePickerPopWin build() {
+            if(minYear > maxYear) {
                 throw new IllegalArgumentException();
             }
             return new DatePickerPopWin(this);
@@ -146,7 +147,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         }
     }
 
-    public DatePickerPopWin(Builder builder){
+    public DatePickerPopWin(Builder builder) {
         this.minYear = builder.minYear;
         this.maxYear = builder.maxYear;
         this.textCancel = builder.textCancel;
@@ -217,11 +218,11 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         confirmBtn.setOnClickListener(this);
         contentView.setOnClickListener(this);
 
-        if(!TextUtils.isEmpty(textConfirm)){
+        if(!TextUtils.isEmpty(textConfirm)) {
             confirmBtn.setText(textConfirm);
         }
 
-        if(!TextUtils.isEmpty(textCancel)){
+        if(!TextUtils.isEmpty(textCancel)) {
             cancelBtn.setText(textCancel);
         }
 
@@ -240,7 +241,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
      * Let the day loop view be handled separately
      */
     private void initPickerViews() {
-
         int yearCount = maxYear - minYear;
 
         for (int i = 0; i < yearCount; i++) {
@@ -251,10 +251,10 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             monthList.add(format2LenStr(j + 1));
         }
 
-        yearLoopView.setDataList((ArrayList) yearList);
+        yearLoopView.setDataList(yearList);
         yearLoopView.setInitPosition(yearPos);
 
-        monthLoopView.setDataList((ArrayList) monthList);
+        monthLoopView.setDataList(monthList);
         monthLoopView.setInitPosition(monthPos);
     }
 
@@ -265,7 +265,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
         int dayMaxInMonth;
         Calendar calendar = Calendar.getInstance();
-        dayList = new ArrayList<String>();
+        //dayList = new ArrayList<>();
 
         calendar.set(Calendar.YEAR, minYear + yearPos);
         calendar.set(Calendar.MONTH, monthPos);
@@ -277,7 +277,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             dayList.add(format2LenStr(i + 1));
         }
 
-        dayLoopView.setDataList((ArrayList) dayList);
+        dayLoopView.setDataList(dayList);
         dayLoopView.setInitPosition(dayPos);
     }
 
@@ -426,7 +426,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         return (int) (spValue * fontScale + 0.5f);
     }
 
-
     public interface OnDatePickedListener {
 
         /**
@@ -437,7 +436,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
          * @param day
          * @param dateDesc  yyyy-MM-dd
          */
-        void onDatePickCompleted(int year, int month, int day,
-                                 String dateDesc);
+        void onDatePickCompleted(int year, int month, int day, String dateDesc);
     }
 }
