@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity{
                 }).textConfirm("CONFIRM") //text of confirm button
                         .textCancel("CANCEL") //text of cancel button
                         .btnTextSize(16) // button text size
-                        .viewTextSize(25) // pick view text size
+                        .viewTextSize(12) // pick view text size
                         .colorCancel(Color.parseColor("#999999")) //color of cancel button
                         .colorConfirm(Color.parseColor("#009900"))//color of confirm button
                         .minYear(1990) //min year in loop
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
-        loopView.setTextSize(25);//must be called before setDateList
+        loopView.setTextSize(12);//must be called before setDateList
         loopView.setDataList(getList());
 //        ((new ProvinceInfoParserTask(this, mHandler))).execute();// 解析本地地址信息文件
     }

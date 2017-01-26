@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#33000000">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#33000000">
 
     <LinearLayout
         android:id="@+id/container_picker"
@@ -24,19 +25,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@null"
-                tools:text="cancel"
                 android:textColor="@color/btn_cancel_color"
-                android:textSize="@dimen/btn_text_size" />
+                android:textSize="@dimen/btn_text_size"
+                tools:text="cancel" />
 
             <Button
                 android:id="@+id/btn_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:background="@null"
-                tools:text="confirm"
                 android:textColor="@color/btn_confirm_color"
-                android:textSize="@dimen/btn_text_size"/>
+                android:textSize="@dimen/btn_text_size"
+                tools:text="confirm" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -54,6 +57,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
+                    android:layout_marginStart="1dp"
                     android:layout_weight="1" />
 
                 <com.bruce.pickerview.LoopView
@@ -61,6 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
+                    android:layout_marginStart="1dp"
                     android:layout_weight="1" />
 
                 <com.bruce.pickerview.LoopView
@@ -68,8 +73,11 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
+
             </LinearLayout>
+
         </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

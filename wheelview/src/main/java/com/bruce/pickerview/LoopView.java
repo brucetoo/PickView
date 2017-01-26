@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -38,7 +39,6 @@ public class LoopView extends View {
     private GestureDetector mGestureDetector;
     private int mSelectedItem;
     private GestureDetector.SimpleOnGestureListener mOnGestureListener;
-    private Context mContext;
     private Paint mTopBottomTextPaint;  //paint that draw top and bottom text
     private Paint mCenterTextPaint;  // paint that draw center text
     private Paint mCenterLinePaint;  // paint that draw line besides center text
@@ -64,7 +64,6 @@ public class LoopView extends View {
     private int mCircularRadius;
     private int mWidgetWidth;
 
-
     public Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -88,33 +87,34 @@ public class LoopView extends View {
 
     public LoopView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView(context,attrs);
+        if (!isInEditMode()) {
+            initView(attrs);
+        }
     }
-
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public LoopView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        initView(context,attrs);
+        if (!isInEditMode()) {
+            initView(attrs);
+        }
     }
 
+    private void initView(@NonNull AttributeSet attrs) {
+        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.LoopView);
 
-    private void initView(Context context,AttributeSet attrs) {
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.LoopView);
         if (array != null) {
             mTopBottomTextColor = array.getColor(R.styleable.LoopView_topBottomTextColor, 0xffafafaf);
             mCenterTextColor = array.getColor(R.styleable.LoopView_centerTextColor, 0xff313131);
             mCenterLineColor = array.getColor(R.styleable.LoopView_lineColor, 0xffc5c5c5);
             mCanLoop = array.getBoolean(R.styleable.LoopView_canLoop, true);
             mInitPosition = array.getInt(R.styleable.LoopView_initPosition, -1);
-            mTextSize = array.getDimensionPixelSize(R.styleable.LoopView_textSize, sp2px(context, 16));
+            mTextSize = array.getDimensionPixelSize(R.styleable.LoopView_textSize, sp2px(getContext(), 16));
             mDrawItemsCount = array.getInt(R.styleable.LoopView_drawItemCount, 7);
             array.recycle();
         }
 
         lineSpacingMultiplier = 2.0F;
-
-        this.mContext = context;
 
         mOnGestureListener = new LoopViewGestureListener();
 
@@ -126,16 +126,16 @@ public class LoopView extends View {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
         }
 
-        mGestureDetector = new GestureDetector(context, mOnGestureListener);
+        mGestureDetector = new GestureDetector(getContext(), mOnGestureListener);
         mGestureDetector.setIsLongpressEnabled(false);
     }
 
 
     private void initData() {
-
         if (mDataList == null) {
             throw new IllegalArgumentException("data list must not be null!");
         }
+
         mTopBottomTextPaint.setColor(mTopBottomTextColor);
         mTopBottomTextPaint.setAntiAlias(true);
         mTopBottomTextPaint.setTypeface(Typeface.MONOSPACE);
@@ -212,7 +212,6 @@ public class LoopView extends View {
         mTopLineY = (int) ((mCircularDiameter - mItemHeight) / 2.0F) + mPaddingTopBottom;
         mBottomLineY = (int) ((mCircularDiameter + mItemHeight) / 2.0F) + mPaddingTopBottom;
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -327,7 +326,6 @@ public class LoopView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionevent) {
-
         switch (motionevent.getAction()) {
             case MotionEvent.ACTION_UP:
             default:
@@ -335,6 +333,7 @@ public class LoopView extends View {
                     startSmoothScrollTo();
                 }
         }
+
         return true;
     }
 
@@ -350,7 +349,7 @@ public class LoopView extends View {
      */
     public final void setTextSize(float size) {
         if (size > 0) {
-            mTextSize = sp2px(mContext, size);
+            mTextSize = sp2px(getContext(), size);
         }
     }
 
