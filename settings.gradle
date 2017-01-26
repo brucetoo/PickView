@@ -1,1 +1,1 @@
-include ':app', ':wheelview'
+include ':app', ':materialwheelview'
