@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
+    tools:context=".sample.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <Button
@@ -43,7 +43,7 @@
     <!--<attr name="canLoop" format="boolean"/>-->
     <!--<attr name="initPosition" format="integer"/>-->
     <!--<attr name="drawItemCount" format="integer"/>-->
-    <com.bruce.pickerview.LoopView
+    <io.blackbox_vision.wheelview.LoopView
         android:id="@+id/loop_view"
         android:layout_width="200dp"
         android:layout_height="180dp"
