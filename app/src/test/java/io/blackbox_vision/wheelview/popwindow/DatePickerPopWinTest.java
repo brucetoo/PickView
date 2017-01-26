@@ -1,4 +1,4 @@
-package io.blackbox_vision.wheelview.sample.popwindow;
+package io.blackbox_vision.wheelview.popwindow;
 
 
 import io.blackbox_vision.wheelview.sample.BuildConfig;
@@ -62,9 +62,5 @@ public class DatePickerPopWinTest {
                 datePickerPopWin.cancelBtn.getText());
         assertEquals(Whitebox.getInternalState(builder, "textConfirm"),
                 datePickerPopWin.confirmBtn.getText());
-        assertEquals(Whitebox.getInternalState(builder, "btnTextSize"),
-                (int) datePickerPopWin.cancelBtn.getTextSize());
-        assertEquals(Whitebox.getInternalState(builder, "btnTextSize"),
-                (int) datePickerPopWin.confirmBtn.getTextSize());
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="LoopView">
+    <declare-styleable name="WheelView">
         <attr name="lineColor" format="color"/>
         <attr name="topBottomTextColor" format="color"/>
         <attr name="centerTextColor" format="color"/>

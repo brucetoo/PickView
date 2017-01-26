@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import io.blackbox_vision.wheelview.LoopScrollListener;
-import io.blackbox_vision.wheelview.LoopView;
-import io.blackbox_vision.wheelview.sample.popwindow.DatePickerPopWin;
+import io.blackbox_vision.wheelview.WheelView;
+import io.blackbox_vision.wheelview.popwindow.DatePickerPopWin;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity{
 //    private ArrayList<ProvinceModel> mProvinceList = null; // 省份列表
 //    private String mProvince = null; // 省份
 //    private String mCity = null; // 城市
-    private LoopView loopView;
+    private WheelView wheelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,18 +65,18 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        loopView = (LoopView) findViewById(R.id.loop_view);
-        loopView.setInitPosition(2);
-        loopView.setCanLoop(false);
-        loopView.setLoopListener(new LoopScrollListener() {
+        wheelView = (WheelView) findViewById(R.id.loop_view);
+        wheelView.setInitPosition(2);
+        wheelView.setCanLoop(false);
+        wheelView.setLoopListener(new LoopScrollListener() {
             @Override
             public void onItemSelect(int item) {
 
             }
         });
-        loopView.setTextSize(12);//must be called before setDateList
-        loopView.setDataList(getList());
-//        ((new ProvinceInfoParserTask(this, mHandler))).execute();// 解析本地地址信息文件
+        wheelView.setTextSize(12);//must be called before setDateList
+        wheelView.setDataList(getList());
+//        ((new ProvinceInfoParserTask(this, handler))).execute();// 解析本地地址信息文件
     }
 
     public ArrayList<String> getList(){
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-//    private Handler mHandler = new Handler(new Handler.Callback() {
+//    private Handler handler = new Handler(new Handler.Callback() {
 //        @Override
 //        public boolean handleMessage(Message msg) {
 //            switch (msg.what) {

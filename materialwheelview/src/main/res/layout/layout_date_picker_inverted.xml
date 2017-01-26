@@ -10,9 +10,11 @@
         android:id="@+id/container_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="#f2f7fa"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:id="@+id/container_toolbar"
@@ -52,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
-                <io.blackbox_vision.wheelview.LoopView
+                <io.blackbox_vision.wheelview.WheelView
                     android:id="@+id/picker_day"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -60,7 +62,7 @@
                     android:layout_marginStart="1dp"
                     android:layout_weight="1" />
 
-                <io.blackbox_vision.wheelview.LoopView
+                <io.blackbox_vision.wheelview.WheelView
                     android:id="@+id/picker_month"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -68,7 +70,7 @@
                     android:layout_marginStart="1dp"
                     android:layout_weight="1" />
 
-                <io.blackbox_vision.wheelview.LoopView
+                <io.blackbox_vision.wheelview.WheelView
                     android:id="@+id/picker_year"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

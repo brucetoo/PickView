@@ -1,4 +1,4 @@
-package io.blackbox_vision.wheelview.sample.popwindow;
+package io.blackbox_vision.wheelview.popwindow;
 
 import android.content.Context;
 

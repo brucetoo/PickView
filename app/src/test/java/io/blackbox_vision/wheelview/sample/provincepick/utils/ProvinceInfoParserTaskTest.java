@@ -72,7 +72,7 @@ public class ProvinceInfoParserTaskTest extends PickViewTestSupport {
     @Test
     public void testConstructor() {
         assertEquals(mockContext, Whitebox.getInternalState(provinceInfoParserTask, "mContext"));
-        assertEquals(mockHandler, Whitebox.getInternalState(provinceInfoParserTask, "mHandler"));
+        assertEquals(mockHandler, Whitebox.getInternalState(provinceInfoParserTask, "handler"));
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ProvinceInfoParserTaskTest extends PickViewTestSupport {
     @Test
     public void testOnPostExecuteWithNullHandler() {
         // given
-        Whitebox.setInternalState(provinceInfoParserTask, "mHandler", null);
+        Whitebox.setInternalState(provinceInfoParserTask, "handler", null);
 
         // when
         provinceInfoParserTask.onPostExecute(provinces);

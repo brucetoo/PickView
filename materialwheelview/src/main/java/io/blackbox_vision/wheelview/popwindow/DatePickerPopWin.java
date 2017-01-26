@@ -1,4 +1,4 @@
-package io.blackbox_vision.wheelview.sample.popwindow;
+package io.blackbox_vision.wheelview.popwindow;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 
 import io.blackbox_vision.wheelview.LoopScrollListener;
-import io.blackbox_vision.wheelview.LoopView;
+import io.blackbox_vision.wheelview.WheelView;
 import io.blackbox_vision.wheelview.R;
 
 import java.text.ParseException;
@@ -38,9 +38,9 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     private static final int DEFAULT_MIN_YEAR = 1900;
     public Button cancelBtn;
     public Button confirmBtn;
-    public LoopView yearLoopView;
-    public LoopView monthLoopView;
-    public LoopView dayLoopView;
+    public WheelView yearWheelView;
+    public WheelView monthWheelView;
+    public WheelView dayWheelView;
     public View pickerContainerV;
     public View contentView;//root view
 
@@ -174,9 +174,9 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         confirmBtn = (Button) contentView.findViewById(R.id.btn_confirm);
         confirmBtn.setTextColor(colorConfirm);
         confirmBtn.setTextSize(btnTextsize);
-        yearLoopView = (LoopView) contentView.findViewById(R.id.picker_year);
-        monthLoopView = (LoopView) contentView.findViewById(R.id.picker_month);
-        dayLoopView = (LoopView) contentView.findViewById(R.id.picker_day);
+        yearWheelView = (WheelView) contentView.findViewById(R.id.picker_year);
+        monthWheelView = (WheelView) contentView.findViewById(R.id.picker_month);
+        dayWheelView = (WheelView) contentView.findViewById(R.id.picker_day);
         pickerContainerV = contentView.findViewById(R.id.container_picker);
 
 //        //do not loop,default can loop
@@ -190,21 +190,21 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 //        dayLoopView.setTextSize(25);
 
         //set checked listen
-        yearLoopView.setLoopListener(new LoopScrollListener() {
+        yearWheelView.setLoopListener(new LoopScrollListener() {
             @Override
             public void onItemSelect(int item) {
                 yearPos = item;
                 initDayPickerView();
             }
         });
-        monthLoopView.setLoopListener(new LoopScrollListener() {
+        monthWheelView.setLoopListener(new LoopScrollListener() {
             @Override
             public void onItemSelect(int item) {
                 monthPos = item;
                 initDayPickerView();
             }
         });
-        dayLoopView.setLoopListener(new LoopScrollListener() {
+        dayWheelView.setLoopListener(new LoopScrollListener() {
             @Override
             public void onItemSelect(int item) {
                 dayPos = item;
@@ -251,11 +251,11 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             monthList.add(format2LenStr(j + 1));
         }
 
-        yearLoopView.setDataList(yearList);
-        yearLoopView.setInitPosition(yearPos);
+        yearWheelView.setDataList(yearList);
+        yearWheelView.setInitPosition(yearPos);
 
-        monthLoopView.setDataList(monthList);
-        monthLoopView.setInitPosition(monthPos);
+        monthWheelView.setDataList(monthList);
+        monthWheelView.setInitPosition(monthPos);
     }
 
     /**
@@ -277,8 +277,8 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             dayList.add(format2LenStr(i + 1));
         }
 
-        dayLoopView.setDataList(dayList);
-        dayLoopView.setInitPosition(dayPos);
+        dayWheelView.setDataList(dayList);
+        dayWheelView.setInitPosition(dayPos);
     }
 
     /**

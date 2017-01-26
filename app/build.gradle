@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
@@ -17,6 +18,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        disable "InvalidPackage"
+        abortOnError true
+    }
+    packagingOptions {
+        exclude "META-INF/services/javax.annotation.processing.Processor"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+retrolambda {
+    jvmArgs "-noverify"
 }
 
 dependencies {
