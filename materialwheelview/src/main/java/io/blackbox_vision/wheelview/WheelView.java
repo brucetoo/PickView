@@ -23,6 +23,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import static android.view.GestureDetector.SimpleOnGestureListener;
+
 
 public final class WheelView extends View {
     private static final String TAG = WheelView.class.getSimpleName();
@@ -32,7 +34,7 @@ public final class WheelView extends View {
     public static final int MSG_SELECTED_ITEM = 3000;
 
     @NonNull
-    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     private ScheduledFuture<?> scheduledFuture;
 
@@ -40,12 +42,12 @@ public final class WheelView extends View {
     private LoopScrollListener loopScrollListener;
 
     @NonNull
-    private GestureDetector.SimpleOnGestureListener onGestureListener  = new WheelViewGestureListener();
+    private final SimpleOnGestureListener onGestureListener  = new WheelViewGestureListener();
     private GestureDetector gestureDetector;
 
-    private Paint topBottomTextPaint = new Paint();  //paint that draw top and bottom text
-    private Paint centerTextPaint = new Paint();  // paint that draw center text
-    private Paint centerLinePaint = new Paint();  // paint that draw line besides center text
+    private final Paint topBottomTextPaint = new Paint();  //paint that draw top and bottom text
+    private final Paint centerTextPaint = new Paint();  // paint that draw center text
+    private final Paint centerLinePaint = new Paint();  // paint that draw line besides center text
 
     private List<String> data;
 
@@ -118,17 +120,22 @@ public final class WheelView extends View {
     }
 
     private void initView(@NonNull AttributeSet attrs) {
-        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.WheelView);
+        final TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.WheelView);
 
-        if (array != null) {
-            topBottomTextColor = array.getColor(R.styleable.WheelView_topBottomTextColor, 0xffafafaf);
-            centerTextColor = array.getColor(R.styleable.WheelView_centerTextColor, 0xff313131);
-            centerLineColor = array.getColor(R.styleable.WheelView_lineColor, 0xffc5c5c5);
-            canLoop = array.getBoolean(R.styleable.WheelView_canLoop, true);
-            initialPosition = array.getInt(R.styleable.WheelView_initPosition, -1);
-            textSize = array.getDimensionPixelSize(R.styleable.WheelView_textSize, sp2px(getContext(), 16));
-            drawItemsCount = array.getInt(R.styleable.WheelView_drawItemCount, 7);
-            array.recycle();
+        try {
+            if (null != array) {
+                topBottomTextColor = array.getColor(R.styleable.WheelView_topBottomTextColor, 0xffafafaf);
+                centerTextColor = array.getColor(R.styleable.WheelView_centerTextColor, 0xff313131);
+                centerLineColor = array.getColor(R.styleable.WheelView_lineColor, 0xffc5c5c5);
+                canLoop = array.getBoolean(R.styleable.WheelView_canLoop, true);
+                initialPosition = array.getInt(R.styleable.WheelView_initPosition, -1);
+                textSize = array.getDimensionPixelSize(R.styleable.WheelView_textSize, sp2px(getContext(), 16));
+                drawItemsCount = array.getInt(R.styleable.WheelView_drawItemCount, 7);
+            }
+        } finally {
+            if (null != array) {
+                array.recycle();
+            }
         }
 
         lineSpacingMultiplier = 2.0F;
@@ -145,7 +152,7 @@ public final class WheelView extends View {
 
 
     private void initData() {
-        if (data == null) {
+        if (null == data) {
             throw new IllegalArgumentException("data list must not be null!");
         }
 
@@ -187,7 +194,7 @@ public final class WheelView extends View {
     }
 
     private void measureTextWidthHeight() {
-        Rect rect = new Rect();
+        final Rect rect = new Rect();
 
         for (int i = 0; i < data.size(); i++) {
             final String s1 = data.get(i);
@@ -255,9 +262,7 @@ public final class WheelView extends View {
                 templateItem = (templateItem < 0) ? templateItem + data.size() : templateItem;
                 templateItem = (templateItem > data.size() - 1) ? templateItem - data.size() : templateItem;
                 itemCount[count] = data.get(templateItem);
-            } else if (templateItem < 0) {
-                itemCount[count] = "";
-            } else if (templateItem > data.size() - 1) {
+            } else if (templateItem < 0 || templateItem > data.size() - 1) {
                 itemCount[count] = "";
             } else {
                 itemCount[count] = data.get(templateItem);
@@ -295,26 +300,22 @@ public final class WheelView extends View {
                 //scale offset = Math.sin(radian) -> 0 - 1
                 canvas.scale(1.0F, (float) Math.sin(radian));
 
-                if (translateY <= topLineY) {
+                if (translateY <= topLineY || maxTextHeight + translateY >= bottomLineY) {
+                    final int diff = (translateY <= topLineY) ? topLineY - translateY : bottomLineY - translateY;
+
+                    final Paint topBottomPaint = (translateY <= topLineY) ? topBottomTextPaint : centerTextPaint;
+                    final Paint centerPaint = (translateY <= topLineY) ? centerTextPaint : topBottomTextPaint;
+
                     //draw text y between 0 -> topLineY,include incomplete text
                     canvas.save();
-                    canvas.clipRect(0, 0, widgetWidth, topLineY - translateY);
-                    canvas.drawText(itemCount[count], paddingLeftRight, maxTextHeight, topBottomTextPaint);
+                    canvas.clipRect(0, 0, widgetWidth, diff);
+                    canvas.drawText(itemCount[count], paddingLeftRight, maxTextHeight, topBottomPaint);
                     canvas.restore();
                     canvas.save();
-                    canvas.clipRect(0, topLineY - translateY, widgetWidth, (int) (itemHeight));
-                    canvas.drawText(itemCount[count], paddingLeftRight, maxTextHeight, centerTextPaint);
+                    canvas.clipRect(0, diff, widgetWidth, (int) (itemHeight));
+                    canvas.drawText(itemCount[count], paddingLeftRight, maxTextHeight, centerPaint);
                     canvas.restore();
-                } else if (maxTextHeight + translateY >= bottomLineY) {
-                    //draw text y between  topLineY -> bottomLineY ,include incomplete text
-                    canvas.save();
-                    canvas.clipRect(0, 0, widgetWidth, bottomLineY - translateY);
-                    canvas.drawText(itemCount[count], paddingLeftRight, maxTextHeight, centerTextPaint);
-                    canvas.restore();
-                    canvas.save();
-                    canvas.clipRect(0, bottomLineY - translateY, widgetWidth, (int) (itemHeight));
-                    canvas.drawText(itemCount[count], paddingLeftRight, maxTextHeight, topBottomTextPaint);
-                    canvas.restore();
+
                 } else if (translateY >= topLineY && maxTextHeight + translateY <= bottomLineY) {
                     //draw center complete text
                     canvas.clipRect(0, 0, widgetWidth, (int) (itemHeight));
@@ -322,6 +323,7 @@ public final class WheelView extends View {
                     //center one indicate selected item
                     selectedItem = data.indexOf(itemCount[count]);
                 }
+
                 canvas.restore();
             }
 
@@ -380,16 +382,22 @@ public final class WheelView extends View {
         return selectedItem;
     }
 
-
     private void itemSelected() {
         if (loopScrollListener != null) {
-            postDelayed(new SelectedRunnable(), 200L);
+            postDelayed(this::onItemSelected, 200L);
+        }
+    }
+
+    private void onItemSelected() {
+        data.get(getSelectedItem());
+
+        if (null != loopScrollListener) {
+            loopScrollListener.onItemSelect(getSelectedItem());
         }
     }
 
     private void cancelSchedule() {
-
-        if (scheduledFuture != null && !scheduledFuture.isCancelled()) {
+        if (null != scheduledFuture && !scheduledFuture.isCancelled()) {
             scheduledFuture.cancel(true);
             scheduledFuture = null;
         }
@@ -407,7 +415,7 @@ public final class WheelView extends View {
         scheduledFuture = executorService.scheduleWithFixedDelay(new FlingRunnable(velocityY), 0, velocityFling, TimeUnit.MILLISECONDS);
     }
 
-    class WheelViewGestureListener extends GestureDetector.SimpleOnGestureListener {
+    class WheelViewGestureListener extends SimpleOnGestureListener {
 
         @Override
         public final boolean onDown(MotionEvent motionevent) {
@@ -445,19 +453,6 @@ public final class WheelView extends View {
     public int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
-    }
-
-    class SelectedRunnable implements Runnable {
-
-        @Override
-        public final void run() {
-            final LoopScrollListener listener = WheelView.this.loopScrollListener;
-            data.get(getSelectedItem());
-
-            if (null != listener) {
-                listener.onItemSelect(getSelectedItem());
-            }
-        }
     }
 
     /**
