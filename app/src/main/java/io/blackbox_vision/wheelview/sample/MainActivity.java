@@ -33,6 +33,7 @@ public final class MainActivity extends AppCompatActivity {
                     .setCancelButtonTextColor(Color.parseColor("#009900"))
                     .setButtonTextSize(16)
                     .setViewTextSize(15)
+                    .setShowDayMonthYear(true)
                     .build();
 
             datePicker.show(this);
@@ -48,7 +49,7 @@ public final class MainActivity extends AppCompatActivity {
         wheelView.setCanLoop(false);
         wheelView.setLoopListener(item -> {});
         wheelView.setTextSize(12);
-        wheelView.setDataList(getList());
+        wheelView.setItems(getList());
     }
 
     private void onDateSelected(int year, int month, int dayOfMonth) {

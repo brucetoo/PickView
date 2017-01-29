@@ -18,23 +18,22 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 import io.blackbox_vision.wheelview.R;
+import io.blackbox_vision.wheelview.utils.DateUtils;
 
-/**
- * PopWindow for Date Pick
- */
+
 public final class DatePickerPopUpWindow extends PopupWindow {
+    private static final String YEAR_FORMAT = "yyyy";
+    private static final String MONTH_FORMAT = "MM";
+    private static final String DAY_FORMAT = "dd";
+
     private static final int DEFAULT_MIN_YEAR = 1900;
-    private static final String DEFAULT_DATE_TEMPLATE = "yyyy-MM-dd";
 
     private Context context;
 
@@ -63,9 +62,6 @@ public final class DatePickerPopUpWindow extends PopupWindow {
     private boolean showDayMonthYear;
 
     @NonNull
-    private final SimpleDateFormat defaultFormatter = new SimpleDateFormat(DEFAULT_DATE_TEMPLATE, Locale.getDefault());
-
-    @NonNull
     private final List<String> years = new ArrayList<>();
 
     @NonNull
@@ -81,6 +77,8 @@ public final class DatePickerPopUpWindow extends PopupWindow {
     @Nullable
     private OnDateSelectedListener onDateSelectedListener;
 
+    private Calendar calendar;
+
     public DatePickerPopUpWindow(@NonNull final Builder builder) {
         this.minYear = builder.minYear;
         this.maxYear = builder.maxYear;
@@ -93,7 +91,10 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         this.buttonTextSize = builder.buttonTextSize;
         this.viewTextSize = builder.viewTextSize;
         this.showDayMonthYear = builder.showDayMonthYear;
-        setSelectedDate(builder.selectedDate);
+        this.calendar = builder.selectedDate;
+        this.yearPos = calendar.get(Calendar.YEAR) - minYear;
+        this.monthPos = calendar.get(Calendar.MONTH);
+        this.dayPos = calendar.get(Calendar.DAY_OF_MONTH) - 1;
         initView();
     }
 
@@ -158,42 +159,35 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
-    /**
-     * Init year and month loop view,
-     * Let the day loop view be handled separately
-     */
     private void initPickerViews() {
         int yearCount = maxYear - minYear;
 
         for (int i = 0; i < yearCount; i++) {
-            final Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            calendar = Calendar.getInstance(Locale.getDefault());
             calendar.set(Calendar.YEAR, minYear + i);
 
-            years.add(formatField(calendar, "yyyy"));
+            years.add(DateUtils.formatDate(calendar, YEAR_FORMAT));
         }
 
         for (int j = 0; j < 12; j++) {
-            final Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            calendar = Calendar.getInstance(Locale.getDefault());
             calendar.set(Calendar.MONTH, j);
 
-            months.add(formatField(calendar, "MM"));
+            months.add(DateUtils.formatDate(calendar, MONTH_FORMAT));
         }
 
-        yearSpinner.setDataList(years);
+        yearSpinner.setItems(years);
         yearSpinner.setInitPosition(yearPos);
 
-        monthSpinner.setDataList(months);
+        monthSpinner.setItems(months);
         monthSpinner.setInitPosition(monthPos);
     }
 
-    /**
-     * Init day item
-     */
     private void drawDayPickerView() {
         final int year = Integer.valueOf(years.get(yearPos));
         final int month = Integer.valueOf(months.get(monthPos));
 
-        final Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance(Locale.getDefault());
 
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
@@ -207,40 +201,14 @@ public final class DatePickerPopUpWindow extends PopupWindow {
             for (int i = 0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                 calendar.set(Calendar.DAY_OF_MONTH, i + 1);
 
-                days.add(formatField(calendar, "dd"));
+                days.add(DateUtils.formatDate(calendar, DAY_FORMAT));
             }
         }
 
-        daySpinner.setDataList(days);
+        daySpinner.setItems(days);
         daySpinner.setInitPosition(dayPos);
     }
 
-    /**
-     * set selected date position value when initView.
-     *
-     * @param dateStr
-     */
-    private void setSelectedDate(@Nullable String dateStr) {
-        if (!TextUtils.isEmpty(dateStr)) {
-
-            long milliseconds = toMilliseconds(dateStr);
-            Calendar calendar = Calendar.getInstance(Locale.CHINA);
-
-            if (milliseconds != -1) {
-                calendar.setTimeInMillis(milliseconds);
-
-                yearPos = calendar.get(Calendar.YEAR) - minYear;
-                monthPos = calendar.get(Calendar.MONTH);
-                dayPos = calendar.get(Calendar.DAY_OF_MONTH) - 1;
-            }
-        }
-    }
-
-    /**
-     * Show date picker popWindow
-     *
-     * @param activity
-     */
     public void show(@Nullable Activity activity) {
         if (null != activity) {
             final int relative = Animation.RELATIVE_TO_SELF;
@@ -254,9 +222,6 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         }
     }
 
-    /**
-     * Dismiss date picker popWindow
-     */
     public void dismiss() {
         final int relative = Animation.RELATIVE_TO_SELF;
         final TranslateAnimation animation = new TranslateAnimation(relative, 0, relative, 0, relative, 0, relative, 1);
@@ -284,26 +249,6 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         }
     }
 
-    private long toMilliseconds(@NonNull String dateStr) {
-        Date date = null;
-
-        try {
-            date = defaultFormatter.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return (null != date) ? date.getTime() : -1L;
-    }
-
-    private static String getDateAsString() {
-        return new SimpleDateFormat(DEFAULT_DATE_TEMPLATE, Locale.getDefault()).format(new Date());
-    }
-
-    private static String formatField(@NonNull final Calendar cal, @NonNull final String fieldType) {
-        return new SimpleDateFormat(fieldType, Locale.getDefault()).format(cal.getTime());
-    }
-
     public interface OnDateSelectedListener {
 
         void onDateSelected(int year, int month, int dayOfMonth);
@@ -327,7 +272,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         private int cancelButtonTextColor = Color.parseColor("#999999");
         private int confirmButtonTextColor = Color.parseColor("#303F9F");
 
-        private String selectedDate = getDateAsString();
+        private Calendar selectedDate = Calendar.getInstance(Locale.getDefault());
 
         private int buttonTextSize = 16;
         private int viewTextSize = 25;
@@ -346,54 +291,57 @@ public final class DatePickerPopUpWindow extends PopupWindow {
             return this;
         }
 
-        public Builder setCancelButtonText(String textCancel) {
-            this.cancelButtonText = textCancel;
+        public Builder setCancelButtonText(@NonNull String cancelButtonText) {
+            this.cancelButtonText = cancelButtonText;
             return this;
         }
 
-        public Builder setConfirmButtonText(String textConfirm) {
-            this.confirmButtonText = textConfirm;
+        public Builder setConfirmButtonText(@NonNull String confirmButtonText) {
+            this.confirmButtonText = confirmButtonText;
             return this;
         }
 
-        public Builder setSelectedDate(String dateChose) {
-            this.selectedDate = dateChose;
+        public Builder setSelectedDate(@NonNull String selectedDate) {
+            final Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            calendar.setTimeInMillis(DateUtils.toMilliseconds(selectedDate));
+
+            this.selectedDate = calendar;
             return this;
         }
 
-        public Builder setCancelButtonTextColor(int colorCancel) {
-            this.cancelButtonTextColor = colorCancel;
+        public Builder setCancelButtonTextColor(int cancelButtonTextColor) {
+            this.cancelButtonTextColor = cancelButtonTextColor;
             return this;
         }
 
-        public Builder setConfirmButtonTextColor(int colorConfirm) {
-            this.confirmButtonTextColor = colorConfirm;
+        public Builder setConfirmButtonTextColor(int confirmButtonTextColor) {
+            this.confirmButtonTextColor = confirmButtonTextColor;
             return this;
         }
 
-        public Builder setButtonTextSize(int textSize) {
-            this.buttonTextSize = textSize;
+        public Builder setButtonTextSize(int buttonTextSize) {
+            this.buttonTextSize = buttonTextSize;
             return this;
         }
 
-        public Builder setViewTextSize(int textSize) {
-            this.viewTextSize = textSize;
+        public Builder setViewTextSize(int viewTextSize) {
+            this.viewTextSize = viewTextSize;
             return this;
         }
 
-        public Builder setShowDayMonthYear(boolean useDayMonthYear) {
-            this.showDayMonthYear = useDayMonthYear;
+        public Builder setShowDayMonthYear(boolean showDayMonthYear) {
+            this.showDayMonthYear = showDayMonthYear;
             return this;
         }
 
-        public Builder setOnDateSelectedListener(@Nullable OnDateSelectedListener listener) {
-            this.listener = listener;
+        public Builder setOnDateSelectedListener(@Nullable OnDateSelectedListener onDateSelectedListener) {
+            this.listener = onDateSelectedListener;
             return this;
         }
 
         public DatePickerPopUpWindow build() {
             if (minYear > maxYear) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("minYear can't be major to maxYear");
             }
 
             return new DatePickerPopUpWindow(this);

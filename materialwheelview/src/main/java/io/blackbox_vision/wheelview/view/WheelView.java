@@ -376,7 +376,7 @@ public final class WheelView extends View {
      * All public method must be called before this method
      * @param list data list
      */
-    public final void setDataList(List<String> list) {
+    public final void setItems(List<String> list) {
         this.data = list;
         initData();
     }
