@@ -14,7 +14,7 @@ public final class DateUtils {
 
     private DateUtils() { }
 
-    public static String formatDate(@NonNull final Calendar calendar, @NonNull final String fieldType) {
+    public static String formatDate(@NonNull Calendar calendar, @NonNull String fieldType) {
         return new SimpleDateFormat(fieldType, Locale.getDefault()).format(calendar.getTime());
     }
 

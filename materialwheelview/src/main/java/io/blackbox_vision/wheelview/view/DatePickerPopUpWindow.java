@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,9 @@ import static io.blackbox_vision.wheelview.utils.DateUtils.*;
 
 
 public final class DatePickerPopUpWindow extends PopupWindow {
+    private static final String TAG = DatePickerPopUpWindow.class.getSimpleName();
+
+    private static final String SHORT_MONTH_FORMAT = "MMM";
     private static final String YEAR_FORMAT = "yyyy";
     private static final String MONTH_FORMAT = "MM";
     private static final String DAY_FORMAT = "dd";
@@ -61,6 +65,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
     private int maxYear;
 
     private boolean showDayMonthYear;
+    private boolean showShortMonths;
 
     @NonNull
     private final List<String> years = new ArrayList<>();
@@ -90,6 +95,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         this.viewTextSize = builder.viewTextSize;
         this.buttonTextSize = builder.buttonTextSize;
         this.onDateSelectedListener = builder.listener;
+        this.showShortMonths = builder.showShortMonths;
         this.cancelButtonText = builder.cancelButtonText;
         this.showDayMonthYear = builder.showDayMonthYear;
         this.confirmButtonText = builder.confirmButtonText;
@@ -129,10 +135,8 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
         yearSpinner.setOnLoopScrollListener((item, position) -> yearPos = position);
 
-        monthSpinner.setOnLoopScrollListener((item, position) -> {
-            monthPos = position;
-            drawDayPickerView();
-        });
+        monthSpinner.setOnLoopScrollListener((item, position) -> monthPos = position);
+        monthSpinner.addOnLoopScrollListener((item, position) -> drawDayPickerView());
 
         daySpinner.setOnLoopScrollListener((item, position) -> dayPos = position);
 
@@ -163,10 +167,10 @@ public final class DatePickerPopUpWindow extends PopupWindow {
     }
 
     private void drawYearPickerView() {
+        calendar = Calendar.getInstance(locale);
         int yearCount = maxYear - minYear;
 
         for (int i = 0; i < yearCount; i++) {
-            calendar = Calendar.getInstance(locale);
             calendar.set(Calendar.YEAR, minYear + i);
 
             years.add(formatDate(calendar, YEAR_FORMAT));
@@ -177,12 +181,12 @@ public final class DatePickerPopUpWindow extends PopupWindow {
     }
 
     private void drawMonthPickerView() {
+        calendar = Calendar.getInstance(locale);
 
-        for (int j = 0; j < 12; j++) {
-            calendar = Calendar.getInstance(locale);
+        for (int j = 0; j <= calendar.getActualMaximum(Calendar.MONTH); j++) {
             calendar.set(Calendar.MONTH, j);
 
-            months.add(formatDate(calendar, MONTH_FORMAT));
+            months.add(formatDate(calendar, showShortMonths ? SHORT_MONTH_FORMAT : MONTH_FORMAT).toUpperCase());
         }
 
         monthSpinner.setItems(months);
@@ -191,7 +195,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
     private void drawDayPickerView() {
         final int year = Integer.valueOf(years.get(yearPos));
-        final int month = Integer.valueOf(months.get(monthPos));
+        final int month = showShortMonths ? months.indexOf(months.get(monthPos)) : Integer.valueOf(months.get(monthPos));
 
         calendar = Calendar.getInstance(locale);
 
@@ -245,7 +249,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         } else if (v == confirmButton) {
             if (null != onDateSelectedListener) {
                 final int year = Integer.valueOf(years.get(yearPos));
-                final int month = Integer.valueOf(months.get(monthPos));
+                final int month = showShortMonths ? months.indexOf(months.get(monthPos)) : Integer.valueOf(months.get(monthPos));
                 final int dayOfMonth = Integer.valueOf(days.get(dayPos));
 
                 onDateSelectedListener.onDateSelected(year, month, dayOfMonth);
@@ -268,6 +272,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         private Context context;
 
         private boolean showDayMonthYear = false;
+        private boolean showShortMonths = false;
 
         private int minYear = DEFAULT_MIN_YEAR;
         private int maxYear = Calendar.getInstance().get(Calendar.YEAR) + 1;
@@ -343,6 +348,11 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
         public Builder setShowDayMonthYear(boolean showDayMonthYear) {
             this.showDayMonthYear = showDayMonthYear;
+            return this;
+        }
+
+        public Builder setShowShortMonths(boolean showShortMonths) {
+            this.showShortMonths = showShortMonths;
             return this;
         }
 

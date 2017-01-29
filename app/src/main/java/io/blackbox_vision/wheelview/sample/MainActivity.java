@@ -43,6 +43,7 @@ public final class MainActivity extends AppCompatActivity {
                     .setCancelButtonTextColor(Color.parseColor("#009900"))
                     .setButtonTextSize(16)
                     .setViewTextSize(15)
+                    .setShowShortMonths(true)
                     .setShowDayMonthYear(true)
                     .build();
 

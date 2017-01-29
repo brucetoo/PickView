@@ -17,6 +17,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -41,8 +42,8 @@ public final class WheelView extends View {
 
     private ScheduledFuture<?> scheduledFuture;
 
-    @Nullable
-    private OnLoopScrollListener onLoopScrollListener;
+    @NonNull
+    private final List<OnLoopScrollListener> listeners = new ArrayList<>();
 
     @NonNull
     private final SimpleOnGestureListener onGestureListener  = new WheelViewGestureListener();
@@ -365,8 +366,14 @@ public final class WheelView extends View {
         invalidate();
     }
 
-    public void setOnLoopScrollListener(@Nullable OnLoopScrollListener LoopListener) {
-        onLoopScrollListener = LoopListener;
+    public void addOnLoopScrollListener(@Nullable OnLoopScrollListener loopScrollListener) {
+        listeners.add(loopScrollListener);
+        invalidate();
+    }
+
+    public void setOnLoopScrollListener(@Nullable OnLoopScrollListener loopScrollListener) {
+        listeners.add(loopScrollListener);
+        invalidate();
     }
 
     public void setItemMapper(@NonNull ItemMapper mapper) {
@@ -379,13 +386,11 @@ public final class WheelView extends View {
     }
 
     private void itemSelected() {
-        if (onLoopScrollListener != null) {
-            postDelayed(this::onItemSelected, 200L);
-        }
+        postDelayed(this::onItemSelected, 200L);
     }
 
     private void onItemSelected() {
-        if (null != onLoopScrollListener) {
+        for (OnLoopScrollListener onLoopScrollListener: listeners) {
             onLoopScrollListener.onLoopScrollFinish(items.get(selectedIndex), selectedIndex);
         }
     }
