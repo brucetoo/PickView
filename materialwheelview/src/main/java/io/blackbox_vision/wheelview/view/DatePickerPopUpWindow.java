@@ -3,7 +3,7 @@ package io.blackbox_vision.wheelview.view;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -124,7 +124,6 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         confirmButton.setTextColor(confirmButtonTextColor);
         confirmButton.setTextSize(buttonTextSize);
 
-        //set checked listen
         yearSpinner.setLoopListener(item -> yearPos = item);
 
         monthSpinner.setLoopListener(item -> {
@@ -134,8 +133,9 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
         daySpinner.setLoopListener(item -> dayPos = item);
 
-        initPickerViews(); // init year and month loop view
-        drawDayPickerView(); //init day loop view
+        drawYearPickerView();
+        drawMonthPickerView();
+        drawDayPickerView();
 
         cancelButton.setOnClickListener(this::onClick);
         confirmButton.setOnClickListener(this::onClick);
@@ -152,14 +152,14 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
         setTouchable(true);
         setFocusable(true);
-        setBackgroundDrawable(new BitmapDrawable());
+        setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setAnimationStyle(R.style.FadeInPopWin);
         setContentView(rootView);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
-    private void initPickerViews() {
+    private void drawYearPickerView() {
         int yearCount = maxYear - minYear;
 
         for (int i = 0; i < yearCount; i++) {
@@ -169,15 +169,18 @@ public final class DatePickerPopUpWindow extends PopupWindow {
             years.add(DateUtils.formatDate(calendar, YEAR_FORMAT));
         }
 
+        yearSpinner.setItems(years);
+        yearSpinner.setInitPosition(yearPos);
+    }
+
+    private void drawMonthPickerView() {
+
         for (int j = 0; j < 12; j++) {
             calendar = Calendar.getInstance(Locale.getDefault());
             calendar.set(Calendar.MONTH, j);
 
             months.add(DateUtils.formatDate(calendar, MONTH_FORMAT));
         }
-
-        yearSpinner.setItems(years);
-        yearSpinner.setInitPosition(yearPos);
 
         monthSpinner.setItems(months);
         monthSpinner.setInitPosition(monthPos);
