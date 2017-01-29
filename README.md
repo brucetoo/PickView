@@ -1,4 +1,6 @@
 #Material Wheel View [![](https://jitpack.io/v/BlackBoxVision/material-wheel-view.svg)](https://jitpack.io/#BlackBoxVision/material-wheel-view)
+>:ferris_wheel: Prettier and simpler IOS like WheelView and other built-in WheelView UIs
+
 
 ##Installation
 
