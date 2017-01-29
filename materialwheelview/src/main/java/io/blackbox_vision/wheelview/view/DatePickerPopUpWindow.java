@@ -79,20 +79,22 @@ public final class DatePickerPopUpWindow extends PopupWindow {
     private OnDateSelectedListener onDateSelectedListener;
 
     private Calendar calendar;
+    private Locale locale;
 
     public DatePickerPopUpWindow(@NonNull final Builder builder) {
+        this.locale = builder.locale;
+        this.context = builder.context;
         this.minYear = builder.minYear;
         this.maxYear = builder.maxYear;
-        this.cancelButtonText = builder.cancelButtonText;
-        this.confirmButtonText = builder.confirmButtonText;
-        this.context = builder.context;
+        this.calendar = builder.selectedDate;
+        this.viewTextSize = builder.viewTextSize;
+        this.buttonTextSize = builder.buttonTextSize;
         this.onDateSelectedListener = builder.listener;
+        this.cancelButtonText = builder.cancelButtonText;
+        this.showDayMonthYear = builder.showDayMonthYear;
+        this.confirmButtonText = builder.confirmButtonText;
         this.cancelButtonTextColor = builder.cancelButtonTextColor;
         this.confirmButtonTextColor = builder.confirmButtonTextColor;
-        this.buttonTextSize = builder.buttonTextSize;
-        this.viewTextSize = builder.viewTextSize;
-        this.showDayMonthYear = builder.showDayMonthYear;
-        this.calendar = builder.selectedDate;
         this.yearPos = calendar.get(Calendar.YEAR) - minYear;
         this.monthPos = calendar.get(Calendar.MONTH);
         this.dayPos = calendar.get(Calendar.DAY_OF_MONTH) - 1;
@@ -164,7 +166,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         int yearCount = maxYear - minYear;
 
         for (int i = 0; i < yearCount; i++) {
-            calendar = Calendar.getInstance(Locale.getDefault());
+            calendar = Calendar.getInstance(locale);
             calendar.set(Calendar.YEAR, minYear + i);
 
             years.add(formatDate(calendar, YEAR_FORMAT));
@@ -177,7 +179,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
     private void drawMonthPickerView() {
 
         for (int j = 0; j < 12; j++) {
-            calendar = Calendar.getInstance(Locale.getDefault());
+            calendar = Calendar.getInstance(locale);
             calendar.set(Calendar.MONTH, j);
 
             months.add(formatDate(calendar, MONTH_FORMAT));
@@ -191,7 +193,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         final int year = Integer.valueOf(years.get(yearPos));
         final int month = Integer.valueOf(months.get(monthPos));
 
-        calendar = Calendar.getInstance(Locale.getDefault());
+        calendar = Calendar.getInstance(locale);
 
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
@@ -276,7 +278,8 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         private int cancelButtonTextColor = Color.parseColor("#999999");
         private int confirmButtonTextColor = Color.parseColor("#303F9F");
 
-        private Calendar selectedDate = Calendar.getInstance(Locale.getDefault());
+        private Locale locale = Locale.getDefault();
+        private Calendar selectedDate = Calendar.getInstance(locale);
 
         private int buttonTextSize = 16;
         private int viewTextSize = 25;
@@ -305,8 +308,13 @@ public final class DatePickerPopUpWindow extends PopupWindow {
             return this;
         }
 
+        public Builder setLocale(@NonNull Locale locale) {
+            this.locale = locale;
+            return this;
+        }
+
         public Builder setSelectedDate(@NonNull String selectedDate) {
-            final Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            final Calendar calendar = Calendar.getInstance(locale);
             calendar.setTimeInMillis(toMilliseconds(selectedDate));
 
             this.selectedDate = calendar;

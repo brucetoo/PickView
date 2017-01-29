@@ -2,6 +2,7 @@ package io.blackbox_vision.wheelview.sample;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -9,10 +10,18 @@ import android.widget.Toast;
 import io.blackbox_vision.wheelview.view.DatePickerPopUpWindow;
 import io.blackbox_vision.wheelview.view.WheelView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 
 public final class MainActivity extends AppCompatActivity {
+    private static final String DEFAULT_TEMPLATE = "dd/MM/yyyy";
+
+    @NonNull
+    private final SimpleDateFormat formatter = new SimpleDateFormat(DEFAULT_TEMPLATE, Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +34,7 @@ public final class MainActivity extends AppCompatActivity {
             final DatePickerPopUpWindow datePicker = new DatePickerPopUpWindow.Builder(getApplicationContext())
                     .setMinYear(1990)
                     .setMaxYear(2550)
+                    .setLocale(Locale.getDefault())
                     .setSelectedDate("2013-11-11")
                     .setOnDateSelectedListener(this::onDateSelected)
                     .setConfirmButtonText("CONFIRM")
@@ -53,10 +63,16 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     private void onDateSelected(int year, int month, int dayOfMonth) {
-        Toast.makeText(MainActivity.this, dayOfMonth + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
+        final Calendar calendar = Calendar.getInstance(Locale.getDefault());
+
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.YEAR, year);
+
+        Toast.makeText(MainActivity.this, formatter.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
     }
 
-    public ArrayList<String> getList() {
+    public List getList() {
         ArrayList<String> list = new ArrayList<>();
 
         for (int i = 0; i < 50; i++) {
