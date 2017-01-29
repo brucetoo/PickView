@@ -43,7 +43,7 @@
     <!--<attr name="canLoop" format="boolean"/>-->
     <!--<attr name="initPosition" format="integer"/>-->
     <!--<attr name="drawItemCount" format="integer"/>-->
-    <io.blackbox_vision.wheelview.WheelView
+    <io.blackbox_vision.wheelview.view.WheelView
         android:id="@+id/loop_view"
         android:layout_width="200dp"
         android:layout_height="180dp"

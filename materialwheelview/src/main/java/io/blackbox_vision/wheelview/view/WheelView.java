@@ -1,4 +1,4 @@
-package io.blackbox_vision.wheelview;
+package io.blackbox_vision.wheelview.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -22,6 +22,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import io.blackbox_vision.wheelview.LoopScrollListener;
+import io.blackbox_vision.wheelview.R;
 
 import static android.view.GestureDetector.SimpleOnGestureListener;
 

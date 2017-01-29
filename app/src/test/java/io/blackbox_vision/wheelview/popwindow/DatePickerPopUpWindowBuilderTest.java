@@ -9,14 +9,16 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import io.blackbox_vision.wheelview.view.DatePickerPopUpWindow;
+
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({DatePickerPopWin.class})
-public class DatePickerPopWinBuilderTest {
+@PrepareForTest({DatePickerPopUpWindow.class})
+public class DatePickerPopUpWindowBuilderTest {
 
     private static final int MIN_YEAR = 1950;
 
@@ -37,18 +39,18 @@ public class DatePickerPopWinBuilderTest {
     private static final int VIEW_TEXT_SIZE = 16;
 
 
-    private DatePickerPopWin.Builder builder;
+    private DatePickerPopUpWindow.Builder builder;
 
     private Context mContext;
 
-    private DatePickerPopWin.OnDatePickedListener mListener;
+    private DatePickerPopUpWindow.OnDateSelectedListener mListener;
 
     @Before
     public void setUp() {
         mContext = mock(Context.class);
-        mListener = mock(DatePickerPopWin.OnDatePickedListener.class);
+        mListener = mock(DatePickerPopUpWindow.OnDateSelectedListener.class);
 
-        builder = new DatePickerPopWin.Builder(mContext, mListener);
+        builder = new DatePickerPopUpWindow.Builder(mContext);
     }
 
     @Test
@@ -60,7 +62,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testMinYear() {
         // when
-        DatePickerPopWin.Builder result = builder.minYear(MIN_YEAR);
+        DatePickerPopUpWindow.Builder result = builder.setMinYear(MIN_YEAR);
 
         // then
         assertEquals(MIN_YEAR, Whitebox.getInternalState(builder, "minYear"));
@@ -70,7 +72,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testMaxYear() {
         // when
-        DatePickerPopWin.Builder result = builder.maxYear(MAX_YEAR);
+        DatePickerPopUpWindow.Builder result = builder.setMaxYear(MAX_YEAR);
 
         // then
         assertEquals(MAX_YEAR, Whitebox.getInternalState(builder, "maxYear"));
@@ -80,7 +82,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testTextCancel() {
         // when
-        DatePickerPopWin.Builder result = builder.textCancel(TEXT_CANCEL);
+        DatePickerPopUpWindow.Builder result = builder.setCancelButtonText(TEXT_CANCEL);
 
         // then
         assertEquals(TEXT_CANCEL, Whitebox.getInternalState(builder, "textCancel"));
@@ -90,7 +92,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testTextConfirm() {
         // when
-        DatePickerPopWin.Builder result = builder.textConfirm(TEXT_CONFIRM);
+        DatePickerPopUpWindow.Builder result = builder.setConfirmButtonText(TEXT_CONFIRM);
 
         // then
         assertEquals(TEXT_CONFIRM, Whitebox.getInternalState(builder, "textConfirm"));
@@ -100,7 +102,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testDateChose() {
         // when
-        DatePickerPopWin.Builder result = builder.dateChose(DATE_CHOSE);
+        DatePickerPopUpWindow.Builder result = builder.setSelectedDate(DATE_CHOSE);
 
         // then
         assertEquals(DATE_CHOSE, Whitebox.getInternalState(builder, "dateChose"));
@@ -110,7 +112,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testColorCancel() {
         // when
-        DatePickerPopWin.Builder result = builder.colorCancel(COLOR_CANCEL);
+        DatePickerPopUpWindow.Builder result = builder.setCancelButtonTextColor(COLOR_CANCEL);
 
         // then
         assertEquals(COLOR_CANCEL, Whitebox.getInternalState(builder, "colorCancel"));
@@ -120,7 +122,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testColorConfirm() {
         // when
-        DatePickerPopWin.Builder result = builder.colorConfirm(COLOR_CONFIRM);
+        DatePickerPopUpWindow.Builder result = builder.setConfirmButtonTextColor(COLOR_CONFIRM);
 
         // then
         assertEquals(COLOR_CONFIRM, Whitebox.getInternalState(builder, "colorConfirm"));
@@ -130,7 +132,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testBtnTextSize() {
         // when
-        DatePickerPopWin.Builder result = builder.btnTextSize(BTN_TEXT_SIZE);
+        DatePickerPopUpWindow.Builder result = builder.setButtonTextSize(BTN_TEXT_SIZE);
 
         // then
         assertEquals(BTN_TEXT_SIZE, Whitebox.getInternalState(builder, "btnTextSize"));
@@ -140,7 +142,7 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testViewTextSize() {
         // when
-        DatePickerPopWin.Builder result = builder.viewTextSize(VIEW_TEXT_SIZE);
+        DatePickerPopUpWindow.Builder result = builder.setViewTextSize(VIEW_TEXT_SIZE);
 
         // then
         assertEquals(VIEW_TEXT_SIZE, Whitebox.getInternalState(builder, "viewTextSize"));
@@ -150,11 +152,11 @@ public class DatePickerPopWinBuilderTest {
     @Test
     public void testBuild() throws Exception {
         // given
-        DatePickerPopWin mDatePickerPopWin = mock(DatePickerPopWin.class);
-        whenNew(DatePickerPopWin.class).withArguments(builder).thenReturn(mDatePickerPopWin);
+        DatePickerPopUpWindow mDatePickerPopWin = mock(DatePickerPopUpWindow.class);
+        whenNew(DatePickerPopUpWindow.class).withArguments(builder).thenReturn(mDatePickerPopWin);
 
         // when
-        DatePickerPopWin result = builder.build();
+        DatePickerPopUpWindow result = builder.build();
 
         // then
         assertEquals(mDatePickerPopWin, result);
@@ -164,17 +166,17 @@ public class DatePickerPopWinBuilderTest {
     public void testBuildIllegalParameters() throws Exception {
         // given
         builder
-                .minYear(MAX_YEAR)
-                .maxYear(MIN_YEAR);
+                .setMaxYear(MAX_YEAR)
+                .setMinYear(MIN_YEAR);
 
-        DatePickerPopWin mDatePickerPopWin = mock(DatePickerPopWin.class);
-        whenNew(DatePickerPopWin.class).withArguments(builder).thenReturn(mDatePickerPopWin);
+        DatePickerPopUpWindow mDatePickerPopWin = mock(DatePickerPopUpWindow.class);
+        whenNew(DatePickerPopUpWindow.class).withArguments(builder).thenReturn(mDatePickerPopWin);
 
         // when
         builder.build();
 
         // then
-        fail("DatePickerPopWin.Builder should throw IllegalArgumentException " +
+        fail("DatePickerPopUpWindow.Builder should throw IllegalArgumentException " +
                 "when minYear is greater then maxYear");
     }
 

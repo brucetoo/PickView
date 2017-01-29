@@ -3,6 +3,7 @@ package io.blackbox_vision.wheelview.popwindow;
 
 import io.blackbox_vision.wheelview.sample.BuildConfig;
 import io.blackbox_vision.wheelview.sample.MainActivity;
+import io.blackbox_vision.wheelview.view.DatePickerPopUpWindow;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,21 +19,21 @@ import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21, manifest = "app/src/main/AndroidManifest.xml")
-public class DatePickerPopWinTest {
+public class DatePickerPopUpWindowTest {
 
-    private DatePickerPopWin datePickerPopWin;
+    private DatePickerPopUpWindow datePickerPopWin;
 
-    private DatePickerPopWin.Builder builder;
+    private DatePickerPopUpWindow.Builder builder;
 
     @Before
     public void setUp() {
 
         MainActivity mContext = Robolectric.setupActivity(MainActivity.class);
-        DatePickerPopWin.OnDatePickedListener mListener =
-                mock(DatePickerPopWin.OnDatePickedListener.class);
+        DatePickerPopUpWindow.OnDateSelectedListener mListener =
+                mock(DatePickerPopUpWindow.OnDateSelectedListener.class);
 
-        builder = new DatePickerPopWin.Builder(mContext, mListener);
-        datePickerPopWin = new DatePickerPopWin(builder);
+        builder = new DatePickerPopUpWindow.Builder(mContext);
+        datePickerPopWin = new DatePickerPopUpWindow(builder);
     }
 
     @Test
@@ -57,10 +58,5 @@ public class DatePickerPopWinTest {
                 Whitebox.getInternalState(datePickerPopWin, "btnTextsize"));
         assertEquals(Whitebox.getInternalState(builder, "viewTextSize"),
                 Whitebox.getInternalState(datePickerPopWin, "viewTextSize"));
-
-        assertEquals(Whitebox.getInternalState(builder, "textCancel"),
-                datePickerPopWin.cancelBtn.getText());
-        assertEquals(Whitebox.getInternalState(builder, "textConfirm"),
-                datePickerPopWin.confirmBtn.getText());
     }
 }
