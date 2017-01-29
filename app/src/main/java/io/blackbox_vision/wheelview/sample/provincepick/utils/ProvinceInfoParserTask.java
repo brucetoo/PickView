@@ -48,7 +48,7 @@ public class ProvinceInfoParserTask extends AsyncTask<Void, Void, List<ProvinceM
 		try {
 			SAXParserFactory sax = SAXParserFactory.newInstance();// 创建解析器
 			XMLReader reader = sax.newSAXParser().getXMLReader();
-			InputStream in = mContext.getAssets().open("city.xml");
+			InputStream in = mContext.getAssets().open("io/blackbox_vision/wheelview/sample/provincepick/utils/city.xml");
 
 			reader.setContentHandler(new ProvinceInfoHandler(provinceList));// 为reader设置内容处理器
 			reader.parse(new InputSource(in));// 开始解析文件

@@ -45,9 +45,9 @@ public final class MainActivity extends AppCompatActivity {
 
         final WheelView wheelView = (WheelView) findViewById(R.id.loop_view);
 
-        wheelView.setInitPosition(2);
+        wheelView.setInitialPosition(2);
         wheelView.setCanLoop(false);
-        wheelView.setLoopListener(item -> {});
+        wheelView.setOnLoopScrollListener((item, position) -> {});
         wheelView.setTextSize(12);
         wheelView.setItems(getList());
     }

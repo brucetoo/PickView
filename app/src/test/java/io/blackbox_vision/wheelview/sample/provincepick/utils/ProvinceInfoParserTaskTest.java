@@ -52,7 +52,7 @@ public class ProvinceInfoParserTaskTest extends PickViewTestSupport {
         provinceInfoParserTask = new ProvinceInfoParserTask(mockContext, mockHandler);
 
         when(mockContext.getAssets()).thenReturn(mockAssetManager);
-        when(mockAssetManager.open("city.xml")).thenReturn(
+        when(mockAssetManager.open("io/blackbox_vision/wheelview/sample/provincepick/utils/city.xml")).thenReturn(
                 this.getClass().getResourceAsStream("valid-data.xml")
         );
 

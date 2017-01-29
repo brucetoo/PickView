@@ -23,7 +23,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import io.blackbox_vision.wheelview.LoopScrollListener;
+import io.blackbox_vision.wheelview.data.ItemMapper;
 import io.blackbox_vision.wheelview.R;
 
 import static android.view.GestureDetector.SimpleOnGestureListener;
@@ -42,7 +42,7 @@ public final class WheelView extends View {
     private ScheduledFuture<?> scheduledFuture;
 
     @Nullable
-    private LoopScrollListener loopScrollListener;
+    private OnLoopScrollListener onLoopScrollListener;
 
     @NonNull
     private final SimpleOnGestureListener onGestureListener  = new WheelViewGestureListener();
@@ -52,7 +52,8 @@ public final class WheelView extends View {
     private final Paint centerTextPaint = new Paint();  // paint that draw center text
     private final Paint centerLinePaint = new Paint();  // paint that draw line besides center text
 
-    private List<String> data;
+    private List items;
+    private ItemMapper itemMapper;
 
     private String[] itemCount;
 
@@ -62,7 +63,7 @@ public final class WheelView extends View {
     private boolean canLoop;
 
     private int totalScrollY;
-    private int selectedItem;
+    private int selectedIndex;
     private int textSize;
     private int maxTextWidth;
     private int maxTextHeight;
@@ -147,6 +148,7 @@ public final class WheelView extends View {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
         }
 
+        itemMapper = item -> (String) item;
         itemCount = new String[drawItemsCount];
 
         gestureDetector = new GestureDetector(getContext(), onGestureListener);
@@ -155,8 +157,8 @@ public final class WheelView extends View {
 
 
     private void initData() {
-        if (null == data) {
-            throw new IllegalArgumentException("data list must not be null!");
+        if (null == items) {
+            throw new IllegalArgumentException("items list must not be null!");
         }
 
         topBottomTextPaint.setColor(topBottomTextColor);
@@ -189,7 +191,7 @@ public final class WheelView extends View {
         // FIXME: 7/8/16  通过控件的高度来计算圆弧的周长
 
         if (initialPosition == -1) {
-            initialPosition = canLoop ? (data.size() + 1) / 2 : 0;
+            initialPosition = canLoop ? (items.size() + 1) / 2 : 0;
         }
 
         currentIndex = initialPosition;
@@ -199,8 +201,8 @@ public final class WheelView extends View {
     private void measureTextWidthHeight() {
         final Rect rect = new Rect();
 
-        for (int i = 0; i < data.size(); i++) {
-            final String s1 = data.get(i);
+        for (int i = 0; i < items.size(); i++) {
+            final String s1 = (String) items.get(i);
 
             centerTextPaint.getTextBounds(s1, 0, s1.length(), rect);
 
@@ -235,7 +237,7 @@ public final class WheelView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (data == null) {
+        if (items == null) {
             super.onDraw(canvas);
             return;
         }
@@ -245,14 +247,14 @@ public final class WheelView extends View {
         //the length of single item is itemHeight
         int mChangingItem = (int) (totalScrollY / (itemHeight));
 
-        currentIndex = initialPosition + mChangingItem % data.size();
+        currentIndex = initialPosition + mChangingItem % items.size();
 
         if (!canLoop) { // can loop
             currentIndex = (currentIndex < 0) ? 0 : currentIndex;
-            currentIndex = (currentIndex > data.size() - 1) ? data.size() - 1 : currentIndex;
+            currentIndex = (currentIndex > items.size() - 1) ? items.size() - 1 : currentIndex;
         } else { //can not loop
-            currentIndex = (currentIndex < 0) ? currentIndex + data.size() : currentIndex;
-            currentIndex = (currentIndex > data.size() - 1) ? currentIndex - data.size() : currentIndex;
+            currentIndex = (currentIndex < 0) ? currentIndex + items.size() : currentIndex;
+            currentIndex = (currentIndex > items.size() - 1) ? currentIndex - items.size() : currentIndex;
         }
 
         int count = 0;
@@ -262,13 +264,13 @@ public final class WheelView extends View {
             int templateItem = currentIndex - (drawItemsCount / 2 - count);
 
             if (canLoop) {
-                templateItem = (templateItem < 0) ? templateItem + data.size() : templateItem;
-                templateItem = (templateItem > data.size() - 1) ? templateItem - data.size() : templateItem;
-                itemCount[count] = data.get(templateItem);
-            } else if (templateItem < 0 || templateItem > data.size() - 1) {
+                templateItem = (templateItem < 0) ? templateItem + items.size() : templateItem;
+                templateItem = (templateItem > items.size() - 1) ? templateItem - items.size() : templateItem;
+                itemCount[count] = itemMapper.map(items.get(templateItem));
+            } else if (templateItem < 0 || templateItem > items.size() - 1) {
                 itemCount[count] = "";
             } else {
-                itemCount[count] = data.get(templateItem);
+                itemCount[count] = itemMapper.map(items.get(templateItem));
             }
 
             count++;
@@ -324,7 +326,7 @@ public final class WheelView extends View {
                     canvas.clipRect(0, 0, widgetWidth, (int) (itemHeight));
                     canvas.drawText(itemCount[count], paddingLeftRight, maxTextHeight, centerTextPaint);
                     //center one indicate selected item
-                    selectedItem = data.indexOf(itemCount[count]);
+                    selectedIndex = items.indexOf(itemCount[count]);
                 }
 
                 canvas.restore();
@@ -352,50 +354,39 @@ public final class WheelView extends View {
         invalidate();
     }
 
-    /**
-     * set text size
-     *
-     * @param size size indicate sp,not px
-     */
     public final void setTextSize(float size) {
         if (size > 0) {
             textSize = sp2px(getContext(), size);
         }
     }
 
-    public void setInitPosition(int initPosition) {
-        this.initialPosition = initPosition;
+    public void setInitialPosition(int initialPosition) {
+        this.initialPosition = initialPosition;
         invalidate();
     }
 
-    public void setLoopListener(@Nullable LoopScrollListener LoopListener) {
-        loopScrollListener = LoopListener;
+    public void setOnLoopScrollListener(@Nullable OnLoopScrollListener LoopListener) {
+        onLoopScrollListener = LoopListener;
     }
 
-    /**
-     * All public method must be called before this method
-     * @param list data list
-     */
-    public final void setItems(List<String> list) {
-        this.data = list;
+    public void setItemMapper(@NonNull ItemMapper mapper) {
+        this.itemMapper = mapper;
+    }
+
+    public void setItems(@NonNull List items) {
+        this.items = items;
         initData();
     }
 
-    public int getSelectedItem() {
-        return selectedItem;
-    }
-
     private void itemSelected() {
-        if (loopScrollListener != null) {
+        if (onLoopScrollListener != null) {
             postDelayed(this::onItemSelected, 200L);
         }
     }
 
     private void onItemSelected() {
-        data.get(getSelectedItem());
-
-        if (null != loopScrollListener) {
-            loopScrollListener.onItemSelect(getSelectedItem());
+        if (null != onLoopScrollListener) {
+            onLoopScrollListener.onLoopScrollFinish(items.get(selectedIndex), selectedIndex);
         }
     }
 
@@ -440,7 +431,7 @@ public final class WheelView extends View {
             totalScrollY = (int) ((float) totalScrollY + distanceY);
 
             if (!canLoop) {
-                final int circleLength = (int) ((float) (data.size() - 1 - initialPosition) * (itemHeight));
+                final int circleLength = (int) ((float) (items.size() - 1 - initialPosition) * (itemHeight));
                 final int initPositionCircleLength = (int) (initialPosition * (itemHeight));
                 final int initPositionStartY = -1 * initPositionCircleLength;
 
@@ -503,9 +494,6 @@ public final class WheelView extends View {
         }
     }
 
-    /**
-     * Use in {@link WheelViewGestureListener#onFling(MotionEvent, MotionEvent, float, float)}
-     */
     class FlingRunnable implements Runnable {
 
         float velocity;
@@ -525,7 +513,8 @@ public final class WheelView extends View {
                     velocity = velocityY;
                 }
             }
-            Log.i(TAG, "velocity->" + velocity);
+
+            Log.i(TAG, "velocity -> " + velocity);
 
             if (Math.abs(velocity) >= 0.0F && Math.abs(velocity) <= 20F) {
                 cancelSchedule();
@@ -542,8 +531,8 @@ public final class WheelView extends View {
                 if (totalScrollY <= (int) ((float) (-initialPosition) * itemHeight)) {
                     velocity = 40F;
                     totalScrollY = (int) ((float) (-initialPosition) * itemHeight);
-                } else if (totalScrollY >= (int) ((float) (data.size() - 1 - initialPosition) * itemHeight)) {
-                    totalScrollY = (int) ((float) (data.size() - 1 - initialPosition) * itemHeight);
+                } else if (totalScrollY >= (int) ((float) (items.size() - 1 - initialPosition) * itemHeight)) {
+                    totalScrollY = (int) ((float) (items.size() - 1 - initialPosition) * itemHeight);
                     velocity = -40F;
                 }
             }
@@ -551,5 +540,10 @@ public final class WheelView extends View {
             velocity = (velocity < 0.0F) ? velocity + 20F : velocity - 20F;
             handler.sendEmptyMessage(MSG_INVALIDATE);
         }
+    }
+
+    public interface OnLoopScrollListener {
+
+        void onLoopScrollFinish(@NonNull Object item, int position);
     }
 }

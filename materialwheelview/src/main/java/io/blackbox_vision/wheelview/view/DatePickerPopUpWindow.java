@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Locale;
 
 import io.blackbox_vision.wheelview.R;
-import io.blackbox_vision.wheelview.utils.DateUtils;
+
+import static io.blackbox_vision.wheelview.utils.DateUtils.*;
 
 
 public final class DatePickerPopUpWindow extends PopupWindow {
@@ -124,14 +125,14 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         confirmButton.setTextColor(confirmButtonTextColor);
         confirmButton.setTextSize(buttonTextSize);
 
-        yearSpinner.setLoopListener(item -> yearPos = item);
+        yearSpinner.setOnLoopScrollListener((item, position) -> yearPos = position);
 
-        monthSpinner.setLoopListener(item -> {
-            monthPos = item;
+        monthSpinner.setOnLoopScrollListener((item, position) -> {
+            monthPos = position;
             drawDayPickerView();
         });
 
-        daySpinner.setLoopListener(item -> dayPos = item);
+        daySpinner.setOnLoopScrollListener((item, position) -> dayPos = position);
 
         drawYearPickerView();
         drawMonthPickerView();
@@ -166,11 +167,11 @@ public final class DatePickerPopUpWindow extends PopupWindow {
             calendar = Calendar.getInstance(Locale.getDefault());
             calendar.set(Calendar.YEAR, minYear + i);
 
-            years.add(DateUtils.formatDate(calendar, YEAR_FORMAT));
+            years.add(formatDate(calendar, YEAR_FORMAT));
         }
 
         yearSpinner.setItems(years);
-        yearSpinner.setInitPosition(yearPos);
+        yearSpinner.setInitialPosition(yearPos);
     }
 
     private void drawMonthPickerView() {
@@ -179,11 +180,11 @@ public final class DatePickerPopUpWindow extends PopupWindow {
             calendar = Calendar.getInstance(Locale.getDefault());
             calendar.set(Calendar.MONTH, j);
 
-            months.add(DateUtils.formatDate(calendar, MONTH_FORMAT));
+            months.add(formatDate(calendar, MONTH_FORMAT));
         }
 
         monthSpinner.setItems(months);
-        monthSpinner.setInitPosition(monthPos);
+        monthSpinner.setInitialPosition(monthPos);
     }
 
     private void drawDayPickerView() {
@@ -204,12 +205,12 @@ public final class DatePickerPopUpWindow extends PopupWindow {
             for (int i = 0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                 calendar.set(Calendar.DAY_OF_MONTH, i + 1);
 
-                days.add(DateUtils.formatDate(calendar, DAY_FORMAT));
+                days.add(formatDate(calendar, DAY_FORMAT));
             }
         }
 
         daySpinner.setItems(days);
-        daySpinner.setInitPosition(dayPos);
+        daySpinner.setInitialPosition(dayPos);
     }
 
     public void show(@Nullable Activity activity) {
@@ -306,7 +307,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
         public Builder setSelectedDate(@NonNull String selectedDate) {
             final Calendar calendar = Calendar.getInstance(Locale.getDefault());
-            calendar.setTimeInMillis(DateUtils.toMilliseconds(selectedDate));
+            calendar.setTimeInMillis(toMilliseconds(selectedDate));
 
             this.selectedDate = calendar;
             return this;

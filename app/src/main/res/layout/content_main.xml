@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".sample.MainActivity"
+    tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
     <Button
@@ -28,26 +28,11 @@
         android:text="Province Pick"
         />
 
-    <Button
-        android:id="@+id/demo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/province"
-        android:text="DEMO"
-        />
-
-    <!--<attr name="lineColor" format="color"/>-->
-    <!--<attr name="topBottomTextColor" format="color"/>-->
-    <!--<attr name="centerTextColor" format="color"/>-->
-    <!--<attr name="textSize" format="dimension"/>-->
-    <!--<attr name="canLoop" format="boolean"/>-->
-    <!--<attr name="initPosition" format="integer"/>-->
-    <!--<attr name="drawItemCount" format="integer"/>-->
     <io.blackbox_vision.wheelview.view.WheelView
         android:id="@+id/loop_view"
         android:layout_width="200dp"
         android:layout_height="180dp"
-        android:layout_below="@+id/demo"
+        android:layout_below="@+id/province"
         app:canLoop="true"
         app:centerTextColor="#ff000000"
         app:drawItemCount="7"
@@ -55,4 +40,5 @@
         app:lineColor="@color/colorPrimary"
         app:textSize="25sp"
         app:topBottomTextColor="#ffafafaf"/>
+
 </RelativeLayout>
