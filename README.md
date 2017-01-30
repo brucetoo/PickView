@@ -1,4 +1,4 @@
-#Material Wheel View [![](https://jitpack.io/v/BlackBoxVision/material-wheel-view.svg)](https://jitpack.io/#BlackBoxVision/material-wheel-view)
+#Material Wheel View [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Material%20WheelView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5184) [![](https://jitpack.io/v/BlackBoxVision/material-wheel-view.svg)](https://jitpack.io/#BlackBoxVision/material-wheel-view)
 >:ferris_wheel: Prettier and simpler IOS like WheelView and other built-in WheelView UIs
 
 
