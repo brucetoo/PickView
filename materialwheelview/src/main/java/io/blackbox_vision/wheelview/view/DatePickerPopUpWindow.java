@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,12 +132,12 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         confirmButton.setTextColor(confirmButtonTextColor);
         confirmButton.setTextSize(buttonTextSize);
 
-        yearSpinner.setOnLoopScrollListener((item, position) -> yearPos = position);
+        yearSpinner.addOnLoopScrollListener((item, position) -> yearPos = position);
 
-        monthSpinner.setOnLoopScrollListener((item, position) -> monthPos = position);
+        monthSpinner.addOnLoopScrollListener((item, position) -> monthPos = position);
         monthSpinner.addOnLoopScrollListener((item, position) -> drawDayPickerView());
 
-        daySpinner.setOnLoopScrollListener((item, position) -> dayPos = position);
+        daySpinner.addOnLoopScrollListener((item, position) -> dayPos = position);
 
         drawYearPickerView();
         drawMonthPickerView();
@@ -168,12 +167,12 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
     private void drawYearPickerView() {
         calendar = Calendar.getInstance(locale);
-        int yearCount = maxYear - minYear;
+        final int yearCount = maxYear - minYear;
 
         for (int i = 0; i < yearCount; i++) {
             calendar.set(Calendar.YEAR, minYear + i);
 
-            years.add(formatDate(calendar, YEAR_FORMAT));
+            years.add(i, formatDate(calendar, YEAR_FORMAT));
         }
 
         yearSpinner.setItems(years);
@@ -184,9 +183,11 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         calendar = Calendar.getInstance(locale);
 
         for (int j = 0; j <= calendar.getActualMaximum(Calendar.MONTH); j++) {
+            calendar.set(Calendar.YEAR, Integer.valueOf(years.get(yearPos)));
             calendar.set(Calendar.MONTH, j);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
 
-            months.add(formatDate(calendar, showShortMonths ? SHORT_MONTH_FORMAT : MONTH_FORMAT).toUpperCase());
+            months.add(j, formatDate(calendar, showShortMonths ? SHORT_MONTH_FORMAT : MONTH_FORMAT).toUpperCase());
         }
 
         monthSpinner.setItems(months);
@@ -194,25 +195,22 @@ public final class DatePickerPopUpWindow extends PopupWindow {
     }
 
     private void drawDayPickerView() {
+        for (Iterator<String> iterator = days.listIterator(); iterator.hasNext(); ) {
+            iterator.next();
+            iterator.remove();
+        }
+
         final int year = Integer.valueOf(years.get(yearPos));
-        final int month = showShortMonths ? months.indexOf(months.get(monthPos)) : Integer.valueOf(months.get(monthPos));
+        final int month = showShortMonths ? months.indexOf(months.get(monthPos)) + 1 : Integer.valueOf(months.get(monthPos));
 
         calendar = Calendar.getInstance(locale);
 
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1);
+        for (int i = 0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, i + 1);
 
-        if (days.size() != calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-            for (Iterator<String> iterator = days.listIterator(); iterator.hasNext(); ) {
-                iterator.next();
-                iterator.remove();
-            }
-
-            for (int i = 0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
-                calendar.set(Calendar.DAY_OF_MONTH, i + 1);
-
-                days.add(formatDate(calendar, DAY_FORMAT));
-            }
+            days.add(i, formatDate(calendar, DAY_FORMAT));
         }
 
         daySpinner.setItems(days);
@@ -249,7 +247,7 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         } else if (v == confirmButton) {
             if (null != onDateSelectedListener) {
                 final int year = Integer.valueOf(years.get(yearPos));
-                final int month = showShortMonths ? months.indexOf(months.get(monthPos)) : Integer.valueOf(months.get(monthPos));
+                final int month = showShortMonths ? months.indexOf(months.get(monthPos)) : Integer.valueOf(months.get(monthPos)) - 1;
                 final int dayOfMonth = Integer.valueOf(days.get(dayPos));
 
                 onDateSelectedListener.onDateSelected(year, month, dayOfMonth);

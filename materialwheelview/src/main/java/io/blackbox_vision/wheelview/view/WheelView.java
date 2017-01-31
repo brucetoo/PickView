@@ -391,7 +391,7 @@ public final class WheelView extends View {
 
     private void onItemSelected() {
         for (OnLoopScrollListener onLoopScrollListener: listeners) {
-            onLoopScrollListener.onLoopScrollFinish(items.get(selectedIndex), selectedIndex);
+            onLoopScrollListener.onLoopScrollFinish(items.get(selectedIndex), items.indexOf(items.get(selectedIndex)));
         }
     }
 
