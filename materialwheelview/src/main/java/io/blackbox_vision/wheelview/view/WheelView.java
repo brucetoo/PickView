@@ -68,9 +68,9 @@ public final class WheelView extends View {
     private int textSize;
     private int maxTextWidth;
     private int maxTextHeight;
-    private int topBottomTextColor;
-    private int centerTextColor;
-    private int centerLineColor;
+    private int overflowTextColor;
+    private int contentTextColor;
+    private int lineColor;
     private int topLineY;
     private int bottomLineY;
     private int currentIndex;
@@ -129,13 +129,13 @@ public final class WheelView extends View {
 
         try {
             if (null != array) {
-                topBottomTextColor = array.getColor(R.styleable.WheelView_topBottomTextColor, 0xffafafaf);
-                centerTextColor = array.getColor(R.styleable.WheelView_centerTextColor, 0xff313131);
-                centerLineColor = array.getColor(R.styleable.WheelView_lineColor, 0xffc5c5c5);
-                canLoop = array.getBoolean(R.styleable.WheelView_canLoop, true);
-                initialPosition = array.getInt(R.styleable.WheelView_initPosition, -1);
-                textSize = array.getDimensionPixelSize(R.styleable.WheelView_textSize, sp2px(getContext(), 16));
-                drawItemsCount = array.getInt(R.styleable.WheelView_drawItemCount, 7);
+                overflowTextColor = array.getColor(R.styleable.WheelView_wheelViewOverflowTextColor, 0xffafafaf);
+                contentTextColor = array.getColor(R.styleable.WheelView_wheelViewContentTextColor, 0xff313131);
+                lineColor = array.getColor(R.styleable.WheelView_wheelViewLineColor, 0xffc5c5c5);
+                canLoop = array.getBoolean(R.styleable.WheelView_wheelViewIsLoopEnabled, true);
+                initialPosition = array.getInt(R.styleable.WheelView_wheelViewInitialPosition, -1);
+                textSize = array.getDimensionPixelSize(R.styleable.WheelView_wheelViewTextSize, sp2px(getContext(), 16));
+                drawItemsCount = array.getInt(R.styleable.WheelView_wheelViewDrawItemCount, 7);
             }
         } finally {
             if (null != array) {
@@ -162,18 +162,18 @@ public final class WheelView extends View {
             throw new IllegalArgumentException("items list must not be null!");
         }
 
-        topBottomTextPaint.setColor(topBottomTextColor);
+        topBottomTextPaint.setColor(overflowTextColor);
         topBottomTextPaint.setAntiAlias(true);
         topBottomTextPaint.setTypeface(Typeface.MONOSPACE);
         topBottomTextPaint.setTextSize(textSize);
 
-        centerTextPaint.setColor(centerTextColor);
+        centerTextPaint.setColor(contentTextColor);
         centerTextPaint.setAntiAlias(true);
         centerTextPaint.setTextScaleX(1.05F);
         centerTextPaint.setTypeface(Typeface.MONOSPACE);
         centerTextPaint.setTextSize(textSize);
 
-        centerLinePaint.setColor(centerLineColor);
+        centerLinePaint.setColor(lineColor);
         centerLinePaint.setAntiAlias(true);
         centerLinePaint.setTypeface(Typeface.MONOSPACE);
         centerLinePaint.setTextSize(textSize);
@@ -350,7 +350,22 @@ public final class WheelView extends View {
         return true;
     }
 
-    public final void setCanLoop(boolean canLoop) {
+    public WheelView setContentTextColor(int centerTextColor) {
+        this.contentTextColor = centerTextColor;
+        return this;
+    }
+
+    public WheelView setOverflowTextColor(int topBottomTextColor) {
+        this.overflowTextColor = topBottomTextColor;
+        return this;
+    }
+
+    public WheelView setLineColor(int centerLineColor) {
+        this.lineColor = centerLineColor;
+        return this;
+    }
+
+    public final void setIsLoopEnabled(boolean canLoop) {
         this.canLoop = canLoop;
         invalidate();
     }

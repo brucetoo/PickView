@@ -3,6 +3,7 @@ package io.blackbox_vision.wheelview.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.blackbox_vision.wheelview.R;
+import io.blackbox_vision.wheelview.utils.DateUtils;
 
 import static io.blackbox_vision.wheelview.utils.DateUtils.formatDate;
 
@@ -29,22 +31,24 @@ public final class DatePickerWheelView extends LinearLayout {
     private static final String MONTH_FORMAT = "MM";
     private static final String DAY_FORMAT = "dd";
 
-    private static final int DEFAULT_MIN_YEAR = 1900;
-
     private WheelView yearSpinner;
-
     private WheelView monthSpinner;
-
     private WheelView daySpinner;
 
-    private int textSize;
+    private float textSize;
 
     private int minYear;
-
     private int maxYear;
 
-    private boolean showDayMonthYear;
+    private int lineColor;
 
+    private int overflowTextColor;
+    private int contentTextColor;
+
+    private String initialDate;
+
+    private boolean isLoopEnabled;
+    private boolean showDayMonthYear;
     private boolean showShortMonths;
 
     @NonNull
@@ -68,6 +72,7 @@ public final class DatePickerWheelView extends LinearLayout {
     @NonNull
     private Locale locale = Locale.getDefault();
 
+    private View rootView;
 
     public DatePickerWheelView(Context context) {
         this(context, null, 0);
@@ -79,25 +84,67 @@ public final class DatePickerWheelView extends LinearLayout {
 
     public DatePickerWheelView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        takeStyles(attrs);
         drawDatePickerWheelView();
     }
 
     @TargetApi(21)
     public DatePickerWheelView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        takeStyles(attrs);
         drawDatePickerWheelView();
     }
 
+    private void takeStyles(@NonNull AttributeSet attrs) {
+        final TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.DatePickerWheelView);
+
+        try {
+            if (null != array) {
+                overflowTextColor = array.getColor(R.styleable.DatePickerWheelView_datePickerWheelViewOverflowTextColor, 0xffafafaf);
+                contentTextColor = array.getColor(R.styleable.WheelView_wheelViewContentTextColor, 0xff313131);
+                lineColor = array.getColor(R.styleable.DatePickerWheelView_datePickerWheelViewLineColor, 0xffc5c5c5);
+
+                isLoopEnabled = array.getBoolean(R.styleable.DatePickerWheelView_datePickerWheelViewIsLoopEnabled, true);
+                showDayMonthYear = array.getBoolean(R.styleable.DatePickerWheelView_datePickerWheelViewShowDayMonthYear, false);
+                showShortMonths = array.getBoolean(R.styleable.DatePickerWheelView_datePickerWheelViewShowShortMonths, false);
+
+                textSize = array.getDimension(R.styleable.DatePickerWheelView_datePickerWheelViewTextSize, 16F);
+
+                minYear = array.getInt(R.styleable.DatePickerWheelView_datePickerWheelViewMinYear, 1980);
+                maxYear = array.getInt(R.styleable.DatePickerWheelView_datePickerWheelViewMaxYear, 2100);
+
+                initialDate = array.getString(R.styleable.DatePickerWheelView_datePickerWheelViewInitialDate);
+            }
+        } finally {
+            if (null != array) {
+                array.recycle();
+            }
+        }
+    }
+
     private void drawDatePickerWheelView() {
-        final View rootView = LayoutInflater.from(getContext()).inflate(R.layout.date_picker, this, true);
+        rootView = LayoutInflater.from(getContext()).inflate(showDayMonthYear ? R.layout.date_picker_inverted : R.layout.date_picker, this, true);
 
         yearSpinner = (WheelView) rootView.findViewById(R.id.picker_year);
         monthSpinner = (WheelView) rootView.findViewById(R.id.picker_month);
         daySpinner = (WheelView) rootView.findViewById(R.id.picker_day);
 
-        yearSpinner.setCanLoop(false);
-        monthSpinner.setCanLoop(false);
-        daySpinner.setCanLoop(false);
+
+        yearSpinner.setLineColor(lineColor);
+        monthSpinner.setLineColor(lineColor);
+        daySpinner.setLineColor(lineColor);
+
+        yearSpinner.setContentTextColor(contentTextColor);
+        monthSpinner.setContentTextColor(contentTextColor);
+        daySpinner.setContentTextColor(contentTextColor);
+
+        yearSpinner.setOverflowTextColor(overflowTextColor);
+        monthSpinner.setOverflowTextColor(overflowTextColor);
+        daySpinner.setOverflowTextColor(overflowTextColor);
+
+        yearSpinner.setIsLoopEnabled(isLoopEnabled);
+        monthSpinner.setIsLoopEnabled(isLoopEnabled);
+        daySpinner.setIsLoopEnabled(isLoopEnabled);
 
         yearSpinner.setTextSize(textSize);
         monthSpinner.setTextSize(textSize);
@@ -112,6 +159,7 @@ public final class DatePickerWheelView extends LinearLayout {
         daySpinner.addOnLoopScrollListener(this::updateDayPosition);
         daySpinner.addOnLoopScrollListener(this::onDateSelected);
 
+        setInitialPositions();
         drawYearPickerView();
         drawMonthPickerView();
         drawDayPickerView();
@@ -141,6 +189,18 @@ public final class DatePickerWheelView extends LinearLayout {
 
             onDateSelectedListener.onDateSelected(year, month, dayOfMonth);
         }
+    }
+
+    private void setInitialPositions() {
+        final Calendar calendar = DateUtils.parseDateString(initialDate);
+
+        yearPos = calendar.get(Calendar.YEAR) - minYear;
+        monthPos = calendar.get(Calendar.MONTH);
+        dayPos = calendar.get(Calendar.DAY_OF_MONTH) - 1;
+
+        yearSpinner.setInitialPosition(yearPos);
+        monthSpinner.setInitialPosition(monthPos);
+        daySpinner.setInitialPosition(dayPos);
     }
 
     private void drawYearPickerView() {
@@ -234,8 +294,34 @@ public final class DatePickerWheelView extends LinearLayout {
         return this;
     }
 
-    public DatePickerWheelView setTextSize(int textSize) {
+    public DatePickerWheelView setLoopEnabled(boolean loopEnabled) {
+        isLoopEnabled = loopEnabled;
+        return this;
+    }
+
+    public DatePickerWheelView setTextSize(float textSize) {
         this.textSize = textSize;
+        return this;
+    }
+
+    public DatePickerWheelView setLineColor(int lineColor) {
+        this.lineColor = lineColor;
+        return this;
+    }
+
+    public DatePickerWheelView setOverflowTextColor(int overflowTextColor) {
+        this.overflowTextColor = overflowTextColor;
+        return this;
+    }
+
+    public DatePickerWheelView setContentTextColor(int contentTextColor) {
+        this.contentTextColor = contentTextColor;
+        return this;
+    }
+
+    public DatePickerWheelView setInitialDate(String initialDate) {
+        this.initialDate = initialDate;
+        setInitialPositions();
         return this;
     }
 }

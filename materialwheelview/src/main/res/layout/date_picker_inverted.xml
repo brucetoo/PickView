@@ -7,9 +7,11 @@
     android:padding="4dp">
 
     <io.blackbox_vision.wheelview.view.WheelView
-        android:id="@+id/picker_year"
+        android:id="@+id/picker_day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:layout_marginStart="1dp"
         android:layout_weight="1"
         app:wheelViewTextSize="25sp"
         app:wheelViewIsLoopEnabled="false"/>
@@ -25,11 +27,9 @@
         app:wheelViewIsLoopEnabled="false"/>
 
     <io.blackbox_vision.wheelview.view.WheelView
-        android:id="@+id/picker_day"
+        android:id="@+id/picker_year"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp"
-        android:layout_marginStart="1dp"
         android:layout_weight="1"
         app:wheelViewTextSize="25sp"
         app:wheelViewIsLoopEnabled="false"/>

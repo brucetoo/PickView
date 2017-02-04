@@ -34,7 +34,6 @@ public final class MainActivity extends AppCompatActivity {
             final DatePickerPopUpWindow datePicker = new DatePickerPopUpWindow.Builder(getApplicationContext())
                     .setMinYear(1990)
                     .setMaxYear(2550)
-                    .setLocale(Locale.getDefault())
                     .setSelectedDate("2013-11-11")
                     .setOnDateSelectedListener(this::onDateSelected)
                     .setConfirmButtonText("CONFIRM")
@@ -57,8 +56,8 @@ public final class MainActivity extends AppCompatActivity {
         final WheelView wheelView = (WheelView) findViewById(R.id.loop_view);
 
         wheelView.setInitialPosition(2);
-        wheelView.setCanLoop(false);
-        wheelView.setOnLoopScrollListener((item, position) -> {});
+        wheelView.setIsLoopEnabled(false);
+        wheelView.addOnLoopScrollListener((item, position) -> {});
         wheelView.setTextSize(12);
         wheelView.setItems(getList());
     }
