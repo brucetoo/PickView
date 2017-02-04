@@ -35,6 +35,7 @@ public final class MainActivity extends AppCompatActivity {
                     .setMinYear(1990)
                     .setMaxYear(2550)
                     .setSelectedDate("2013-11-11")
+                    .setLocale(Locale.getDefault())
                     .setOnDateSelectedListener(this::onDateSelected)
                     .setConfirmButtonText("CONFIRM")
                     .setCancelButtonText("CANCEL")

@@ -2,7 +2,6 @@ package io.blackbox_vision.wheelview.utils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,8 +15,8 @@ public final class DateUtils {
 
     private DateUtils() { }
 
-    public static String formatDate(@NonNull Calendar calendar, @NonNull String fieldType) {
-        return new SimpleDateFormat(fieldType, Locale.getDefault()).format(calendar.getTime());
+    public static String formatDate(@NonNull Calendar calendar, @NonNull Locale locale, @NonNull String fieldType) {
+        return new SimpleDateFormat(fieldType, locale).format(calendar.getTime());
     }
 
     public static Calendar parseDateString(@Nullable String dateString) {
@@ -26,8 +25,6 @@ public final class DateUtils {
         dateString = dateString != null ? dateString : "";
         Date date;
 
-        Log.i("DateUtils", "This is the date to parse as String -> " + dateString);
-
         try {
             date = formatter.parse(dateString);
             calendar.setTime(date);
@@ -35,8 +32,6 @@ public final class DateUtils {
             date = new Date(System.currentTimeMillis());
             calendar.setTime(date);
         }
-
-        Log.i("DateUtils", "This is the date -> " + date.toString());
 
         return calendar;
     }

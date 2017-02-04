@@ -47,7 +47,6 @@ public final class DatePickerWheelView extends LinearLayout {
 
     private String initialDate;
 
-    private boolean isLoopEnabled;
     private boolean showDayMonthYear;
     private boolean showShortMonths;
 
@@ -104,7 +103,6 @@ public final class DatePickerWheelView extends LinearLayout {
                 contentTextColor = array.getColor(R.styleable.WheelView_wheelViewContentTextColor, 0xff313131);
                 lineColor = array.getColor(R.styleable.DatePickerWheelView_datePickerWheelViewLineColor, 0xffc5c5c5);
 
-                isLoopEnabled = array.getBoolean(R.styleable.DatePickerWheelView_datePickerWheelViewIsLoopEnabled, true);
                 showDayMonthYear = array.getBoolean(R.styleable.DatePickerWheelView_datePickerWheelViewShowDayMonthYear, false);
                 showShortMonths = array.getBoolean(R.styleable.DatePickerWheelView_datePickerWheelViewShowShortMonths, false);
 
@@ -142,12 +140,12 @@ public final class DatePickerWheelView extends LinearLayout {
         monthSpinner.setOverflowTextColor(overflowTextColor);
         daySpinner.setOverflowTextColor(overflowTextColor);
 
-        yearSpinner.setIsLoopEnabled(isLoopEnabled);
-        monthSpinner.setIsLoopEnabled(isLoopEnabled);
-        daySpinner.setIsLoopEnabled(isLoopEnabled);
+        yearSpinner.setIsLoopEnabled(false);
+        monthSpinner.setIsLoopEnabled(false);
+        daySpinner.setIsLoopEnabled(false);
 
         yearSpinner.setTextSize(textSize);
-        monthSpinner.setTextSize(textSize);
+        monthSpinner.setTextSize(textSize - 3.5F);
         daySpinner.setTextSize(textSize);
 
         yearSpinner.addOnLoopScrollListener(this::updateYearPosition);
@@ -205,38 +203,42 @@ public final class DatePickerWheelView extends LinearLayout {
     }
 
     private void drawYearPickerView() {
+        deleteAll(years);
         calendar = Calendar.getInstance(locale);
+
         final int yearCount = maxYear - minYear;
 
         for (int i = 0; i < yearCount; i++) {
             calendar.set(Calendar.YEAR, minYear + i);
 
-            years.add(i, formatDate(calendar, YEAR_FORMAT));
+            years.add(i, formatDate(calendar, locale, YEAR_FORMAT));
         }
 
         yearSpinner.setItems(years);
     }
 
     private void drawMonthPickerView() {
+        deleteAll(months);
         calendar = Calendar.getInstance(locale);
+
+        final String dateFormat = showShortMonths ? SHORT_MONTH_FORMAT : MONTH_FORMAT;
 
         for (int j = 0; j <= calendar.getActualMaximum(Calendar.MONTH); j++) {
             calendar.set(Calendar.YEAR, Integer.valueOf(years.get(yearPos)));
             calendar.set(Calendar.MONTH, j);
             calendar.set(Calendar.DAY_OF_MONTH, 1);
 
-            months.add(j, formatDate(calendar, showShortMonths ? SHORT_MONTH_FORMAT : MONTH_FORMAT).toUpperCase());
+            String formattedMonth = formatDate(calendar, locale, dateFormat);
+            formattedMonth = showShortMonths ? formattedMonth.toUpperCase(locale) : formattedMonth;
+
+            months.add(j, formattedMonth);
         }
 
         monthSpinner.setItems(months);
     }
 
     private void drawDayPickerView() {
-        for (Iterator<String> iterator = days.listIterator(); iterator.hasNext(); ) {
-            iterator.next();
-            iterator.remove();
-        }
-
+        deleteAll(days);
         final int year = Integer.valueOf(years.get(yearPos));
         final int month = showShortMonths ? months.indexOf(months.get(monthPos)) + 1 : Integer.valueOf(months.get(monthPos));
 
@@ -247,10 +249,19 @@ public final class DatePickerWheelView extends LinearLayout {
             calendar.set(Calendar.MONTH, month - 1);
             calendar.set(Calendar.DAY_OF_MONTH, i + 1);
 
-            days.add(i, formatDate(calendar, DAY_FORMAT));
+            days.add(i, formatDate(calendar, locale, DAY_FORMAT));
         }
 
         daySpinner.setItems(days);
+    }
+
+    private void deleteAll(@NonNull List list) {
+        if (list.size() > 0) {
+            for (Iterator iterator = list.listIterator(); iterator.hasNext(); ) {
+                iterator.next();
+                iterator.remove();
+            }
+        }
     }
 
     public interface OnDateSelectedListener {
@@ -260,11 +271,13 @@ public final class DatePickerWheelView extends LinearLayout {
 
     public DatePickerWheelView setOnDateSelectedListener(@Nullable OnDateSelectedListener onDateSelectedListener) {
         this.onDateSelectedListener = onDateSelectedListener;
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setLocale(@NonNull Locale locale) {
         this.locale = locale;
+        invalidate();
         return this;
     }
 
@@ -274,52 +287,57 @@ public final class DatePickerWheelView extends LinearLayout {
         }
 
         this.maxYear = maxYear;
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setMinYear(int minYear) {
         this.minYear = minYear;
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setShowDayMonthYear(boolean showDayMonthYear) {
         this.showDayMonthYear = showDayMonthYear;
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setShowShortMonths(boolean showShortMonths) {
         this.showShortMonths = showShortMonths;
-        return this;
-    }
-
-    public DatePickerWheelView setLoopEnabled(boolean loopEnabled) {
-        isLoopEnabled = loopEnabled;
+        drawMonthPickerView();
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setTextSize(float textSize) {
         this.textSize = textSize;
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setLineColor(int lineColor) {
         this.lineColor = lineColor;
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setOverflowTextColor(int overflowTextColor) {
         this.overflowTextColor = overflowTextColor;
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setContentTextColor(int contentTextColor) {
         this.contentTextColor = contentTextColor;
+        invalidate();
         return this;
     }
 
     public DatePickerWheelView setInitialDate(String initialDate) {
         this.initialDate = initialDate;
         setInitialPositions();
+        invalidate();
         return this;
     }
 }

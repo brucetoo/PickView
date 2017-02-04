@@ -62,7 +62,10 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
     private Calendar calendar;
 
+    private Locale locale;
+
     public DatePickerPopUpWindow(@NonNull final Builder builder) {
+        this.locale = builder.locale;
         this.context = builder.context;
         this.minYear = builder.minYear;
         this.maxYear = builder.maxYear;
@@ -91,19 +94,14 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         datePickerWheelView = (DatePickerWheelView) rootView.findViewById(R.id.datePickerWheelView);
 
         datePickerWheelView
-                .setTextSize(viewTextSize)
+                .setLocale(locale)
                 .setMaxYear(maxYear)
                 .setMinYear(minYear)
+                .setTextSize(viewTextSize)
                 .setInitialDate(selectedDate)
-                .setShowDayMonthYear(showDayMonthYear)
                 .setShowShortMonths(showShortMonths)
-                .setOnDateSelectedListener((year, month, dayOfMonth) -> {
-                    calendar = Calendar.getInstance(Locale.getDefault());
-
-                    calendar.set(Calendar.YEAR, year);
-                    calendar.set(Calendar.MONTH, month);
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                });
+                .setShowDayMonthYear(showDayMonthYear)
+                .setOnDateSelectedListener(this::onDateSelected);
 
         cancelButton.setTextColor(cancelButtonTextColor);
         cancelButton.setTextSize(buttonTextSize);
@@ -131,6 +129,14 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         setContentView(rootView);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+    }
+
+    private void onDateSelected(int year, int month, int dayOfMonth) {
+        calendar = Calendar.getInstance(Locale.getDefault());
+
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
     }
 
     public void show(@Nullable Activity activity) {
@@ -202,6 +208,8 @@ public final class DatePickerPopUpWindow extends PopupWindow {
         private int buttonTextSize = 16;
         private int viewTextSize = 25;
 
+        private Locale locale;
+
         public Builder(@NonNull final Context context) {
             this.context = context;
         }
@@ -263,6 +271,11 @@ public final class DatePickerPopUpWindow extends PopupWindow {
 
         public Builder setOnDateSelectedListener(@Nullable OnDateSelectedListener onDateSelectedListener) {
             this.listener = onDateSelectedListener;
+            return this;
+        }
+
+        public Builder setLocale(Locale locale) {
+            this.locale = locale;
             return this;
         }
 
