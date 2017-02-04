@@ -17,16 +17,14 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date Pick"
-        />
+        android:text="Date Pick" />
 
     <Button
         android:id="@+id/province"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/date"
-        android:text="Province Pick"
-        />
+        android:text="Province Pick" />
 
     <io.blackbox_vision.wheelview.view.WheelView
         android:id="@+id/loop_view"
@@ -40,5 +38,18 @@
         app:wheelViewLineColor="@color/colorPrimary"
         app:wheelViewTextSize="25sp"
         app:wheelViewOverflowTextColor="#ffafafaf"/>
+
+    <io.blackbox_vision.wheelview.view.DatePickerWheelView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@+id/loop_view"
+        app:datePickerWheelViewMinYear="1940"
+        app:datePickerWheelViewMaxYear="2100"
+        app:datePickerWheelViewInitialDate="2017-02-04"
+        app:datePickerWheelViewShowShortMonths="true"
+        app:datePickerWheelViewShowDayMonthYear="false"
+        app:datePickerWheelViewContentTextColor="@color/colorAccent"
+        app:datePickerWheelViewOverflowTextColor="@color/colorPrimary"
+        app:datePickerWheelViewLineColor="@color/colorAccent"/>
 
 </RelativeLayout>

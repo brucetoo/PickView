@@ -132,7 +132,7 @@ public final class WheelView extends View {
                 overflowTextColor = array.getColor(R.styleable.WheelView_wheelViewOverflowTextColor, 0xffafafaf);
                 contentTextColor = array.getColor(R.styleable.WheelView_wheelViewContentTextColor, 0xff313131);
                 lineColor = array.getColor(R.styleable.WheelView_wheelViewLineColor, 0xffc5c5c5);
-                canLoop = array.getBoolean(R.styleable.WheelView_wheelViewIsLoopEnabled, true);
+                canLoop = array.getBoolean(R.styleable.WheelView_wheelViewIsLoopEnabled, false);
                 initialPosition = array.getInt(R.styleable.WheelView_wheelViewInitialPosition, -1);
                 textSize = array.getDimensionPixelSize(R.styleable.WheelView_wheelViewTextSize, sp2px(getContext(), 16));
                 drawItemsCount = array.getInt(R.styleable.WheelView_wheelViewDrawItemCount, 7);

@@ -140,12 +140,8 @@ public final class DatePickerWheelView extends LinearLayout {
         monthSpinner.setOverflowTextColor(overflowTextColor);
         daySpinner.setOverflowTextColor(overflowTextColor);
 
-        yearSpinner.setIsLoopEnabled(false);
-        monthSpinner.setIsLoopEnabled(false);
-        daySpinner.setIsLoopEnabled(false);
-
         yearSpinner.setTextSize(textSize);
-        monthSpinner.setTextSize(textSize - 3.5F);
+        monthSpinner.setTextSize(textSize);
         daySpinner.setTextSize(textSize);
 
         yearSpinner.addOnLoopScrollListener(this::updateYearPosition);
@@ -182,9 +178,15 @@ public final class DatePickerWheelView extends LinearLayout {
 
     private void onDateSelected(@NonNull Object item, int position) {
         if (null != onDateSelectedListener) {
-            final int year = Integer.valueOf(years.get(yearPos));
-            final int month = showShortMonths ? months.indexOf(months.get(monthPos)) : Integer.valueOf(months.get(monthPos)) - 1;
-            final int dayOfMonth = Integer.valueOf(days.get(dayPos));
+            final Calendar calendar = Calendar.getInstance(locale);
+
+            calendar.set(Calendar.YEAR, Integer.valueOf(years.get(yearPos)));
+            calendar.set(Calendar.MONTH, monthPos);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(days.get(dayPos)));
+
+            final int year = calendar.get(Calendar.YEAR);
+            final int month = calendar.get(Calendar.MONTH);
+            final int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
             onDateSelectedListener.onDateSelected(year, month, dayOfMonth);
         }
@@ -240,13 +242,13 @@ public final class DatePickerWheelView extends LinearLayout {
     private void drawDayPickerView() {
         deleteAll(days);
         final int year = Integer.valueOf(years.get(yearPos));
-        final int month = showShortMonths ? months.indexOf(months.get(monthPos)) + 1 : Integer.valueOf(months.get(monthPos));
+        //final int month = showShortMonths ? months.indexOf(months.get(monthPos)) + 1 : Integer.valueOf(months.get(monthPos));
 
         calendar = Calendar.getInstance(locale);
 
         for (int i = 0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
             calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month - 1);
+            calendar.set(Calendar.MONTH, monthPos);
             calendar.set(Calendar.DAY_OF_MONTH, i + 1);
 
             days.add(i, formatDate(calendar, locale, DAY_FORMAT));

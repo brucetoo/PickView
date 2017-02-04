@@ -13,8 +13,7 @@
         android:layout_marginLeft="1dp"
         android:layout_marginStart="1dp"
         android:layout_weight="1"
-        app:wheelViewTextSize="25sp"
-        app:wheelViewIsLoopEnabled="false"/>
+        app:wheelViewTextSize="25sp"/>
 
     <io.blackbox_vision.wheelview.view.WheelView
         android:id="@+id/picker_month"
@@ -23,15 +22,13 @@
         android:layout_marginLeft="1dp"
         android:layout_marginStart="1dp"
         android:layout_weight="1"
-        app:wheelViewTextSize="25sp"
-        app:wheelViewIsLoopEnabled="false"/>
+        app:wheelViewTextSize="25sp"/>
 
     <io.blackbox_vision.wheelview.view.WheelView
         android:id="@+id/picker_year"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:wheelViewTextSize="25sp"
-        app:wheelViewIsLoopEnabled="false"/>
+        app:wheelViewTextSize="25sp"/>
 
 </LinearLayout>
