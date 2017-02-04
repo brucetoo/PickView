@@ -159,10 +159,11 @@ public final class DatePickerWheelView extends LinearLayout {
         daySpinner.addOnLoopScrollListener(this::updateDayPosition);
         daySpinner.addOnLoopScrollListener(this::onDateSelected);
 
-        setInitialPositions();
         drawYearPickerView();
         drawMonthPickerView();
         drawDayPickerView();
+
+        setInitialPositions();
     }
 
     private void updateYearPosition(@NonNull Object item, int position) {
@@ -194,9 +195,9 @@ public final class DatePickerWheelView extends LinearLayout {
     private void setInitialPositions() {
         final Calendar calendar = DateUtils.parseDateString(initialDate);
 
-        yearPos = calendar.get(Calendar.YEAR) - minYear;
-        monthPos = calendar.get(Calendar.MONTH);
-        dayPos = calendar.get(Calendar.DAY_OF_MONTH) - 1;
+        yearPos = years.indexOf(String.valueOf(calendar.get(Calendar.YEAR)));
+        monthPos = months.indexOf(String.valueOf(calendar.get(Calendar.MONTH) + 1));
+        dayPos = days.indexOf(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
 
         yearSpinner.setInitialPosition(yearPos);
         monthSpinner.setInitialPosition(monthPos);
@@ -214,7 +215,6 @@ public final class DatePickerWheelView extends LinearLayout {
         }
 
         yearSpinner.setItems(years);
-        yearSpinner.setInitialPosition(yearPos);
     }
 
     private void drawMonthPickerView() {
@@ -229,7 +229,6 @@ public final class DatePickerWheelView extends LinearLayout {
         }
 
         monthSpinner.setItems(months);
-        monthSpinner.setInitialPosition(monthPos);
     }
 
     private void drawDayPickerView() {
@@ -252,7 +251,6 @@ public final class DatePickerWheelView extends LinearLayout {
         }
 
         daySpinner.setItems(days);
-        daySpinner.setInitialPosition(dayPos);
     }
 
     public interface OnDateSelectedListener {
