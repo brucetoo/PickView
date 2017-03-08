@@ -17,42 +17,39 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date Pick"
-        />
+        android:text="Date Pick" />
 
     <Button
         android:id="@+id/province"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/date"
-        android:text="Province Pick"
-        />
+        android:text="Province Pick" />
 
-    <Button
-        android:id="@+id/demo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/province"
-        android:text="DEMO"
-        />
-
-    <!--<attr name="lineColor" format="color"/>-->
-    <!--<attr name="topBottomTextColor" format="color"/>-->
-    <!--<attr name="centerTextColor" format="color"/>-->
-    <!--<attr name="textSize" format="dimension"/>-->
-    <!--<attr name="canLoop" format="boolean"/>-->
-    <!--<attr name="initPosition" format="integer"/>-->
-    <!--<attr name="drawItemCount" format="integer"/>-->
-    <com.bruce.pickerview.LoopView
+    <io.blackbox_vision.wheelview.view.WheelView
         android:id="@+id/loop_view"
         android:layout_width="200dp"
         android:layout_height="180dp"
-        android:layout_below="@+id/demo"
-        app:canLoop="true"
-        app:centerTextColor="#ff000000"
-        app:drawItemCount="7"
-        app:initPosition="3"
-        app:lineColor="@color/colorPrimary"
-        app:textSize="25sp"
-        app:topBottomTextColor="#ffafafaf"/>
+        android:layout_below="@+id/province"
+        app:wheelViewIsLoopEnabled="true"
+        app:wheelViewContentTextColor="#ff000000"
+        app:wheelViewDrawItemCount="7"
+        app:wheelViewInitialPosition="3"
+        app:wheelViewLineColor="@color/colorPrimary"
+        app:wheelViewTextSize="25sp"
+        app:wheelViewOverflowTextColor="#ffafafaf"/>
+
+    <io.blackbox_vision.wheelview.view.DatePickerWheelView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@+id/loop_view"
+        app:datePickerWheelViewMinYear="1940"
+        app:datePickerWheelViewMaxYear="2100"
+        app:datePickerWheelViewInitialDate="2017-02-04"
+        app:datePickerWheelViewShowShortMonths="true"
+        app:datePickerWheelViewShowDayMonthYear="false"
+        app:datePickerWheelViewContentTextColor="@color/colorAccent"
+        app:datePickerWheelViewOverflowTextColor="@color/colorPrimary"
+        app:datePickerWheelViewLineColor="@color/colorAccent"/>
+
 </RelativeLayout>

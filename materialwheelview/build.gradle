@@ -1,16 +1,17 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
+
+version = "1.1.1"
 
 android {
     compileSdkVersion 25
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "io.blackbox_vision.wheelview.sample"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1.1"
     }
     buildTypes {
         release {
@@ -37,14 +38,6 @@ retrolambda {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:robolectric:3.1'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.3'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.3'
-
     compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile project(':materialwheelview')
 }

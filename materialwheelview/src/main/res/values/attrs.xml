@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WheelView">
+        <attr name="wheelViewLineColor" format="color"/>
+        <attr name="wheelViewOverflowTextColor" format="color"/>
+        <attr name="wheelViewContentTextColor" format="color"/>
+        <attr name="wheelViewTextSize" format="dimension"/>
+        <attr name="wheelViewIsLoopEnabled" format="boolean"/>
+        <attr name="wheelViewInitialPosition" format="integer"/>
+        <attr name="wheelViewDrawItemCount" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="DatePickerWheelView">
+        <attr name="datePickerWheelViewTextSize" format="dimension"/>
+        <attr name="datePickerWheelViewInitialDate" format="string"/>
+        <attr name="datePickerWheelViewLineColor" format="color"/>
+        <attr name="datePickerWheelViewOverflowTextColor" format="color"/>
+        <attr name="datePickerWheelViewContentTextColor" format="color"/>
+        <attr name="datePickerWheelViewMinYear" format="integer"/>
+        <attr name="datePickerWheelViewMaxYear" format="integer"/>
+        <attr name="datePickerWheelViewShowShortMonths" format="boolean"/>
+        <attr name="datePickerWheelViewShowDayMonthYear" format="boolean"/>
+    </declare-styleable>
+</resources>

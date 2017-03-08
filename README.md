@@ -1,106 +1,132 @@
+#Material Wheel View 
+>:ferris_wheel: Prettier and simpler IOS like WheelView and other built-in WheelView UIs
 
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PickView-green.svg?style=true)](https://android-arsenal.com/details/1/2811)
+[![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Material%20WheelView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5184) [![](https://jitpack.io/v/BlackBoxVision/material-wheel-view.svg)](https://jitpack.io/#BlackBoxVision/material-wheel-view)
 
-# PickView
-This is a helper lib for us to pick date or province like IOS system 
-WheelView widget.
+##Installation
 
-# Here is date pick effect by gif
+**Gradle**
 
-![picker](./datepick.gif)
+- Add it in your root build.gradle at the end of repositories:
 
-##How to use
-
-Add more custom attributes, Just see below  version 1.1.1
-    
-   ```java
-          
-         DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(MainActivity.this, new DatePickerPopWin.OnDatePickedListener() {
-                          @Override
-                          public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
-                              Toast.makeText(MainActivity.this, dateDesc, Toast.LENGTH_SHORT).show();
-                          }
-                       }).textConfirm("CONFIRM") //text of confirm button
-                              .textCancel("CANCEL") //text of cancel button
-                              .btnTextSize(16) // button text size
-                              .viewTextSize(25) // pick view text size
-                              .colorCancel(Color.parseColor("#999999")) //color of cancel button
-                              .colorConfirm(Color.parseColor("#009900"))//color of confirm button
-                              .minYear(1990) //min year in loop
-                              .maxYear(2550) // max year in loop
-                              .showDayMonthYear(true) // shows like dd mm yyyy (default is false) 
-                              .dateChose("2013-11-11") // date chose when init popwindow
-                              .build();
-      
-   ```
-
-
-## About LoopView 
-  in version 1.2.0+,can use LoopView like:
- 
- ```java
-    
-        <com.bruce.pickerview.LoopView
-            android:id="@+id/loop_view"
-            android:layout_width="200dp"
-            android:layout_height="180dp"
-            android:layout_below="@+id/demo"
-            app:canLoop="true"
-            app:centerTextColor="#ff000000"
-            app:drawItemCount="7" <!-- must be odd number -->
-            app:initPosition="3"
-            app:lineColor="@color/colorPrimary"
-            app:textSize="25sp"
-            app:topBottomTextColor="#ffafafaf"/>
-            
-            
-         loopView = (LoopView) findViewById(R.id.loop_view);
-                loopView.setInitPosition(2);
-                loopView.setCanLoop(false);
-                loopView.setLoopListener(new LoopScrollListener() {
-                    @Override
-                    public void onItemSelect(int item) {
-                        
-                    }
-                });
-                loopView.setTextSize(25);//must be called before setDateList
-                loopView.setDataList(getList());    
- 
- ```
-
-#Dependencies
-
-```java 
-
-   compile 'com.brucetoo.pickview:library:1.2.3'
- 
+```java
+repositories {
+	maven { 
+	    url "https://jitpack.io"
+	}
+}
 ```
 
-##TODO
+- Add the dependency:
 
-- [ ] add Province pick PopWindow (if i have time)
+```java
+dependencies {
+    compile 'com.github.BlackBoxVision:material-wheel-view:v0.0.1'
+}
+```
+**Maven**
 
-- [x] add to Jcenter (Wait Jcenter manager verify)
+- Add the JitPack repository to your maven file. 
 
-------
+```xml
+<repository>
+     <id>jitpack.io</id>
+     <url>https://jitpack.io</url>
+</repository>
+```
+- Add the dependency in the form
 
-#THANKS
- [androidWheelView](https://github.com/weidongjian/androidWheelView) 
+```xml
+<dependency>
+    <groupId>com.github.BlackBoxVision</groupId>
+    <artifactId>>material-wheel-view</artifactId>
+    <version>v0.0.1</version>
+</dependency>
+```
+**SBT**
+
+- Add it in your build.sbt at the end of resolvers:
+
+```java
+resolvers += "jitpack" at "https://jitpack.io"
+```
+
+- Add the dependency in the form:
+
+```java
+libraryDependencies += "com.github.BlackBoxVision" % "material-wheel-view" % "v0.0.1"	
+```
+
+##Usage example
+
+In your layout.xml:
+
+```xml
+<io.blackbox_vision.wheelview.view.WheelView
+	android:id="@+id/loop_view"
+	android:layout_width="200dp"
+	android:layout_height="180dp"
+	app:canLoop="true"
+	app:centerTextColor="#ff000000"
+	app:drawItemCount="7"
+	app:initPosition="3"
+	app:lineColor="@color/colorPrimary"
+	app:textSize="25sp"
+	app:topBottomTextColor="#ffafafaf"/>
+```
+
+In your activity class: 
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+	Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+	setSupportActionBar(toolbar);
+
+	final WheelView wheelView = (WheelView) findViewById(R.id.loop_view);
+
+	wheelView.setInitPosition(2);
+	wheelView.setCanLoop(false);
+	wheelView.setLoopListener(item -> {});
+	wheelView.setTextSize(12);
+	wheelView.setItems(getList());
+ }
+ ```
  
-## License
+ Also, there is a built-in UI called DatePickerPopUpWindow, you can use it like these: 
+ 
+ ```java
+ 	findViewById(R.id.date).setOnClickListener(v -> {
+		final DatePickerPopUpWindow datePicker = new DatePickerPopUpWindow.Builder(getApplicationContext())
+			.setMinYear(1990)
+			.setMaxYear(2550)
+			.setSelectedDate("2013-11-11")
+			.setOnDateSelectedListener(this::onDateSelected)
+			.setConfirmButtonText("CONFIRM")
+			.setCancelButtonText("CANCEL")
+			.setConfirmButtonTextColor(Color.parseColor("#999999"))
+			.setCancelButtonTextColor(Color.parseColor("#009900"))
+			.setButtonTextSize(16)
+			.setViewTextSize(15)
+			.setShowDayMonthYear(true)
+			.build();
 
-Copyright 2015 - 2016 Bruce too
+		datePicker.show(this);
+	});			
+```			
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+##Issues
 
-    http://www.apache.org/licenses/LICENSE-2.0
+If you found a bug, or you have an answer, or whatever. Please, open an [issue](https://github.com/BlackBoxVision/material-wheel-view/issues). I will do the best to fix it, or help you.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+##Contributing
 
-See [LICENSE](LICENSE) file for details.
+Of course, if you see something that you want to upgrade from this library, or a bug that needs to be solved, **PRs are welcome!**
+
+##TODO 
+- [ ] Custom **DatePicker** component based on **WheelView**
+- [ ] Custom **TimePicker** component based on **WheelView**
+- [ ] Custom **DatePickerDialog** based on DatePicker **WheelView**
+- [ ] Custom **TimePickerDialog** based on DatePicker **WheelView**

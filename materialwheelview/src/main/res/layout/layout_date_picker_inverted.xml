@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#33000000">
+
+    <LinearLayout
+        android:id="@+id/container_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f2f7fa"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:id="@+id/container_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp" >
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:textColor="@color/btn_cancel_color"
+                android:textSize="@dimen/btn_text_size"
+                tools:text="cancel" />
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@null"
+                android:textColor="@color/btn_confirm_color"
+                android:textSize="@dimen/btn_text_size"
+                tools:text="confirm" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#f2f7fa"
+            android:padding="3dp" >
+
+            <io.blackbox_vision.wheelview.view.DatePickerWheelView
+                android:id="@+id/datePickerWheelView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
