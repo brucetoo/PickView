@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#33000000">
+
+    <LinearLayout
+        android:id="@+id/container_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#f2f7fa"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/container_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:text="cancel"
+                android:textColor="#999999"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@null"
+                android:text="confirm"
+                android:textColor="#303F9F"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#f2f7fa"
+            android:padding="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.bruce.pickerview.LoopView
+                    android:id="@+id/picker_hour"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:textSize="25sp"
+                    app:canLoop="false"/>
+
+                <com.bruce.pickerview.LoopView
+                    android:id="@+id/picker_minute"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    app:textSize="25sp"
+                    app:canLoop="false"/>
+
+                <com.bruce.pickerview.LoopView
+                    android:id="@+id/picker_meridian"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    app:textSize="25sp"
+                    app:canLoop="false"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

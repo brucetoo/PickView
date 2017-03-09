@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.bruce.pickerview.LoopScrollListener;
 import com.bruce.pickerview.LoopView;
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
+import com.bruce.pickerview.popwindow.TimePickerPopWin;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,26 @@ public class MainActivity extends AppCompatActivity{
                 pickerPopWin.showPopWin(MainActivity.this);
             }
         });
+
+        findViewById(R.id.timepick).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerPopWin timePickerPopWin=new TimePickerPopWin.Builder(MainActivity.this, new TimePickerPopWin.OnTimePickListener() {
+                    @Override
+                    public void onTimePickCompleted(int hour, int minute, String AM_PM, String time) {
+                        Toast.makeText(MainActivity.this, time, Toast.LENGTH_SHORT).show();
+                    }
+                }).textConfirm("CONFIRM")
+                        .textCancel("CANCEL")
+                        .btnTextSize(16)
+                        .viewTextSize(25)
+                        .colorCancel(Color.parseColor("#999999"))
+                        .colorConfirm(Color.parseColor("#009900"))
+                        .build();
+                timePickerPopWin.showPopWin(MainActivity.this);
+            }
+        });
+
 
         findViewById(R.id.province).setOnClickListener(new View.OnClickListener() {
             @Override
