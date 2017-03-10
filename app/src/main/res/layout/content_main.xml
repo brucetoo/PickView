@@ -29,10 +29,18 @@
         />
 
     <Button
-        android:id="@+id/demo"
+        android:id="@+id/timepick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/province"
+        android:text="Time Pick"
+        />
+
+    <Button
+        android:id="@+id/demo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timepick"
         android:text="DEMO"
         />
 
