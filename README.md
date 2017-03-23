@@ -1,9 +1,9 @@
-#Material Wheel View 
+# Material Wheel View 
 >:ferris_wheel: Prettier and simpler IOS like WheelView and other built-in WheelView UIs
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Material%20WheelView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5184) [![](https://jitpack.io/v/BlackBoxVision/material-wheel-view.svg)](https://jitpack.io/#BlackBoxVision/material-wheel-view)
 
-##Installation
+## Installation
 
 **Gradle**
 
@@ -57,7 +57,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 libraryDependencies += "com.github.BlackBoxVision" % "material-wheel-view" % "v0.0.1"	
 ```
 
-##Usage example
+## Usage example
 
 In your layout.xml:
 
@@ -117,15 +117,15 @@ protected void onCreate(Bundle savedInstanceState) {
 	});			
 ```			
 
-##Issues
+## Issues
 
 If you found a bug, or you have an answer, or whatever. Please, open an [issue](https://github.com/BlackBoxVision/material-wheel-view/issues). I will do the best to fix it, or help you.
 
-##Contributing
+## Contributing
 
 Of course, if you see something that you want to upgrade from this library, or a bug that needs to be solved, **PRs are welcome!**
 
-##TODO 
+## TODO 
 - [ ] Custom **DatePicker** component based on **WheelView**
 - [ ] Custom **TimePicker** component based on **WheelView**
 - [ ] Custom **DatePickerDialog** based on DatePicker **WheelView**
