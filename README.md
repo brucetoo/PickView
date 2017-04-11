@@ -1,7 +1,7 @@
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PickView-green.svg?style=true)](https://android-arsenal.com/details/1/2811)
 
-#DEPRECATED
+# DEPRECATED
 
 # PickView
 This is a helper lib for us to pick date or province like IOS system 
