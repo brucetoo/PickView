@@ -13,7 +13,7 @@ Added feature to pick time with WheelView Widget
 
 ![picker](./datepick.gif)
 
-##How to use
+## How to use
 
 Add more custom attributes, Just see below  version 1.1.1
     
@@ -71,7 +71,7 @@ Add more custom attributes, Just see below  version 1.1.1
                 loopView.setDataList(getList());    
  
  ```
-##TimePicker
+## TimePicker
     
    ```java
           
@@ -91,7 +91,7 @@ Add more custom attributes, Just see below  version 1.1.1
       
    ```
 
-#Dependencies
+# Dependencies
 
 ```java 
 
@@ -99,7 +99,7 @@ Add more custom attributes, Just see below  version 1.1.1
  
 ```
 
-##TODO
+## TODO
 
 - [ ] add Province pick PopWindow (if i have time)
 
@@ -107,7 +107,7 @@ Add more custom attributes, Just see below  version 1.1.1
 
 ------
 
-#THANKS
+# THANKS
  [androidWheelView](https://github.com/weidongjian/androidWheelView) 
  
 ## License
