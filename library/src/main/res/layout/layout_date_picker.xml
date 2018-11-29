@@ -54,7 +54,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:textSize="25sp"
+                    app:textSize="30sp"
                     app:canLoop="false"/>
 
                 <com.bruce.pickerview.LoopView
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    app:textSize="25sp"
+                    app:textSize="30sp"
                     app:canLoop="false"/>
 
                 <com.bruce.pickerview.LoopView
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    app:textSize="25sp"
+                    app:textSize="30sp"
                     app:canLoop="false"/>
             </LinearLayout>
         </RelativeLayout>
