@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -276,7 +277,9 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         for (int i = 0; i < dayMaxInMonth; i++) {
             dayList.add(format2LenStr(i + 1));
         }
-
+        if(dayPos >= (dayList.size())) {
+            dayPos = dayList.size() - 1;
+        }
         dayLoopView.setDataList((ArrayList) dayList);
         dayLoopView.setInitPosition(dayPos);
     }

@@ -37,6 +37,7 @@ dependencies {
 //    testCompile 'org.powermock:powermock-module-junit4:1.6.3'
 //    testCompile 'org.powermock:powermock-api-mockito:1.6.3'
 
+    //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile project(":library")
