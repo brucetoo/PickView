@@ -181,11 +181,13 @@ public class LoopView extends View {
         for (int i = 0; i < mDataList.size(); i++) {
             String s1 = (String) mDataList.get(i);
             mCenterTextPaint.getTextBounds(s1, 0, s1.length(), rect);
+            Paint.FontMetrics fm = mCenterTextPaint.getFontMetrics();
+            float height = fm.descent - fm.ascent;
             int textWidth = rect.width();
             if (textWidth > mMaxTextWidth) {
                 mMaxTextWidth = textWidth;
             }
-            int textHeight = rect.height();
+            int textHeight = (int) height;
             if (textHeight > mMaxTextHeight) {
                 mMaxTextHeight = textHeight;
             }

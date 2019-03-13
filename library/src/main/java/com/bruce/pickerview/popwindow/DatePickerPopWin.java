@@ -23,6 +23,7 @@ import com.bruce.pickerview.LoopScrollListener;
 import com.bruce.pickerview.LoopView;
 import com.bruce.pickerview.R;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     private int btnTextsize;//text btnTextsize of cancel and confirm button
     private int viewTextSize;
     private boolean showDayMonthYear;
+    private boolean showMonthName;
 
     List<String> yearList = new ArrayList();
     List<String> monthList = new ArrayList();
@@ -84,6 +86,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         private int colorConfirm = Color.parseColor("#303F9F");
         private int btnTextSize = 16;//text btnTextsize of cancel and confirm button
         private int viewTextSize = 25;
+        private boolean showMonthName = false;
 
         public Builder minYear(int minYear){
             this.minYear = minYear;
@@ -145,6 +148,11 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             this.showDayMonthYear = useDayMonthYear;
             return this;
         }
+
+        public Builder showMonthName(boolean showMonthName) {
+            this.showMonthName = showMonthName;
+            return this;
+        }
     }
 
     public DatePickerPopWin(Builder builder){
@@ -159,6 +167,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         this.btnTextsize = builder.btnTextSize;
         this.viewTextSize = builder.viewTextSize;
         this.showDayMonthYear = builder.showDayMonthYear;
+        this.showMonthName = builder.showMonthName;
         setSelectedDate(builder.dateChose);
         initView();
     }
@@ -178,6 +187,12 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         monthLoopView = (LoopView) contentView.findViewById(R.id.picker_month);
         dayLoopView = (LoopView) contentView.findViewById(R.id.picker_day);
         pickerContainerV = contentView.findViewById(R.id.container_picker);
+        if (showMonthName && viewTextSize > 22) {
+            viewTextSize = 22;
+        }
+        dayLoopView.setTextSize(viewTextSize);
+        monthLoopView.setTextSize(viewTextSize);
+        yearLoopView.setTextSize(viewTextSize);
 
 //        //do not loop,default can loop
 //        yearLoopView.setNotLoop();
@@ -248,8 +263,15 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             yearList.add(format2LenStr(minYear + i));
         }
 
-        for (int j = 0; j < 12; j++) {
-            monthList.add(format2LenStr(j + 1));
+        if (this.showMonthName) {
+            String[] months = new DateFormatSymbols().getMonths();
+            for (int j = 0; j < months.length; j++) {
+                monthList.add(months[j]);
+            }
+        } else  {
+            for (int j = 0; j < 12; j++) {
+                monthList.add(format2LenStr(j + 1));
+            }
         }
 
         yearLoopView.setDataList((ArrayList) yearList);
