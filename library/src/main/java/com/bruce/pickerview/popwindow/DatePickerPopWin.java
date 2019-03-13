@@ -299,9 +299,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         for (int i = 0; i < dayMaxInMonth; i++) {
             dayList.add(format2LenStr(i + 1));
         }
-        if(dayPos >= (dayList.size())) {
-            dayPos = dayList.size() - 1;
-        }
         dayLoopView.setDataList((ArrayList) dayList);
         dayLoopView.setInitPosition(dayPos);
     }
@@ -393,9 +390,9 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
 
             if (null != mListener) {
 
-                int year = minYear + yearPos;
-                int month = monthPos + 1;
-                int day = dayPos + 1;
+                int year = minYear + yearLoopView.getSelectedItem();
+                int month = monthLoopView.getSelectedItem() + 1;
+                int day = dayLoopView.getSelectedItem() + 1;
                 StringBuffer sb = new StringBuffer();
 
                 sb.append(String.valueOf(year));
