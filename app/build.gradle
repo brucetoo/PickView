@@ -3,7 +3,7 @@ apply plugin: 'cobertura'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.brucetoo.pickview"
