@@ -4,8 +4,8 @@ group = 'com.github.viyyan'
 
 version = "1.1.1"
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3 "
+    compileSdkVersion 23
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -96,7 +96,7 @@ android {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'
 }
