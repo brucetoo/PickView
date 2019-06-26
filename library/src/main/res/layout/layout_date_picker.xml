@@ -52,7 +52,7 @@
                 <com.bruce.pickerview.LoopView
                     android:id="@+id/picker_year"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     app:textSize="25sp"
                     app:canLoop="false"/>
@@ -60,7 +60,7 @@
                 <com.bruce.pickerview.LoopView
                     android:id="@+id/picker_month"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
                     app:textSize="25sp"
@@ -69,7 +69,7 @@
                 <com.bruce.pickerview.LoopView
                     android:id="@+id/picker_day"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
                     app:textSize="25sp"

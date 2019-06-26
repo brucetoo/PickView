@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,13 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.bruce.pickerview.LoopScrollListener;
 import com.bruce.pickerview.LoopView;
 import com.bruce.pickerview.R;
 
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +60,8 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     private int btnTextsize;//text btnTextsize of cancel and confirm button
     private int viewTextSize;
     private boolean showDayMonthYear;
+    private boolean showMonthName;
+    private String minDate;
 
     List<String> yearList = new ArrayList();
     List<String> monthList = new ArrayList();
@@ -83,6 +88,8 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         private int colorConfirm = Color.parseColor("#303F9F");
         private int btnTextSize = 16;//text btnTextsize of cancel and confirm button
         private int viewTextSize = 25;
+        private boolean showMonthName = false;
+        private String minDate = null;
 
         public Builder minYear(int minYear){
             this.minYear = minYear;
@@ -119,6 +126,11 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             return this;
         }
 
+        public Builder minDate(String minimumDate) {
+            this.minDate = minimumDate;
+            return this;
+        }
+
         /**
          * set btn text btnTextSize
          * @param textSize dp
@@ -144,6 +156,11 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             this.showDayMonthYear = useDayMonthYear;
             return this;
         }
+
+        public Builder showMonthName(boolean showMonthName) {
+            this.showMonthName = showMonthName;
+            return this;
+        }
     }
 
     public DatePickerPopWin(Builder builder){
@@ -158,6 +175,8 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         this.btnTextsize = builder.btnTextSize;
         this.viewTextSize = builder.viewTextSize;
         this.showDayMonthYear = builder.showDayMonthYear;
+        this.showMonthName = builder.showMonthName;
+        this.minDate = builder.minDate;
         setSelectedDate(builder.dateChose);
         initView();
     }
@@ -177,6 +196,12 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         monthLoopView = (LoopView) contentView.findViewById(R.id.picker_month);
         dayLoopView = (LoopView) contentView.findViewById(R.id.picker_day);
         pickerContainerV = contentView.findViewById(R.id.container_picker);
+        if (showMonthName && viewTextSize > 22) {
+            viewTextSize = 22;
+        }
+        dayLoopView.setTextSize(viewTextSize);
+        monthLoopView.setTextSize(viewTextSize);
+        yearLoopView.setTextSize(viewTextSize);
 
 //        //do not loop,default can loop
 //        yearLoopView.setNotLoop();
@@ -247,8 +272,15 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             yearList.add(format2LenStr(minYear + i));
         }
 
-        for (int j = 0; j < 12; j++) {
-            monthList.add(format2LenStr(j + 1));
+        if (this.showMonthName) {
+            String[] months = new DateFormatSymbols().getMonths();
+            for (int j = 0; j < months.length; j++) {
+                monthList.add(months[j]);
+            }
+        } else  {
+            for (int j = 0; j < 12; j++) {
+                monthList.add(format2LenStr(j + 1));
+            }
         }
 
         yearLoopView.setDataList((ArrayList) yearList);
@@ -276,7 +308,6 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         for (int i = 0; i < dayMaxInMonth; i++) {
             dayList.add(format2LenStr(i + 1));
         }
-
         dayLoopView.setDataList((ArrayList) dayList);
         dayLoopView.setInitPosition(dayPos);
     }
@@ -367,10 +398,9 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
         } else if (v == confirmBtn) {
 
             if (null != mListener) {
-
-                int year = minYear + yearPos;
-                int month = monthPos + 1;
-                int day = dayPos + 1;
+                int year = minYear + yearLoopView.getSelectedItem();
+                int month = monthLoopView.getSelectedItem() + 1;
+                int day = dayLoopView.getSelectedItem() + 1;
                 StringBuffer sb = new StringBuffer();
 
                 sb.append(String.valueOf(year));
@@ -378,10 +408,36 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
                 sb.append(format2LenStr(month));
                 sb.append("-");
                 sb.append(format2LenStr(day));
-                mListener.onDatePickCompleted(year, month, day, sb.toString());
-            }
 
-            dismissPopWin();
+
+                if (!TextUtils.isEmpty(this.minDate)) {
+
+                    long milliseconds = getLongFromyyyyMMdd(this.minDate);
+                    Calendar minCalendar = Calendar.getInstance();
+
+                    if (milliseconds != -1) {
+                        minCalendar.setTimeInMillis(milliseconds);
+                        Calendar myCalendar = Calendar.getInstance();
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, month - 1);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, day);
+                        if (myCalendar.compareTo(minCalendar) >= 0) {
+                            mListener.onDatePickCompleted(year, month, day, sb.toString());
+                            dismissPopWin();
+                        } else {
+                            Toast.makeText(mContext, mContext.getString(R.string.min_date_err, this.minDate), Toast.LENGTH_SHORT ).show();
+                        }
+                    } else {
+                        mListener.onDatePickCompleted(year, month, day, sb.toString());
+                        dismissPopWin();
+                    }
+                } else {
+                    mListener.onDatePickCompleted(year, month, day, sb.toString());
+                    dismissPopWin();
+                }
+
+           }
+
         }
     }
 

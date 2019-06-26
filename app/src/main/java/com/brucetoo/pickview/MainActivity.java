@@ -42,12 +42,14 @@ public class MainActivity extends AppCompatActivity{
                 }).textConfirm("CONFIRM") //text of confirm button
                         .textCancel("CANCEL") //text of cancel button
                         .btnTextSize(16) // button text size
-                        .viewTextSize(25) // pick view text size
+                        .viewTextSize(24) // pick view text size
                         .colorCancel(Color.parseColor("#999999")) //color of cancel button
                         .colorConfirm(Color.parseColor("#009900"))//color of confirm button
                         .minYear(1990) //min year in loop
                         .maxYear(2550) // max year in loop
-                        .dateChose("2013-11-11") // date chose when init popwindow
+//                        .dateChose("2013-11-11") // date chose when init popwindow
+                        .showMonthName(true)
+                        .showDayMonthYear(true)
                         .build();
                 pickerPopWin.showPopWin(MainActivity.this);
             }

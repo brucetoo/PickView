@@ -1,15 +1,15 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.github.dcendents.android-maven'
-//apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.viyyan'
 
 version = "1.1.1"
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 28
         versionCode 2
         versionName "1.1.1"
     }
@@ -96,7 +96,7 @@ android {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'
 }
